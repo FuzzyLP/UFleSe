@@ -1,0 +1,33 @@
+\initial {A}
+\entry {\code {arithmetic}}{1}
+\entry {\code {assertions}}{1}
+\entry {\code {atomic_basic}}{1}
+\initial {B}
+\entry {\code {basic_props}}{1}
+\entry {\code {basiccontrol}}{1}
+\initial {C}
+\entry {\code {condcomp}}{1}
+\initial {D}
+\entry {\code {data_facts}}{1}
+\entry {\code {debugger_support}}{1}
+\initial {E}
+\entry {\code {exceptions}}{1}
+\initial {H}
+\entry {\code {hiord_rt}}{1}
+\initial {I}
+\entry {\code {io_aux}}{1}
+\entry {\code {io_basic}}{1}
+\initial {N}
+\entry {\code {nonpure}}{1}
+\initial {P}
+\entry {\code {prelude}}{1}
+\entry {\code {prolog_flags}}{1}
+\initial {R}
+\entry {\code {regtypes}}{1}
+\initial {S}
+\entry {\code {streams_basic}}{1}
+\entry {\code {system_info}}{1}
+\initial {T}
+\entry {\code {term_basic}}{1}
+\entry {\code {term_compare}}{1}
+\entry {\code {term_typing}}{1}

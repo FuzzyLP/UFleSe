@@ -1,0 +1,28 @@
+.TH rfuzzy l " "
+
+.SH NAME
+.B rfuzzy
+\- RFuzzy.
+.IX rfuzzy
+
+
+.SH DESCRIPTION
+
+
+
+.SH MORE INFO
+This man page has been generated 
+automatically by the lpdoc autodocumenter. 
+The rfuzzy reference manual 
+provides further information. Versions of the 
+manual are available on-line and in printable form 
+(info/html/dvi/ps/...) - see the source or your 
+local installation information.
+.SH COPYRIGHT
+
+
+.SH AUTHOR
+.br
+Victor Pablos Ceruelo
+.br
+Susana Munoz Hernandez

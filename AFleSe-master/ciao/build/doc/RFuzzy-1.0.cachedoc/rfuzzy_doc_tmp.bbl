@@ -1,0 +1,60 @@
+
+@bibitem{ASV10}{hardandsoft:2010:afdvpcsmh}
+{{\'A}lvaro {Fern{\'a}ndez-D{\'i}az}}, {Susana {Mu{\~n}oz-Hern{\'a}ndez}}, and
+  {V{\'i}ctor {Pablos-Ceruelo}}.
+@newblock Developing user-sensitive e-commerce applications from fuzzy
+  concepts.
+@newblock In @em{Algebraic methods, soft computing, and program verification},
+  International Center for Mathematical Meetings (CIEM), Castro Urdiales,
+  Cantabria, Spain, April 2010. Julio Rubio (Univ. de La Rioja) and Manuel
+  Ojeda-Aciego (Univ. de Málaga). Sponsored by: Ingenio2010, CIEM, Excmo.
+  Ayuntamiento de Castro Urdiales.
+@newblock Keynote Speakers: Thomas Arts (Univ. of Gothenburg), Gilles Barthe
+  (Madrid Institute for Advanced Studies (Software)), Stefan Berghofer
+  (Technische Universität München), Mario de Jesús Pérez Jiménez (Univ. de
+  Sevilla), José Luis Ruiz Reina (Univ. de Sevilla), Enric Trillas (European
+  Centre for Soft Computing).
+
+@bibitem{MHPCS10}{MunozHernandez2010}
+Susana Munoz-Hernandez, Víctor Pablos-Ceruelo, and Hannes Strass.
+@newblock Rfuzzy: Syntax, semantics and implementation details of a simple and
+  expressive fuzzy tool over prolog.
+@newblock @em{Information Sciences}, In Press, Accepted Manuscript:--, 2010.
+
+@bibitem{MHPS09}{DBLP:conf/iwann/Munoz-HernandezCS09}
+Susana Mu{\~n}oz-Hern{\'a}ndez, V{\'i}ctor {Pablos-Ceruelo}, and Hannes Strass.
+@newblock Rfuzzy: An expressive simple fuzzy compiler.
+@newblock In Joan Cabestany, Francisco Sandoval, Alberto Prieto, and Juan~M.
+  Corchado, editors, @em{IWANN (1)}, volume 5517 of @em{Lecture Notes in
+  Computer Science}, pages 270--277. Springer, 2009.
+
+@bibitem{PMS08}{victor:susana:2008:wlpe}
+V{\'i}ctor {Pablos-Ceruelo}, Susana {Muñoz Hernandez}, and Hannes Strass.
+@newblock Rfuzzy framework.
+@newblock In Puri Arenas and Damiano Zanardini, editors, @em{18th Workshop on
+  Logic-based methods in Programming Environments, {WLPE} 2008}, pages 62--76,
+  Udine, Italy, December 2008.
+
+@bibitem{PSM09}{5156427}
+V{\'i}ctor {Pablos-Ceruelo}, Hannes Strass, and Susana {Muñoz Hernández}.
+@newblock Rfuzzy---a framework for multi-adjoint fuzzy logic programming.
+@newblock In @em{Fuzzy Information Processing Society, 2009. NAFIPS 2009.
+  Annual Meeting of the North American Fuzzy Information Processing Society
+  Annual Conference}, pages 1--6, Cincinnati, Ohio, USA, June 2009.
+
+@bibitem{SMHP09}{DBLP:conf/eusflat/StrassMC09}
+Hannes Strass, Susana Mu{\~n}oz-Hern{\'a}ndez, and V{\'i}ctor {Pablos-Ceruelo}.
+@newblock Operational semantics for a fuzzy logic programming system with
+  defaults and constructive answers.
+@newblock In Jo{\~a}o~Paulo Carvalho, Didier Dubois, Uzay Kaymak, and
+  Jo{\~a}o~Miguel da Costa~Sousa, editors, @em{IFSA/EUSFLAT Conf.}, pages
+  1827--1832, 2009.
+
+@bibitem{VAS10}{jisbd:2010:vpcafdsmh}
+{V{\'i}ctor {Pablos-Ceruelo}}, {{\'A}lvaro {Fern{\'a}ndez-D{\'i}az}}, and
+  {Susana {Mu{\~n}oz-Hern{\'a}ndez}}.
+@newblock Developing user-sensitive search engines from fuzzy concepts.
+@newblock In @em{JISBD'2010}, September 2010.
+@newblock accepted for publication, see
+  http://www.dsic.upv.es/conferences/jisbd2010/articulos.shtml.
+
