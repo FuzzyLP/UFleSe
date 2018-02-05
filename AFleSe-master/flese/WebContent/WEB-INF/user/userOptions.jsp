@@ -90,7 +90,7 @@
 	class='filesListTable'></div>
 
 <div id='<%=KConstants.JspsDivsIds.fileUploadDiv %>'
-	class='filesListTable'></div>
+	</div>
 
 <div id='<%=KConstants.JspsDivsIds.ontologyStartDivId %>'
 	class='filesListTable'></div>

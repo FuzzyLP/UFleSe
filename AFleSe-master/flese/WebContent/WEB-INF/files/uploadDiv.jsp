@@ -13,9 +13,12 @@ Upload Data files
 	action='<%=urlUpload %>'>
 	<INPUT TYPE='file' NAME='programFileToUpload' size='50'
 		onchange='fileUploadAutomaticSendActionOnChange("<%=KConstants.JspsDivsIds.uploadFormId %>", "<%=KConstants.JspsDivsIds.uploadStatusDivId%>");'>
+   
 </FORM>
 
+
 <div id='<%=KConstants.JspsDivsIds.uploadStatusDivId%>'></div>
+
 <iframe id='<%=KConstants.JspsDivsIds.uploadFormTargetiFrameId %>'
 	name='<%=KConstants.JspsDivsIds.uploadFormTargetiFrameId%>'
 	style='display: none;'></iframe>

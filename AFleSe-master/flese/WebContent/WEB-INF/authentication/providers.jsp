@@ -12,18 +12,16 @@
 <% } %>
 
 <h3>
-	To access to FleSe you need an account in a Social Authentication
-	Provider. <br /> Please choose one of the following or provide an
-	OpenId url.
+	Sign-in to access the FleSe
 </h3>
 
 <table class="providersIcons">
 	<tr class="providersIcons">
-		<td class="providersIcons"><a id="facebookLink"
+		<!-- <td class="providersIcons"><a id="facebookLink"
 			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=facebook" %>"> <img
 				src="images/facebook_icon.png" alt="Facebook" title="Facebook"
 				border="0" width="50"></img>
-		</a></td>
+		</a></td> -->
 		<td class="providersIcons"><a id="twitterLink"
 			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=twitter" %>"> <img
 				src="images/twitter_icon.png" alt="Twitter" title="Twitter"
@@ -33,7 +31,7 @@
 				src="images/gmail_icon.png" alt="Gmail" title="Gmail" border="0"
 				width="50"></img></a></td>
 	</tr>
-	<tr class="providersIcons">
+	<!-- <tr class="providersIcons">
 		<td class="providersIcons"><a id="yahooLink"
 			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=yahoo" %>"> <img
 				src="images/yahoomail_icon.png" alt="YahooMail" title="YahooMail"
@@ -46,7 +44,7 @@
 			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=linkedin" %>"> <img
 				src="images/linkedin_icon.gif" alt="Linked In" title="Linked In"
 				border="0" width="50"></img></a></td>
-	</tr>
+	</tr>  -->
 	<!-- <tr class="providersIcons">
 		<td class="providersIcons"><a id="foursquareLink"
 			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=foursquare" %>">
@@ -71,11 +69,11 @@
 </table>
 
 <br />
-<h3>or enter OpenID url:</h3>
+<!--  <h3>or enter OpenID url:</h3> 
 <form action="SocialAuthServlet" onsubmit="return validate(this);">
 	<input type="text" value="" name="id" /> <input type="submit"
-		value="Submit" />
-</form>
+		value="Submit" /> 
+</form> -->
 <br />
 <br />
 <br />
