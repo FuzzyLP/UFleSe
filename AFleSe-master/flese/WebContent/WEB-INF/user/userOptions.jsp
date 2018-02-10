@@ -89,7 +89,7 @@
 <div id='<%=KConstants.JspsDivsIds.filesListDiv %>'
 	class='filesListTable'></div>
 
-<div id='<%=KConstants.JspsDivsIds.fileUploadDiv %>'
+<div id='<%=KConstants.JspsDivsIds.fileUploadDiv %>'>
 	</div>
 
 <div id='<%=KConstants.JspsDivsIds.ontologyStartDivId %>'
