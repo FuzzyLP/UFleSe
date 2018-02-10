@@ -1,3 +1,3 @@
 #!/bin/sh
-export CIAOPATH=/Users/halimdeedar/Documents/src/Flese-Project-master/AFleSe-master/ciao
-exec "/Users/halimdeedar/.ciaoroot/master/build/bin/ciaoc" "$@"
+export CIAOPATH=/home/aniqa/Documents/Flese/FleseV2/AFleSe-master/ciao
+exec "/home/aniqa/.ciaoroot/master/build/bin/ciaoc" "$@"
