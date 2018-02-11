@@ -2,8 +2,10 @@
 <%@page import="storeHouse.ResultsStoreHouse"%>
 <%@page import="auxiliar.JspsUtils"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.*"%>
 <%@page import="constants.KUrls"%>
 <%@page import="constants.KConstants"%>
+<%@page import="org.json.*"%>
 
 
 <div class="fileViewTable">
@@ -12,8 +14,8 @@
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
 
 	String [] msgs = resultsStoreHouse.getResultMessages();
-	String fileName = null;
-	String fileOwner = null;
+	String fileName = resultsStoreHouse.getRequestParamsHashMap().get("fileName")[0];
+	String fileOwner = resultsStoreHouse.getRequestParamsHashMap().get("fileOwner")[0];;
 	if ((msgs != null) && (msgs.length > 0)) { 
 		for (int i=0; i<msgs.length; i++) {
 			out.println(msgs[i]);
@@ -46,7 +48,7 @@
 				{
 					%>
 					<form action="types">
-					<select name=selectType [<%= i %>] onchange="setType(<%= i %>, this);" />
+					<select name="selectType [<%= i %>]" onchange="setType(<%= i %>, this);">
 					  <option value=1>String</option> 
  					  <option value=2>Integer</option> 
  					  <option value=3>Float</option>
@@ -57,6 +59,52 @@
 					<%
 				}
 
+			}
+			else if (fileName.endsWith("json")){
+				json = true;
+				String jsonValue = "";
+				for (int i=0; i< fileContents.length; i++) {
+					jsonValue= jsonValue + fileContents[i];
+				}
+				System.out.print(jsonValue);
+				JSONArray jsonArr = new JSONArray(jsonValue);
+				
+				if(jsonArr.length() > 0)
+					{
+					JSONObject object = jsonArr.getJSONObject(0);
+					int numberOfColumns = object.length();
+					Iterator keysToCopyIterator = object.keys();
+					List<String> keysList = new ArrayList<String>();
+					while(keysToCopyIterator.hasNext()) {
+					    String key = (String) keysToCopyIterator.next();
+					    keysList.add(key);
+					}
+					
+					%>
+					Select the types for the columns:
+					<br>
+					
+					<script type="text/javascript">initializeTypes(<%= numberOfColumns%>);</script>
+					
+					<%
+					for(int i = 0; i<numberOfColumns; i++)
+					{
+						%>
+						<form action="types">
+						<label><%=keysList.get(i)%></label>
+						<select name="selectType [<%= i %>]" onchange="setType(<%= i %>, this);">
+						  <option value=1>String</option> 
+	 					  <option value=2>Integer</option> 
+	 					  <option value=3>Float</option>
+	  					  <option value=4>Boolean</option> 
+	  					  <option value=5>Enum</option> 
+	   				      <option value=6>DateTime</option> 
+						</select>
+						<%
+					}
+					}
+				
+				
 			}
 			for (int i=0; i< fileContents.length; i++) {
 %>
@@ -82,7 +130,7 @@
 			
 			if (json)
 			{
-				String saveUrl = KUrls.Files.Save.getUrl(true)+"&fileName="+fileName+"&fileOwner="+fileOwner;
+				String saveUrl = KUrls.Files.SaveJson.getUrl(true)+"&fileName="+fileName+"&fileOwner="+fileOwner;
 				%>
 				</form>
 				<INPUT type='submit' value='Create Prolog file' onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">

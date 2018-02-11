@@ -61,6 +61,9 @@ public class KUrls {
 		public static final UrlMap SavePage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
 		public static final UrlMap Save = getUrlMap(manager, "save", SavePage, KUrls.Pages.Exception, "");
 
+		public static final UrlMap SaveJsonPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveJson = getUrlMap(manager, "convertJson", SaveJsonPage, KUrls.Pages.Exception, "");
+		
 		public static final UrlMap DownloadPage = getUrlMap(manager, "downloadPage", null, null, "WEB-INF/files/download.jsp");
 		public static final UrlMap Download = getUrlMap(manager, "download", DownloadPage, KUrls.Pages.Exception, "");
 

@@ -135,6 +135,7 @@ function createPL(convertToPrologDivId, saveUrl)
 	var convertToPrologDiv = getContainer(convertToPrologDivId);
 	convertToPrologDiv.innerHTML = loadingImageHtml(false);
 	var i;
+	if(fuzzyTypes){
 	for (i=0;i<fuzzyTypes.length;i++)
 		switch (fuzzyTypes[i])
 		{
@@ -146,9 +147,9 @@ function createPL(convertToPrologDivId, saveUrl)
 		case 6: saveUrl+="&type["+i+"]=datetime"; break;
 
 		}
+	}
 	loadAjaxIn(convertToPrologDivId, saveUrl);
 }
-
 
 <% if (JspsUtils.getStringWithValueS().equals("N")) { %>
 </script>

@@ -4,26 +4,22 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 
-import storeHouse.CacheStoreHouseCleaner;
+
+
 import auxiliar.LocalUserInfo;
 import auxiliar.NextStep;
 import constants.KConstants;
 import constants.KUrls;
+import fileConverters.CSVWriter;
+import fileConverters.JSONFlattener;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineFactory;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import javax.script.ScriptContext;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import storeHouse.CacheStoreHouseCleaner;
 
 public class FilesManager extends AbstractManager {
 
@@ -141,7 +137,14 @@ public class FilesManager extends AbstractManager {
 			resultsStoreHouse.addResultMessage("You do not own the program file. So, you cannot translate it.");
 		else
 		{
-			String types=programFileInfo.getProgramFileFullPath();
+			List<Map<String, String>> flatJson = JSONFlattener.parseJson(new File(programFileInfo.getProgramFileFullPath()), "UTF-8");
+			
+			String[] temp = programFileInfo.getFileName().split("\\.");
+			
+			CSVWriter.writeToFile(CSVWriter.getCSV(flatJson, ","), programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv");
+			
+			String types=programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv";
+			
 			int i=0;
 			while (requestStoreHouse.getRequestParameter("type["+i+"]")!="")
 			{
