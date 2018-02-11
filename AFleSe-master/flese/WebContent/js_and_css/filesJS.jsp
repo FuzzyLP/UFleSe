@@ -125,7 +125,7 @@ function initializeTypes(numberOfTypes)
 function setType(type, position)
 {
 	try{
-		fuzzyTypes[position] = type;
+		fuzzyTypes[position] = type.options[type.selectedIndex].value;
 	}catch(Exception){}
 	console.log(fuzzyTypes[position]);
 }
@@ -137,15 +137,19 @@ function createPL(convertToPrologDivId, saveUrl)
 	var i;
 	if(fuzzyTypes){
 	for (i=0;i<fuzzyTypes.length;i++)
-		switch (fuzzyTypes[i])
 		{
-		case 1: saveUrl+="&type["+i+"]=string"; break;
-		case 2: saveUrl+="&type["+i+"]=integer"; break;
-		case 3: saveUrl+="&type["+i+"]=float"; break;
-		case 4: saveUrl+="&type["+i+"]=boolean"; break;
-		case 5: saveUrl+="&type["+i+"]=enum"; break;
-		case 6: saveUrl+="&type["+i+"]=datetime"; break;
-
+	if(fuzzyTypes[i] == 1 || fuzzyTypes[i] == "1")
+			saveUrl+="&type["+i+"]=string"; 
+	if(fuzzyTypes[i] == 2 || fuzzyTypes[i] == "2")
+			saveUrl+="&type["+i+"]=integer"; 
+	if(fuzzyTypes[i] == 3 || fuzzyTypes[i] == "3")
+			saveUrl+="&type["+i+"]=float"; 
+	if(fuzzyTypes[i] == 4 || fuzzyTypes[i] == "4")
+			saveUrl+="&type["+i+"]=boolean"; 
+	if(fuzzyTypes[i] == 5 || fuzzyTypes[i] == "5")
+			saveUrl+="&type["+i+"]=enum";
+	if(fuzzyTypes[i] == 6 || fuzzyTypes[i] == "6")
+			saveUrl+="&type["+i+"]=datetime";
 		}
 	}
 	loadAjaxIn(convertToPrologDivId, saveUrl);
@@ -153,4 +157,6 @@ function createPL(convertToPrologDivId, saveUrl)
 
 <% if (JspsUtils.getStringWithValueS().equals("N")) { %>
 </script>
-<% } %>
+<%
+	}
+%>

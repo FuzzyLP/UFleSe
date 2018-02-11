@@ -48,7 +48,7 @@
 				{
 					%>
 					<form action="types">
-					<select name="selectType [<%= i %>]" onchange="setType(<%= i %>, this);">
+					<select name="selectType [<%= i %>]" onchange="setType(this, <%= i %>);">
 					  <option value=1>String</option> 
  					  <option value=2>Integer</option> 
  					  <option value=3>Float</option>
@@ -92,7 +92,7 @@
 						%>
 						<form action="types">
 						<label><%=keysList.get(i)%></label>
-						<select name="selectType [<%= i %>]" onchange="setType(<%= i %>, this);">
+						<select name="selectType [<%= i %>]" onchange="setType(this, <%= i %>);">
 						  <option value=1>String</option> 
 	 					  <option value=2>Integer</option> 
 	 					  <option value=3>Float</option>
