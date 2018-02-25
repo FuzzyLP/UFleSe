@@ -1,0 +1,2 @@
+modtype(application).
+main_title([[string_esc("Prolog/Java Bidirectional Interface")]]).

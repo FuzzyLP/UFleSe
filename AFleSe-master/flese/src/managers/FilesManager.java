@@ -9,14 +9,14 @@ import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 
-
-
 import auxiliar.LocalUserInfo;
 import auxiliar.NextStep;
 import constants.KConstants;
 import constants.KUrls;
 import fileConverters.CSVWriter;
 import fileConverters.JSONFlattener;
+import fileConverters.XLSXToCSVConverter;
+import fileConverters.XLStoCSVConverter;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
 import storeHouse.CacheStoreHouseCleaner;
@@ -154,6 +154,8 @@ public class FilesManager extends AbstractManager {
 			Process process = Runtime.getRuntime().exec("ruby "+ KConstants.PathsMgmt.rbScriptPath +" " + types);
 		    try {
 		        process.waitFor();
+		        File tempFile = new File(programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv");
+		        tempFile.delete();
 		    } catch (InterruptedException e) {
 		        e.printStackTrace();
 		        return;
@@ -163,6 +165,73 @@ public class FilesManager extends AbstractManager {
 		
 	}
 	
+	public void convertXLSX() throws Exception //function that convert the fuzzy types for the xlsx and creates .pl file
+	{
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		if (!(localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner())))
+			resultsStoreHouse.addResultMessage("You do not own the program file. So, you cannot translate it.");
+		else
+		{
+			String[] temp = programFileInfo.getFileName().split("\\.");
+			
+			XLSXToCSVConverter.convert(new File(programFileInfo.getProgramFileFullPath()), new File(programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv"), ",");
+			
+			String types=programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv";
+			
+			int i=0;
+			while (requestStoreHouse.getRequestParameter("type["+i+"]")!="")
+			{
+				types+=" " + requestStoreHouse.getRequestParameter("type["+i+"]");
+				i++;
+			}
+			Process process = Runtime.getRuntime().exec("ruby "+ KConstants.PathsMgmt.rbScriptPath +" " + types);
+		    try {
+		        process.waitFor();
+		        File tempFile = new File(programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv");
+		        tempFile.delete();
+		    } catch (InterruptedException e) {
+		        e.printStackTrace();
+		        return;
+		    }
+
+		}
+		
+	}
+	
+	public void convertXLS() throws Exception //function that convert the fuzzy types for the xls and creates .pl file
+	{
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		if (!(localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner())))
+			resultsStoreHouse.addResultMessage("You do not own the program file. So, you cannot translate it.");
+		else
+		{
+			String[] temp = programFileInfo.getFileName().split("\\.");
+			
+			XLStoCSVConverter.convert(new File(programFileInfo.getProgramFileFullPath()), new File(programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv"), ",");
+			
+			String types=programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv";
+			
+			int i=0;
+			while (requestStoreHouse.getRequestParameter("type["+i+"]")!="")
+			{
+				types+=" " + requestStoreHouse.getRequestParameter("type["+i+"]");
+				i++;
+			}
+			Process process = Runtime.getRuntime().exec("ruby "+ KConstants.PathsMgmt.rbScriptPath +" " + types);
+		    try {
+		        process.waitFor();
+		        File tempFile = new File(programFileInfo.getProgramFileFolderFullPath()+ "/"+temp[0]+".csv");
+		        tempFile.delete();
+		    } catch (InterruptedException e) {
+		        e.printStackTrace();
+		        return;
+		    }
+
+		}
+		
+	}
 	public void remove() throws Exception {
 
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();

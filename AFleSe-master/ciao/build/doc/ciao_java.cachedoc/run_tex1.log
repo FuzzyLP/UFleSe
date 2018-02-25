@@ -1,0 +1,79 @@
+This is TeXk, Version 3.14159265 (TeX Live 2015/dev/Debian) (preloaded format=tex)
+
+(./javall_doc.texic (./texinfo.tex Loading texinfo package [Version 2.257]:
+Basics, fonts, page headings, tables, indexing, sectioning, toc, environments,
+defuns, macros, cross references,
+(/usr/share/texlive/texmf-dist/tex/generic/epsf/epsf.tex
+This is `epsf.tex' v2.7.4 <14 February 2011>
+) paper sizes, and turning on texinfo input format.) [1] [2] [-1] Chapter 1
+(./javall_docintro.texic Chapter 2 [1] [2]) (./javart.texic Chapter 3 [3]
+[4] [5]
+(ciao_java.cachedoc/texinfo/ip2jbn-events-pl-reg_autofig.eps
+./javart.texic:75: Could not open file ciao_java.cachedoc/texinfo/ip2jbn-events
+-pl-reg_autofig.eps, ignoring it.
+@epsfgetbb ...Could not open file #1, ignoring it}
+                                                  @else {@chardef @other = 1...
+
+@next #1->@epsfgetbb {#1}
+                         @epsfsetgraph {#1}
+@centerline #1->@line {@hss #1
+                              @hss }
+@imagexxx ...break @centerline {@epsfbox {#1.eps}}
+                                                  @bigbreak @else @epsfbox {...
+
+@image ...sftrue @fi @else @imagexxx #1,,,@finish 
+                                                  @fi 
+l.75 ...edoc/texinfo/ip2jbn-events-pl-reg_autofig}
+                                                  
+)
+[6]
+Overfull \vbox (33.55159pt too high) has occurred while \output is active
+[7]
+(ciao_java.cachedoc/texinfo/ip2jbn-events-pl-fire_autofig.eps
+./javart.texic:79: Could not open file ciao_java.cachedoc/texinfo/ip2jbn-events
+-pl-fire_autofig.eps, ignoring it.
+@epsfgetbb ...Could not open file #1, ignoring it}
+                                                  @else {@chardef @other = 1...
+
+@next #1->@epsfgetbb {#1}
+                         @epsfsetgraph {#1}
+@centerline #1->@line {@hss #1
+                              @hss }
+@imagexxx ...break @centerline {@epsfbox {#1.eps}}
+                                                  @bigbreak @else @epsfbox {...
+
+@image ...sftrue @fi @else @imagexxx #1,,,@finish 
+                                                  @fi 
+l.79 ...doc/texinfo/ip2jbn-events-pl-fire_autofig}
+                                                  
+)
+
+Overfull \vbox (45.55159pt too high) has occurred while \output is active
+[8] (./javall_doc.tmp) [9] (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [10] (./javall_doc.tmp
+) (./javall_doc.tmp) [11] (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) [12] (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp
+) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+[13] (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp
+) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) [14]) (./jtopl.texic Chapter 4 [15] [16] [17]
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [18])
+(./javasock.texic Chapter 5 [19] [20] (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [21] (./javall_doc.tmp
+) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+(./javall_doc.tmp) (./javall_doc.tmp) [22] (./javall_doc.tmp) (./javall_doc.tmp
+)) (./javall_docrefs.texic (References) [23] [24]) (./javall_docliindex.texic
+(Library/Module Index) [25] [26]) (./javall_docpdindex.texic
+(Predicate/Method Index) [27] [28]) (./javall_docprindex.texic
+(Property Index) [29] [30]) (./javall_docteindex.texic (Regular Type Index)
+[31] [32]) (./javall_docdeindex.texic (Declaration Index) [33] [34])
+(./javall_doccoindex.texic (Concept Index) [35] [36])
+(./javall_docauindex.texic (Author Index) [37] [38]) (./javall_docglindex.texic
+(Global Index) [39] [40]) [41] [42] )
+(see the transcript file for additional information)
+Output written on javall_doc.dvi (45 pages, 63096 bytes).
+Transcript written on javall_doc.log.

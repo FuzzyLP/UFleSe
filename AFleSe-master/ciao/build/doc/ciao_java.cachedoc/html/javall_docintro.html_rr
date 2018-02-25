@@ -1,0 +1,4 @@
+sect([level(1)],global_label("Introduction"),string_esc("Introduction")).
+idx(use,cindex,localnum_label("0"),"Platform independence").
+sect([level(2)],local_label("Distributed Programming Model"),[string_esc("Distributed Programming Model")]).
+idx(use,cindex,localnum_label("1"),"Distributed Programming Model").

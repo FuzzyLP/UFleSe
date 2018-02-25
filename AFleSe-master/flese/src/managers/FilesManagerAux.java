@@ -266,7 +266,7 @@ public class FilesManagerAux {
 					if ("".equals(fileName)) {
 						ret.add("The name of the program file to upload is an empty string.");
 					} else {
-						if (!fileName.endsWith(".pl")&&!fileName.endsWith(".csv")&&!fileName.endsWith(".json")&&!fileName.endsWith(".xlsx")) {
+						if (!fileName.endsWith(".pl")&&!fileName.endsWith(".csv")&&!fileName.endsWith(".json")&&!fileName.endsWith(".xlsx")&&!fileName.endsWith(".xls")) {
 							ret.add("The name of the program file to upload must have the .pl extension.");
 						} else {
 
@@ -300,7 +300,7 @@ public class FilesManagerAux {
 								}
 
 								if (writeWasOk) {
-									if (fileName.endsWith(".csv") || fileName.endsWith(".json") || fileName.endsWith(".xlsx"))
+									if (fileName.endsWith(".csv") || fileName.endsWith(".json") || fileName.endsWith(".xlsx")|| fileName.endsWith(".xls"))
 									{
 										filesM.setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.ListPage, ""));
 

@@ -1,0 +1,805 @@
+
+@node Prolog to Java interface, Java to Prolog interface, Introduction, Top
+@comment node-name, next, previous, up
+@chapter Prolog to Java interface
+@liindex javart
+@glindex javart
+
+@b{Author(s):} 
+@auindex Jesus Correas
+@glindex Jesus Correas
+Jes@'us Correas.
+
+
+
+This module defines the Ciao Prolog to Java interface. This interface allows a Prolog program to start a Java process, create Java objects, invoke methods, set/get attributes (fields), and handle Java events.
+
+This interface only works with JDK version 1.2 or higher.
+
+Although the Java side interface is explained in Javadoc format (it is available at @code{library/javall/javadoc/} in your Ciao installation), the general interface structure is detailed here.
+
+@section Prolog to Java Interface Structure 
+@coindex Prolog to Java Interface Structure
+@glindex Prolog to Java Interface Structure 
+This interface is made up of two parts: a Prolog part and a Java part, running in separate processes. The Prolog part receives requests from a Prolog program and sends them to the Java part through a socket. The Java part receives requests from the socket and performs the actions included in the requests.
+
+If an event is thrown in the Java side, an asynchronous message must be sent away to the Prolog side, in order to launch a Prolog goal to handle the event. This asynchronous communication is performed using a separate socket. The nature of this communication needs the use of threads both in Java and Prolog: to deal with the 'sequential program flow,' and other threads for event handling.
+
+In both sides the threads are automatically created by the context of the objects we use. The user must be aware that different requests to the other side of the interface could run concurrently.
+ 
+@subsection Prolog side of the Java interface 
+@coindex Prolog to Java Interface Structure. Prolog side
+@glindex Prolog to Java Interface Structure. Prolog side 
+The Prolog side receives the actions to do in the Java side from the user program, and sends them to the Java process through the socket connection. When the action is done in the Java side, the result is returned to the user Prolog program, or the action fails if there is any problem in the Java side.
+
+Prolog data representation of Java elements is very simple in this interface. Java primitive types such as integers and characters are translated into the Prolog corresponding terms, and even some Java objects are translated in the same way (e. g. Java strings). Java objects are represented in Prolog as compound terms with a reference id to identify the corresponding Java object. Data conversion is made automatically when the interface is used, so the Prolog user programs do not have to deal with the complexity of these tasks.
+
+@subsection Java side 
+@coindex Prolog to Java Interface Structure. Java side
+@glindex Prolog to Java Interface Structure. Java side 
+The Java side of this layer is more complex than the Prolog side. The tasks this part has to deal with are the following:
+
+@itemize @bullet{} 
+
+@item Wait for requests from the Prolog side.
+
+@item Translate the Prolog terms received in the Prolog 'serialized' form to a more useful Java representation (see the Java interface documentation available at @code{library/javall/javadoc/} in your Ciao installation for details regarding Java representation of Prolog terms).
+
+@item Interpret the requests received from the Prolog side, and execute them.
+
+@item Handle the set of objects created by or derived from the requests received from the prolog side.
+
+@item Handle the events raised in the Java side, and launch the listeners added in the prolog side.
+
+@item Handle the exceptions raised in the Java side, and send them to the Prolog side.
+
+@end itemize 
+
+In the implementation of the Java side, two items must be carefully designed: the handling of Java objects, and the representation of prolog data structures. The last item is specially important because all the interactions between Prolog and Java are made using Prolog structures, an easy way to standardize the different data management in both sides. Even the requests themselves are encapsulated using Prolog structures. The overload of this encapsulation is not significant in terms of socket traffic, due to the optimal implementation of the prolog serialized term.
+
+The java side must handle the objects created from the Prolog side dinamically, and these objects must be accessed as fast as possible from the set of objects. The Java API provides a powerful implementation of Hash tables that achieves all the requirements of our implementation.
+
+On the other hand, the java representation of prolog terms is made using the inheritance of java classes. In the java side there exists a representation of a generic prolog term, implemented as an abstract class in java. Variables, atoms, compound terms, lists, and numeric terms are classes in the java side which inherit from the term class. Java objects can be seen also under the prolog representation as compound terms, where the single argument corresponds to the Hash key of the actual java object in the Hash table referred to before. This behaviour makes the handling of mixed java and prolog elements easy. Prolog goals are represented in the java side as objects which contain a prolog compound term with the term representing the goal. This case will be seen more in depth in next chapter, where the java to prolog interface is explained.
+
+@section Java event handling from Prolog 
+@coindex Java event handling from Prolog
+@glindex Java event handling from Prolog 
+Java event handling is based on a delegation model since version 1.1.x. This approach to event handling is very powerful and elegant, but a user program cannot handle all the events that can arise on a given object: for each kind of event, a listener must be implemented and added specifically. However, the Java 2 API includes a special listener (@code{AWTEventListener}) that can manage the internal java event queue.
+
+The prolog to java interface has been designed to emulate the java event handler, and is also based on event objects and listeners. The prolog to java interface implements its own event manager, to handle those events that have prolog listeners associated to the object that raises the event. From the prolog side can be added listeners to objects for specific events. The java side includes a list of goals to launch from the object and event type.
+
+Due to the events nature, the event handler must work in a separate thread to manage the events asynchronously. The java side has its own mechanisms to work this way. The prolog side must be implemented specially for event handling using threads. The communication between java and prolog is also asynchronous, and an additional socket stream is used to avoid interferences with the main socket stream. The event stream will work in this implementation only in one way: from java to prolog. If an event handler needs to send back requests to java, it will use the main socket stream, just like the requests sent directly from a prolog program.
+
+The internal process of register a Prolog event handler to a Java event is shown in the next figure:
+
+@image{ciao_java.cachedoc/texinfo/ip2jbn-events-pl-reg_autofig} 
+
+When an event raises, the Prolog to Java interface has to send to the Prolog user program the goal to evaluate. Graphically, the complete process takes the tasks involved in the following figure:
+
+@image{ciao_java.cachedoc/texinfo/ip2jbn-events-pl-fire_autofig} 
+ 
+@section Java exception handling from Prolog 
+@coindex Java exception handling from Prolog
+@glindex Java exception handling from Prolog 
+Java exception handling is very similar to the peer prolog handling: it includes some specific statements to trap exceptions from user code. In the java side, the exceptions can be originated from an incorrect request, or can be originated in the code called from the request. Both exception types will be sent to prolog using the main socket stream, allowing the prolog program manage the exception. However, the first kind of exceptions are prefixed, so the user program can distinguish them from the second type of exceptions.
+
+In order to handle exceptions properly using the prolog to java and java to prolog interfaces simultaneously, in both sides of the interface those exceptions coming from their own side will be filtered: this avoids an endless loop of exceptions bouncing from one side to another.
+
+
+@section Usage and interface
+@cartouche
+@itemize @bullet
+@item @b{Library usage:}
+
+@code{:- use_module(library(javall/javart)).}
+@item @b{Exports:}
+
+@itemize @minus
+@item @i{Predicates:}
+
+@glindex java_start/0
+@code{java_start/0}, 
+@glindex java_start/1
+@code{java_start/1}, 
+@glindex java_start/2
+@code{java_start/2}, 
+@glindex java_stop/0
+@code{java_stop/0}, 
+@glindex java_connect/2
+@code{java_connect/2}, 
+@glindex java_disconnect/0
+@code{java_disconnect/0}, 
+@glindex java_use_module/1
+@code{java_use_module/1}, 
+@glindex java_create_object/2
+@code{java_create_object/2}, 
+@glindex java_delete_object/1
+@code{java_delete_object/1}, 
+@glindex java_invoke_method/2
+@code{java_invoke_method/2}, 
+@glindex java_get_value/2
+@code{java_get_value/2}, 
+@glindex java_set_value/2
+@code{java_set_value/2}, 
+@glindex java_add_listener/3
+@code{java_add_listener/3}, 
+@glindex java_remove_listener/3
+@code{java_remove_listener/3}.
+@item @i{Regular Types:}
+
+@glindex machine_name/1
+@code{machine_name/1}, 
+@glindex java_constructor/1
+@code{java_constructor/1}, 
+@glindex java_object/1
+@code{java_object/1}, 
+@glindex java_event/1
+@code{java_event/1}, 
+@glindex prolog_goal/1
+@code{prolog_goal/1}, 
+@glindex java_field/1
+@code{java_field/1}, 
+@glindex java_method/1
+@code{java_method/1}.
+@end itemize
+@item @b{Imports:}
+
+@itemize @minus
+@item @i{Application modules:}
+
+@glindex javasock
+@code{javasock}.
+@item @i{System library modules:}
+
+@glindex concurrency
+@code{concurrency}, 
+@glindex iso_char
+@code{iso_char}, 
+@glindex lists
+@code{lists}, 
+@glindex read
+@code{read}, 
+@glindex write
+@code{write}, 
+@glindex process
+@code{process}, 
+@glindex system
+@code{system}.
+@item @i{Packages:}
+
+@glindex prelude
+@code{prelude}, 
+@glindex nonpure
+@code{nonpure}, 
+@glindex condcomp
+@code{condcomp}, 
+@glindex assertions
+@code{assertions}, 
+@glindex regtypes
+@code{regtypes}, 
+@glindex isomodes
+@code{isomodes}.
+@end itemize
+@end itemize
+@end cartouche
+@section Documentation on exports
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_start/0 (pred)}}}
+@temp
+@end iftex
+@pdindex java_start/0
+@glindex java_start/0
+@deffn PREDICATE java_start/0:
+
+@b{Usage:} 
+
+Starts the Java server on the local machine, connects to it, and starts the event handling thread.
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_start/1 (pred)}}}
+@temp
+@end iftex
+@pdindex java_start/1
+@glindex java_start/1
+@deffn PREDICATE java_start/1:
+
+@b{Usage:} @code{java_start(Classpath)}
+
+Starts the Java server on the local machine, connects to it, and starts the event handling thread. The Java server is started using the classpath received as argument.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Classpath} is a string (a list of character codes).
+@iftex
+@hfill
+@end iftex
+ (basic_props:string/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Classpath} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_start/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_start/2
+@glindex java_start/2
+@deffn PREDICATE java_start/2:
+
+@b{Usage:} @code{java_start(Machine_name,Classpath)}
+
+Starts the Java server in @code{machine_name} (using rsh!), connects to it, and starts the event handling thread. The Java server is started using the @code{Classpath} received as argument.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Machine_name} is the network name of a machine.
+@iftex
+@hfill
+@end iftex
+ (javart:machine_name/1)
+
+@code{Classpath} is a string (a list of character codes).
+@iftex
+@hfill
+@end iftex
+ (basic_props:string/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Machine_name} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+
+@code{Classpath} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_stop/0 (pred)}}}
+@temp
+@end iftex
+@pdindex java_stop/0
+@glindex java_stop/0
+@deffn PREDICATE java_stop/0:
+
+@b{Usage:} 
+
+Stops the interface terminating the threads that handle the socket connection, and finishing the Java interface server if it was started using java_start/n.
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_connect/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_connect/2
+@glindex java_connect/2
+@deffn PREDICATE java_connect/2:
+
+@b{Usage:} @code{java_connect(Machine_name,Port_number)}
+
+Connects to an existing Java interface server running in @code{Machine_name} and listening at port @code{port_number}. To connect to a Java server located in the local machine, use 'localhost' as machine_name.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Machine_name} is the network name of a machine.
+@iftex
+@hfill
+@end iftex
+ (javart:machine_name/1)
+
+@code{Port_number} is an integer.
+@iftex
+@hfill
+@end iftex
+ (basic_props:int/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Machine_name} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+
+@code{Port_number} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_disconnect/0 (pred)}}}
+@temp
+@end iftex
+@pdindex java_disconnect/0
+@glindex java_disconnect/0
+@deffn PREDICATE java_disconnect/0:
+
+@b{Usage:} 
+
+Closes the connection with the java process, terminating the threads that handle the connection to Java. This predicate does not terminate the Java process (this is the disconnection procedure for Java servers not started from Prolog). This predicate should be used when the communication is established with java_connect/2.
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{machine_name/1 (regtype)}}}
+@temp
+@end iftex
+@teindex machine_name/1
+@glindex machine_name/1
+@deffn REGTYPE machine_name/1:
+
+@b{Usage:} @code{machine_name(X)}
+
+@code{X} is the network name of a machine.
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_constructor/1 (regtype)}}}
+@temp
+@end iftex
+@teindex java_constructor/1
+@glindex java_constructor/1
+@deffn REGTYPE java_constructor/1:
+
+@b{Usage:} @code{java_constructor(X)}
+
+@code{X} is a java constructor (structure with functor as constructor full name, and arguments as constructor arguments).
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_object/1 (regtype)}}}
+@temp
+@end iftex
+@teindex java_object/1
+@glindex java_object/1
+@deffn REGTYPE java_object/1:
+
+@b{Usage:} @code{java_object(X)}
+
+@code{X} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_event/1 (regtype)}}}
+@temp
+@end iftex
+@teindex java_event/1
+@glindex java_event/1
+@deffn REGTYPE java_event/1:
+
+@b{Usage:} @code{java_event(X)}
+
+@code{X} is a java event represented as an atom with the full event constructor name (e.g., 'java.awt.event.ActionListener').
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_goal/1 (regtype)}}}
+@temp
+@end iftex
+@teindex prolog_goal/1
+@glindex prolog_goal/1
+@deffn REGTYPE prolog_goal/1:
+
+@b{Usage:} @code{prolog_goal(X)}
+
+@code{X} is a prolog predicate. Prolog term that represents the goal that must be invoked when the event raises on the object. The predicate arguments can be java objects, or even the result of java methods. These java objects will be evaluated when the event raises (instead of when the listener is added). The arguments that represent java objects must be instantiated to already created objects. The variables will be kept uninstantiated when the event raises and the predicate is called.
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_field/1 (regtype)}}}
+@temp
+@end iftex
+@teindex java_field/1
+@glindex java_field/1
+@deffn REGTYPE java_field/1:
+
+@b{Usage:} @code{java_field(X)}
+
+@code{X} is a java field (structure on which the functor name is the field name, and the single argument is the field value).
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_use_module/1 (pred)}}}
+@temp
+@end iftex
+@pdindex java_use_module/1
+@glindex java_use_module/1
+@deffn PREDICATE java_use_module/1:
+
+@b{Usage:} @code{java_use_module(Module)}
+
+Loads a module and makes it available from Java.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Module} is any term.
+@iftex
+@hfill
+@end iftex
+ (basic_props:term/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Module} is currently a term which is not a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:nonvar/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_create_object/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_create_object/2
+@glindex java_create_object/2
+@deffn PREDICATE java_create_object/2:
+
+@b{Usage:} 
+
+New java object creation. The constructor must be a compound term as defined by its type, with the full class name as functor (e.g., 'java.lang.String'), and the parameters passed to the constructor as arguments of the structure.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java constructor (structure with functor as constructor full name, and arguments as constructor arguments).
+@iftex
+@hfill
+@end iftex
+ (javart:java_constructor/1)
+
+@code{Arg2} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java constructor (structure with functor as constructor full name, and arguments as constructor arguments).
+@iftex
+@hfill
+@end iftex
+ (javart:java_constructor/1)
+
+@code{Arg2} is a free variable.
+@iftex
+@hfill
+@end iftex
+ (term_typing:var/1)
+@item @i{The following properties should hold upon exit:}
+
+@code{Arg2} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_delete_object/1 (pred)}}}
+@temp
+@end iftex
+@pdindex java_delete_object/1
+@glindex java_delete_object/1
+@deffn PREDICATE java_delete_object/1:
+
+@b{Usage:} 
+
+Java object deletion. It removes the object given as argument from the Java object table.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_invoke_method/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_invoke_method/2
+@glindex java_invoke_method/2
+@deffn PREDICATE java_invoke_method/2:
+
+@b{Usage:} 
+
+Invokes a java method on an object. Given a Java object reference, invokes the method represented with the second argument. 
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java method (structure with functor as method name, and arguments as method ones, plus a result argument. This result argument is unified with the atom 'Yes' if the java method returns void).
+@iftex
+@hfill
+@end iftex
+ (javart:java_method/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java method (structure with functor as method name, and arguments as method ones, plus a result argument. This result argument is unified with the atom 'Yes' if the java method returns void).
+@iftex
+@hfill
+@end iftex
+ (javart:java_method/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_method/1 (regtype)}}}
+@temp
+@end iftex
+@teindex java_method/1
+@glindex java_method/1
+@deffn REGTYPE java_method/1:
+
+@b{Usage:} @code{java_method(X)}
+
+@code{X} is a java method (structure with functor as method name, and arguments as method ones, plus a result argument. This result argument is unified with the atom 'Yes' if the java method returns void).
+@itemize @minus
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_get_value/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_get_value/2
+@glindex java_get_value/2
+@deffn PREDICATE java_get_value/2:
+
+@b{Usage:} 
+
+Gets the value of a field. Given a Java object as first argument, it instantiates the variable given as second argument. This field must be uninstantiated in the java_field functor, or this predicate will fail.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java field (structure on which the functor name is the field name, and the single argument is the field value).
+@iftex
+@hfill
+@end iftex
+ (javart:java_field/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java field (structure on which the functor name is the field name, and the single argument is the field value).
+@iftex
+@hfill
+@end iftex
+ (javart:java_field/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_set_value/2 (pred)}}}
+@temp
+@end iftex
+@pdindex java_set_value/2
+@glindex java_set_value/2
+@deffn PREDICATE java_set_value/2:
+
+@b{Usage:} 
+
+Sets the value of a Java object field. Given a Java object reference, it assigns the value included in the java_field compound term. The field value in the java_field structure must be instantiated.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java field (structure on which the functor name is the field name, and the single argument is the field value).
+@iftex
+@hfill
+@end iftex
+ (javart:java_field/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java field (structure on which the functor name is the field name, and the single argument is the field value).
+@iftex
+@hfill
+@end iftex
+ (javart:java_field/1)
+@end itemize
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_add_listener/3 (pred)}}}
+@temp
+@end iftex
+@pdindex java_add_listener/3
+@glindex java_add_listener/3
+@deffn PREDICATE java_add_listener/3:
+
+@b{Usage:} 
+
+Adds a listener to an event on an object. Given a Java object reference, it registers the goal received as third argument to be launched when the Java event raises.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java event represented as an atom with the full event constructor name (e.g., 'java.awt.event.ActionListener').
+@iftex
+@hfill
+@end iftex
+ (javart:java_event/1)
+
+@code{Arg3} is a prolog predicate. Prolog term that represents the goal that must be invoked when the event raises on the object. The predicate arguments can be java objects, or even the result of java methods. These java objects will be evaluated when the event raises (instead of when the listener is added). The arguments that represent java objects must be instantiated to already created objects. The variables will be kept uninstantiated when the event raises and the predicate is called.
+@iftex
+@hfill
+@end iftex
+ (javart:prolog_goal/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java event represented as an atom with the full event constructor name (e.g., 'java.awt.event.ActionListener').
+@iftex
+@hfill
+@end iftex
+ (javart:java_event/1)
+
+@code{Arg3} is a prolog predicate. Prolog term that represents the goal that must be invoked when the event raises on the object. The predicate arguments can be java objects, or even the result of java methods. These java objects will be evaluated when the event raises (instead of when the listener is added). The arguments that represent java objects must be instantiated to already created objects. The variables will be kept uninstantiated when the event raises and the predicate is called.
+@iftex
+@hfill
+@end iftex
+ (javart:prolog_goal/1)
+@end itemize
+
+@i{Meta-predicate} with arguments: @code{java_add_listener(?,?,goal)}.
+
+@end deffn
+@sp 1
+
+@iftex
+@edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_remove_listener/3 (pred)}}}
+@temp
+@end iftex
+@pdindex java_remove_listener/3
+@glindex java_remove_listener/3
+@deffn PREDICATE java_remove_listener/3:
+
+@b{Usage:} 
+
+It removes a listener from an object event queue. Given a Java object reference, goal registered for the given event is removed.
+@itemize @minus
+@item @i{Call and exit should be compatible with:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java event represented as an atom with the full event constructor name (e.g., 'java.awt.event.ActionListener').
+@iftex
+@hfill
+@end iftex
+ (javart:java_event/1)
+
+@code{Arg3} is a prolog predicate. Prolog term that represents the goal that must be invoked when the event raises on the object. The predicate arguments can be java objects, or even the result of java methods. These java objects will be evaluated when the event raises (instead of when the listener is added). The arguments that represent java objects must be instantiated to already created objects. The variables will be kept uninstantiated when the event raises and the predicate is called.
+@iftex
+@hfill
+@end iftex
+ (javart:prolog_goal/1)
+@item @i{The following properties should hold at call time:}
+
+@code{Arg1} is a java object (a structure with functor '$java_object', and argument an integer given by the java side).
+@iftex
+@hfill
+@end iftex
+ (javart:java_object/1)
+
+@code{Arg2} is a java event represented as an atom with the full event constructor name (e.g., 'java.awt.event.ActionListener').
+@iftex
+@hfill
+@end iftex
+ (javart:java_event/1)
+
+@code{Arg3} is a prolog predicate. Prolog term that represents the goal that must be invoked when the event raises on the object. The predicate arguments can be java objects, or even the result of java methods. These java objects will be evaluated when the event raises (instead of when the listener is added). The arguments that represent java objects must be instantiated to already created objects. The variables will be kept uninstantiated when the event raises and the predicate is called.
+@iftex
+@hfill
+@end iftex
+ (javart:prolog_goal/1)
+@end itemize
+@end deffn
+@sp 1
+
