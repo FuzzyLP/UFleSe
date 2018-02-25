@@ -21,6 +21,10 @@
 
 <%@page import="filesAndPaths.ProgramFileInfo"%>
 
+<%@page import="fileConverters.CSVWriter"%>
+<%@page import="fileConverters.JSONFlattener"%>
+<%@page import="java.io.File"%>
+
 <div class="fileViewTable">
 	<% 
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
@@ -81,24 +85,14 @@
 			}
 			else if (fileName.endsWith("json")){
 				json = true;
-				String jsonValue = "";
-				for (int i=0; i< fileContents.length; i++) {
-					jsonValue= jsonValue + fileContents[i];
-				}
-				System.out.print(jsonValue);
-				JSONArray jsonArr = new JSONArray(jsonValue);
 				
-				if(jsonArr.length() > 0)
+				List<Map<String, String>> flatJson = JSONFlattener.parseJson(new File(filePath), "UTF-8");
+				Set<String> headers = CSVWriter.collectHeaders(flatJson);
+				String[] headerArray = headers.toArray(new String[0]);
+				
+				if(headerArray.length > 0)
 					{
-					JSONObject object = jsonArr.getJSONObject(0);
-					int numberOfColumns = object.length();
-					Iterator keysToCopyIterator = object.keys();
-					List<String> keysList = new ArrayList<String>();
-					while(keysToCopyIterator.hasNext()) {
-					    String key = (String) keysToCopyIterator.next();
-					    keysList.add(key);
-					}
-					
+					int numberOfColumns = headerArray.length;
 					%>
 					Select the types for the columns:
 					<br>
@@ -110,7 +104,7 @@
 					{
 						%>
 						<form action="types">
-						<label><%=keysList.get(i)%></label>
+						<label><%=headerArray[i]%></label>
 						<select name="selectType [<%= i %>]" onchange="setType(this, <%= i %>);">
 						  <option value=1>String</option> 
 	 					  <option value=2>Integer</option> 

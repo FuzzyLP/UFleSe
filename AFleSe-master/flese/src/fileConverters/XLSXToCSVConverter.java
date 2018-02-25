@@ -14,6 +14,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class XLSXToCSVConverter {
 
+	/**
+     * convert the XLSX to CSV using the separator
+     *
+     * @param inputFile
+     * @param outputFie
+     * @param separator
+     *
+     */
 	public static void convert(File inputFile, File outputFile, String separator) {
 		// For storing data into CSV files
 		StringBuffer data = new StringBuffer();

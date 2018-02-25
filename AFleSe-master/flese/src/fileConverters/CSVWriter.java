@@ -135,7 +135,7 @@ public class CSVWriter {
      *
      * @return a Set of headers
      */
-    private static Set<String> collectHeaders(List<Map<String, String>> flatJson) {
+    public static Set<String> collectHeaders(List<Map<String, String>> flatJson) {
         Set<String> headers = new LinkedHashSet<String>();
 
         for (Map<String, String> map : flatJson) {

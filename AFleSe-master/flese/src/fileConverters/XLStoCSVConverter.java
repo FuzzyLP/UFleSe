@@ -13,6 +13,16 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 public class XLStoCSVConverter {
+	
+	
+	/**
+     * convert the XLS to CSV using the separator
+     *
+     * @param inputFile
+     * @param outputFie
+     * @param separator
+     *
+     */
 	public static void convert(File inputFile, File outputFile, String separator) {
 		// For storing data into CSV files
 		StringBuffer data = new StringBuffer();
