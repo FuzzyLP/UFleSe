@@ -824,15 +824,67 @@ public class ProgramAnalysis {
 
 		String[] updatedModifier = modifierValue.split("</br>");
 		for (int loop = 0; loop < updatedModifier.length; loop++) {
-			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), updatedModifier[loop], predOwner), bw);
+			writeProgramParts(
+					updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), updatedModifier[loop], predOwner),
+					bw);
 		}
 
 		bw.close();
 		return 0;
 	}
 
-	private ArrayList<ProgramPartAnalysis> updateAffectedProgramParts(ArrayList<ProgramPartAnalysis> programPartsAffected,
-			String modifierValue, String predOwner) {
+	public int updateProgramFileForDefaultSimiarity(LocalUserInfo localUserInfo, String mode, String databaseNameValue)
+			throws Exception {
+		LOG.info("saving the defaut similarity" + databaseNameValue + " in mode " + mode);
+
+		if ("".equals(databaseNameValue))
+			throw new Exception("Database Name cannot be empty string.");
+		if ("".equals(mode)) {
+			mode = KConstants.Request.modeBasic;
+		}
+
+		String predOwner = localUserInfo.getLocalUserName();
+		if ((localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner()))
+				&& (KConstants.Request.modeAdvanced.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		if ((KConstants.Request.modeEditingDefault.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		ProgramPartAnalysis programPart = null;
+
+		if (programFileInfo.existsFile(false)) {
+			programFileInfo.remove();
+		}
+		File file = programFileInfo.createFile(true);
+
+		ArrayList<ProgramPartAnalysis> programPartsAffected = new ArrayList<ProgramPartAnalysis>();
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+			writeProgramPart(programPart, bw);
+		}
+
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createDefaultSimilarityFunction(databaseNameValue), predOwner), bw);
+
+		bw.close();
+		return 0;
+	}
+
+	private String createDefaultSimilarityFunction(String databaseNameValue) {
+		String defaultSimilarityFunction = KConstants.Fuzzifications.similarityFunction + "(" + databaseNameValue + ","
+				+ "X" + "," + "X" + "," + "1" + "):- ground(" + "X" + ")";
+		return defaultSimilarityFunction;
+	}
+
+	private ArrayList<ProgramPartAnalysis> updateAffectedProgramParts(
+			ArrayList<ProgramPartAnalysis> programPartsAffected, String modifierValue, String predOwner) {
 		boolean updated = false;
 
 		if (!updated) {

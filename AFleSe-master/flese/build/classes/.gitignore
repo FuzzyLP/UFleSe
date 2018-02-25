@@ -1,3 +1,10 @@
+/CiaoJava/
+/authProviders/
+/auxiliar/
+/constants/
+/conversors/
+/fileConverters/
+/filesAndPaths/
 /filters/
 /logs/
 /managers/
@@ -8,5 +15,3 @@
 /servlets/
 /storeHouse/
 /urls/
-/fileConverters/
-/constants/

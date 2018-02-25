@@ -224,6 +224,31 @@ public class FuzzificationsManager extends AbstractManager {
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SaveSimilarityPage, ""));
 	}
 	
+	public void saveDefaultSimilarity() throws Exception{
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+
+		int databaseIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
+		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+
+		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
+		
+		int result = -1;
+
+		result = programAnalized.updateProgramFileForDefaultSimiarity(localUserInfo, mode, databaseName);
+
+		String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+				+ " has NOT been updated. ";
+		if (result == 0) {
+			msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+					+ " has been updated. ";
+		}
+
+		resultsStoreHouse.addResultMessage(msg);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SaveSimilarityPage, ""));
+	}
 	public void saveModifier() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
