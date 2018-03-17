@@ -9,6 +9,15 @@
 	for (int i=0; i<msgs.length; i++) {
 		out.println(msgs[i]);
 	}
+	
+	
 %>
+
+<script type="text/javascript">
+window.location.reload();
+
+location.reload(true)
+
+</script>
 
 <!-- END -->

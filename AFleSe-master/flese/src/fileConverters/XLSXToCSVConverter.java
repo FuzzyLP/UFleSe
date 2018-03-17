@@ -53,7 +53,7 @@ public class XLSXToCSVConverter {
 						break;
 
 					case Cell.CELL_TYPE_NUMERIC:
-						data.append(cell.getNumericCellValue());
+						data.append(((int) cell.getNumericCellValue()));
 						break;
 
 					case Cell.CELL_TYPE_STRING:

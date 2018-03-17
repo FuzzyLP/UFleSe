@@ -70,6 +70,9 @@ public class KUrls {
 		public static final UrlMap SaveXLSPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
 		public static final UrlMap SaveXLS = getUrlMap(manager, "convertXLS", SaveXLSXPage, KUrls.Pages.Exception, "");
 		
+		public static final UrlMap SaveSQLPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveSQL = getUrlMap(manager, "convertSQL", SaveSQLPage, KUrls.Pages.Exception, "");
+	
 		public static final UrlMap DownloadPage = getUrlMap(manager, "downloadPage", null, null, "WEB-INF/files/download.jsp");
 		public static final UrlMap Download = getUrlMap(manager, "download", DownloadPage, KUrls.Pages.Exception, "");
 
