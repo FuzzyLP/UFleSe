@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -774,16 +775,77 @@ public class ProgramAnalysis {
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
 
+		boolean occurrence = false;
+
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
 			writeProgramPart(programPart, bw);
+			if (programPart.getHead() != null
+					&& programPart.getHead().startsWith(KConstants.Fuzzifications.similarityFunction)) {
+				List<String> parsedSimilarity = parseSimilarity(programPart.getHead());
+				if (parsedSimilarity.size() > 0) {
+					if (parsedSimilarity.get(0).equals(databaseName) && parsedSimilarity.get(1).equals(columnName)
+							&& ((parsedSimilarity.get(2).equals(value1) && parsedSimilarity.get(3).equals(value2))
+									|| (parsedSimilarity.get(3).equals(value1)
+											&& parsedSimilarity.get(2).equals(value2)))) {
+						occurrence = true;
+					}
+				}
+			}
+
 		}
 
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
-				value1, value2, similartyValue, predOwner), bw);
+		int result = -1;
+		if (!occurrence) {
+			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+					value1, value2, similartyValue, predOwner), bw);
+
+			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+					value2, value1, similartyValue, predOwner), bw); // counterpart
+																		// with
+																		// same
+																		// similarity
+																		// value
+
+			result = 0;
+		}
 
 		bw.close();
-		return 0;
+		return result;
+	}
+
+	private List<String> parseSimilarity(String function) {
+		List<String> similarityFunctionParts = new ArrayList<String>();
+		String[] temp = function.split("\\(", 2);
+		String[] functionParts = temp[1].split(",");
+
+		try {
+			similarityFunctionParts.add(functionParts[0]); // database
+
+			if (!functionParts[1].equals("X") && !functionParts[1].equals("Y")) {
+				temp = functionParts[1].split("\\(", 2);
+				similarityFunctionParts.add(temp[0].trim()); // table column
+				similarityFunctionParts.add(temp[1].replaceAll("\\)", "").trim()); // first
+																			// value
+			} else {
+				similarityFunctionParts.add(functionParts[1].trim()); // table column
+				similarityFunctionParts.add(functionParts[1].trim()); // first
+
+			}
+
+			if (!functionParts[2].trim().equals("X") && !functionParts[2].trim().equals("Y")) {
+				temp = functionParts[2].split("\\(", 2);
+				similarityFunctionParts.add(temp[1].replaceAll("\\)", "").trim()); // second
+																			// value
+			} else {
+				similarityFunctionParts.add(functionParts[2].trim()); // second
+			}
+			similarityFunctionParts.add(functionParts[3].trim()); // similarity value
+		} catch (IndexOutOfBoundsException ind) {
+			throw ind;
+		}
+
+		return similarityFunctionParts;
 	}
 
 	public int updateProgramFile(LocalUserInfo localUserInfo, String mode, String modifierValue) throws Exception {
@@ -873,13 +935,22 @@ public class ProgramAnalysis {
 		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
 				createDefaultSimilarityFunction(databaseNameValue), predOwner), bw);
 
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createDefaulDifferencetSimilarityFunction(databaseNameValue), predOwner), bw);
+
 		bw.close();
 		return 0;
 	}
 
 	private String createDefaultSimilarityFunction(String databaseNameValue) {
 		String defaultSimilarityFunction = KConstants.Fuzzifications.similarityFunction + "(" + databaseNameValue + ","
-				+ "X" + "," + "X" + "," + "1" + "):- ground(" + "X" + ")";
+				+ "X" + ", " + "X" + ", " + "1" + "):- ground(" + "X" + ")";
+		return defaultSimilarityFunction;
+	}
+
+	private String createDefaulDifferencetSimilarityFunction(String databaseNameValue) {
+		String defaultSimilarityFunction = KConstants.Fuzzifications.similarityFunction + "(" + databaseNameValue + ","
+				+ "X" + ", " + "Y" + ", " + "0" + "):- ground(" + "X" + "), " + "ground(" + "Y" + "), " + "X\\=Y";
 		return defaultSimilarityFunction;
 	}
 

@@ -20,6 +20,7 @@ import fileConverters.XLSXToCSVConverter;
 import fileConverters.XLStoCSVConverter;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
+import programAnalysis.ProgramAnalysis;
 import storeHouse.CacheStoreHouseCleaner;
 
 public class FilesManager extends AbstractManager {
@@ -109,6 +110,7 @@ public class FilesManager extends AbstractManager {
 	{
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+
 		if (!(localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner())))
 			resultsStoreHouse.addResultMessage("You do not own the program file. So, you cannot translate it.");
 		else {
@@ -121,11 +123,21 @@ public class FilesManager extends AbstractManager {
 			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
-				
-				String msg = "File successfully converted.";
+
+				String[] temp = programFileInfo.getFileName().split("\\.");
+
+				int result = addDefaultSimilarity(programFileInfo, temp[0], localUserInfo);
+
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by "
+						+ programFileInfo.getFileOwner() + " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by "
+							+ programFileInfo.getFileOwner() + " has been updated. ";
+					resultsStoreHouse.addResultMessage(msg);
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SavePage, ""));
+				}
 				resultsStoreHouse.addResultMessage(msg);
-				setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SavePage, ""));
-				
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
@@ -141,6 +153,7 @@ public class FilesManager extends AbstractManager {
 	{
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+
 		if (!(localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner())))
 			resultsStoreHouse.addResultMessage("You do not own the program file. So, you cannot translate it.");
 		else {
@@ -164,17 +177,39 @@ public class FilesManager extends AbstractManager {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
 				tempFile.delete();
-				
-				String msg = "File successfully converted.";
+
+				int result = addDefaultSimilarity(programFileInfo, temp[0], localUserInfo);
+
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by "
+						+ programFileInfo.getFileOwner() + " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by "
+							+ programFileInfo.getFileOwner() + " has been updated. ";
+					resultsStoreHouse.addResultMessage(msg);
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveJsonPage, ""));
+				}
 				resultsStoreHouse.addResultMessage(msg);
-				setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveJsonPage, ""));
-				
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
 			}
 
 		}
+
+	}
+
+	public int addDefaultSimilarity(ProgramFileInfo programFileInfo, String filename, LocalUserInfo localUserInfo)
+			throws Exception {
+		ProgramFileInfo updatedProgramFileInfo = new ProgramFileInfo(programFileInfo.getFileOwner(),
+				filename.toLowerCase() + ".pl");
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(updatedProgramFileInfo);
+
+		int result = -1;
+
+		result = programAnalized.updateProgramFileForDefaultSimiarity(localUserInfo, "", "_");
+
+		return result;
 
 	}
 
@@ -204,11 +239,18 @@ public class FilesManager extends AbstractManager {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
 				tempFile.delete();
-				
-				String msg = "File successfully converted.";
+
+				int result = addDefaultSimilarity(programFileInfo, temp[0], localUserInfo);
+
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by "
+						+ programFileInfo.getFileOwner() + " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by "
+							+ programFileInfo.getFileOwner() + " has been updated. ";
+					resultsStoreHouse.addResultMessage(msg);
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSXPage, ""));
+				}
 				resultsStoreHouse.addResultMessage(msg);
-				setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSXPage, ""));
-				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
@@ -244,11 +286,18 @@ public class FilesManager extends AbstractManager {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
 				tempFile.delete();
-				
-				String msg = "File successfully converted.";
+
+				int result = addDefaultSimilarity(programFileInfo, temp[0], localUserInfo);
+
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by "
+						+ programFileInfo.getFileOwner() + " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by "
+							+ programFileInfo.getFileOwner() + " has been updated. ";
+					resultsStoreHouse.addResultMessage(msg);
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSPage, ""));
+				}
 				resultsStoreHouse.addResultMessage(msg);
-				setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSXPage, ""));
-				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;
@@ -284,12 +333,19 @@ public class FilesManager extends AbstractManager {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
 				tempFile.delete();
-				
 
-				String msg = "File successfully converted.";
+				int result = addDefaultSimilarity(programFileInfo, temp[0], localUserInfo);
+
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by "
+						+ programFileInfo.getFileOwner() + " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by "
+							+ programFileInfo.getFileOwner() + " has been updated. ";
+					resultsStoreHouse.addResultMessage(msg);
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveSQLPage, ""));
+				}
 				resultsStoreHouse.addResultMessage(msg);
-				setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveSQLPage, ""));
-				
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				return;

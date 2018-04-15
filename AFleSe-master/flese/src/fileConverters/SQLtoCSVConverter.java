@@ -24,7 +24,7 @@ public class SQLtoCSVConverter {
 				if (oneQuery.contains("CREATE")) {
 					List<String> parsedData = SQLParser.createQueryParse(oneQuery);
 					for (int loop = 0; loop < parsedData.size(); loop++) {
-						data.append(parsedData.get(loop));
+						data.append(parsedData.get(loop).replaceAll("'", ""));
 						if (loop < (parsedData.size() - 1)) {
 							data.append(separator);
 						}
@@ -32,7 +32,7 @@ public class SQLtoCSVConverter {
 				} else if (oneQuery.contains("INSERT")) {
 					List<String> parsedData = SQLParser.insertQueryParse(oneQuery);
 					for (int loop = 0; loop < parsedData.size(); loop++) {
-						data.append(parsedData.get(loop));
+						data.append(parsedData.get(loop).replaceAll("'", ""));
 						if (loop < (parsedData.size() - 1)) {
 							data.append(separator);
 						}
