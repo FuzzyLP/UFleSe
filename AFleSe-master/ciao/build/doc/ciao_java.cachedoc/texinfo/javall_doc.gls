@@ -1,0 +1,88 @@
+\initial {A}
+\entry {\code {assertions}}{9, 17, 21}
+\initial {B}
+\entry {\code {bind_socket_interface/1}}{21}
+\initial {C}
+\entry {\code {compiler}}{17}
+\entry {\code {concurrency}}{9, 17, 21}
+\entry {\code {condcomp}}{9, 17, 21}
+\initial {D}
+\entry {\code {Distributed Programming Model}}{3}
+\initial {F}
+\entry {\code {fastrw}}{21}
+\entry {\code {format}}{21}
+\initial {I}
+\entry {\code {is_connected_to_java/0}}{21, 23}
+\entry {\code {iso_char}}{9}
+\entry {\code {isomodes}}{9, 17, 21}
+\initial {J}
+\entry {\code {Java event handling from Prolog}}{6}
+\entry {\code {Java exception handling from Prolog}}{9}
+\entry {\code {Java to Prolog interface}}{17}
+\entry {\code {java_add_listener/3}}{9, 13}
+\entry {\code {java_connect/2}}{9, 10}
+\entry {\code {java_constructor/1}}{9, 11}
+\entry {\code {java_create_object/2}}{9, 12}
+\entry {\code {java_debug/1}}{21, 23}
+\entry {\code {java_debug_redo/1}}{21, 23}
+\entry {\code {java_delete_object/1}}{9, 12}
+\entry {\code {java_disconnect/0}}{9, 10}
+\entry {\code {java_event/1}}{9, 11}
+\entry {\code {java_field/1}}{9, 11}
+\entry {\code {java_get_value/2}}{9, 13}
+\entry {\code {java_invoke_method/2}}{9, 12}
+\entry {\code {java_method/1}}{9, 12}
+\entry {\code {java_object/1}}{9, 11}
+\entry {\code {java_query/2}}{21, 22}
+\entry {\code {java_remove_listener/3}}{9, 14}
+\entry {\code {java_response/2}}{21, 22}
+\entry {\code {java_set_value/2}}{9, 13}
+\entry {\code {java_start/0}}{9}
+\entry {\code {java_start/1}}{9}
+\entry {\code {java_start/2}}{9, 10}
+\entry {\code {java_stop/0}}{9, 10}
+\entry {\code {java_use_module/1}}{9, 11}
+\entry {\code {javart}}{5, 21}
+\entry {\code {javasock}}{9, 17, 21}
+\entry {\code {Jesus Correas}}{5, 17, 21}
+\entry {\code {join_socket_interface/0}}{21, 22}
+\entry {\code {jtopl}}{17, 21}
+\initial {L}
+\entry {\code {lists}}{9}
+\initial {M}
+\entry {\code {machine_name/1}}{9, 10}
+\initial {N}
+\entry {\code {nonpure}}{9, 17, 21}
+\initial {P}
+\entry {\code {Platform independence}}{3}
+\entry {\code {prelude}}{9, 17, 21}
+\entry {\code {process}}{9}
+\entry {\code {Prolog server}}{18}
+\entry {\code {Prolog to Java Interface Structure}}{5}
+\entry {\code {Prolog to Java Interface Structure. Java side}}{5}
+\entry {\code {Prolog to Java Interface Structure. Prolog side}}{5}
+\entry {\code {prolog_goal/1}}{9, 11}
+\entry {\code {prolog_query/2}}{21, 22}
+\entry {\code {prolog_response/2}}{21, 22}
+\entry {\code {prolog_server/0}}{17}
+\entry {\code {prolog_server/1}}{17, 18}
+\entry {\code {prolog_server/2}}{17, 18}
+\initial {Q}
+\entry {\code {query_requests/2}}{17, 18}
+\entry {\code {query_solutions/2}}{17, 18}
+\initial {R}
+\entry {\code {read}}{9, 17}
+\entry {\code {read_from_string}}{17}
+\entry {\code {regtypes}}{9, 17, 21}
+\entry {\code {running_queries/2}}{17, 19}
+\initial {S}
+\entry {\code {shell_s/0}}{17, 18}
+\entry {\code {Socket implementation}}{21}
+\entry {\code {sockets}}{21}
+\entry {\code {sockets_io}}{21}
+\entry {\code {start_socket_interface/2}}{21}
+\entry {\code {start_threads/0}}{21, 23}
+\entry {\code {stop_socket_interface/0}}{21, 22}
+\entry {\code {system}}{9, 17}
+\initial {W}
+\entry {\code {write}}{9}

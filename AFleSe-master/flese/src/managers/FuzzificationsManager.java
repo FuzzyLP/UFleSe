@@ -36,8 +36,10 @@ public class FuzzificationsManager extends AbstractManager {
 		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
 		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFuzzifications(localUserInfo, "", "",
 				mode);
+
 		resultsStoreHouse.setProgramFileInfo(programFileInfo);
 		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+		resultsStoreHouse.setProgramPart(programAnalized.getProgramParts());
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.ListPage, ""));
 
@@ -207,10 +209,37 @@ public class FuzzificationsManager extends AbstractManager {
 
 		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
 		String columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
-		
+
 		int result = -1;
 
-		result = programAnalized.updateProgramFile(localUserInfo, databaseName, columnName,value1,value2, mode, similartyValue);
+		result = programAnalized.updateProgramFile(localUserInfo, databaseName, columnName, value1, value2, mode,
+				similartyValue);
+
+		String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+				+ " has NOT been updated because of same similarity function already defined. ";
+		if (result == 0) {
+			msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+					+ " has been updated. ";
+		}
+
+		resultsStoreHouse.addResultMessage(msg);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SaveSimilarityPage, ""));
+	}
+
+	public void saveDefaultSimilarity() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+
+		int databaseIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
+		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+
+		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
+
+		int result = -1;
+
+		result = programAnalized.updateProgramFileForDefaultSimiarity(localUserInfo, mode, databaseName);
 
 		String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
 				+ " has NOT been updated. ";
@@ -223,7 +252,7 @@ public class FuzzificationsManager extends AbstractManager {
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SaveSimilarityPage, ""));
 	}
-	
+
 	public void saveModifier() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();

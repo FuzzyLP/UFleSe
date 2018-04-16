@@ -89,6 +89,12 @@
 			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
 			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
 	JspsUtils.getValue(saveUrl);
+	
+	String saveDefaultUrl = KUrls.Fuzzifications.SaveDefaultSimilarity.getUrl(true) + "&" + KConstants.Request.fileNameParam
+			+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
+			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
+			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
+	JspsUtils.getValue(saveDefaultUrl);
 %>
 <div class='personalizationDivFuzzificationFunctionWithButtonTableRow'>
 	<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
@@ -98,6 +104,10 @@
 					<INPUT type='submit' value='Save modifications'
 						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)">
 				</div>
+				<%-- <div class='personalizationDivSaveButtonAndMsgTableCell'>
+					<INPUT type='submit' value='Add Default Similarity'
+						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveDefaultUrl%>', value1, value2, defaultValueResult)">
+				</div> --%>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
 					&nbsp;&nbsp;&nbsp;&nbsp;</div>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'

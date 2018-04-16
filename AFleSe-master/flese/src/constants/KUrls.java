@@ -61,6 +61,18 @@ public class KUrls {
 		public static final UrlMap SavePage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
 		public static final UrlMap Save = getUrlMap(manager, "save", SavePage, KUrls.Pages.Exception, "");
 
+		public static final UrlMap SaveJsonPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveJson = getUrlMap(manager, "convertJson", SaveJsonPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap SaveXLSXPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveXLSX = getUrlMap(manager, "convertXLSX", SaveXLSXPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap SaveXLSPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveXLS = getUrlMap(manager, "convertXLS", SaveXLSXPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap SaveSQLPage = getUrlMap(manager, "", null, null, "WEB-INF/files/save.jsp");
+		public static final UrlMap SaveSQL = getUrlMap(manager, "convertSQL", SaveSQLPage, KUrls.Pages.Exception, "");
+	
 		public static final UrlMap DownloadPage = getUrlMap(manager, "downloadPage", null, null, "WEB-INF/files/download.jsp");
 		public static final UrlMap Download = getUrlMap(manager, "download", DownloadPage, KUrls.Pages.Exception, "");
 
@@ -155,6 +167,9 @@ public class KUrls {
 
 		public static final UrlMap SaveSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
 		public static final UrlMap SaveSimilarity = getUrlMap(manager, "saveSimilarity", EditPage, KUrls.Pages.Exception, "");
+
+		public static final UrlMap SaveDefaultSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
+		public static final UrlMap SaveDefaultSimilarity = getUrlMap(manager, "saveDefaultSimilarity", EditPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap AddModifierPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/addModifier.jsp");
 		public static final UrlMap AddModifier = getUrlMap(manager, "addModifier", EditPage, KUrls.Pages.Exception, "");

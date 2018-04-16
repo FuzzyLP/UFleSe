@@ -13,6 +13,8 @@
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
 	ProgramFileInfo programFileInfo = resultsStoreHouse.getProgramFileInfo();
+	ArrayList<ProgramPartAnalysis> programParts = resultsStoreHouse.getProgramPart();
+	
 	ProgramPartAnalysis [][] fuzzifications = resultsStoreHouse.getProgramPartAnalysis();
 	String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
 	String urlEditFuzzification = KUrls.Fuzzifications.Edit.getUrl(true);

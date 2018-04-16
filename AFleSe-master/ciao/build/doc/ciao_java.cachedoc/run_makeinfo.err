@@ -1,0 +1,5 @@
+./javall_docrefs.texic:2: warning: unreferenced node `References'
+javall_doc.texic:109: node `Top' lacks menu item for `References' despite being its Up target
+Output file /home/aniqa/Documents/Flese/FleseV2/AFleSe-master/ciao/build/doc/ciao_java.info.tmp
+./javart.texic:75: warning: could not find @image file `ciao_java.cachedoc/texinfo/ip2jbn-events-pl-reg_autofig.txt' nor alternate text
+./javart.texic:79: warning: could not find @image file `ciao_java.cachedoc/texinfo/ip2jbn-events-pl-fire_autofig.txt' nor alternate text
