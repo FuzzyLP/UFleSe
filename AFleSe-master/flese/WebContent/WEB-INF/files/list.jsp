@@ -1,3 +1,4 @@
+
 <%@page import="constants.KUrls"%>
 <%@page import="constants.KConstants"%>
 <%@page import="auxiliar.JspsUtils"%>
@@ -24,15 +25,19 @@
 	
 	if ((filesList.length > 0)&&(FilesManagerAux.sharedfiles(localUserInfo.getLocalUserName()))) {
 %>
+
 <!DOCTYPE html>
 <html>
 <body>
 
-<div class='filesListTableRow'>
-	<div class='filesListTableCell'>Data File Name</div>
-	<div class='filesListTableCell'>Sharing</div>
-	<div class='filesListTableCell'></div>
-</div>
+<!-- <div class='filesListTableRow'>
+
+	<div class='filesListTableCell'> <h6>
+	DATA FILES</h6></div>
+	<div class='filesListTableCell'><h6>SHARING STATUS</h6></div>
+	<div class='filesListTableCell'><h6>REMOVE FILE</h6></div>
+	<div class='filesListTableCell'><h6>PERSONALIZE</h6></div>
+</div> -->
 <%	}
 	else {
 %>
@@ -54,29 +59,29 @@
 	String s = "";
 	String buttonValue = "";
 	if (filesList[i].getSharingState()){
-		 s = "images/ok.png";
-		 buttonValue = "Public";
+		 s = "images/okk.png";
+		 buttonValue = "PUBLIC";
 		} else {
-			 s = "images/cross.gif";
-			 buttonValue = "Private";
+			 s = "images/cross.png";
+			 buttonValue = "PRIVATE";
 		}
 		%>
 	<div class='filesListTableCell'>
 		<img src=<%=s %> width='20em'>
-	<button onclick='changeSharingState("<%= urlChangeState %>", "<%= params %>");'><%= buttonValue %></button>
+	<button id='sharingButon' onclick='changeSharingState("<%= urlChangeState %>", "<%= params %>");'><%= buttonValue %></button>
 	<p id="demo"></p>
 	</div>
 	<div class='filesListTableCell'>
 		<a href='#'
 			onclick='removeFileAction("<%= urlFileRemoval %>", "<%= params %>");'
-			title='remove program file <%= filesList[i].getFileName() %>'> <img
-			src='images/bin.png' width='20em'></a>
+			title='remove program file <%= filesList[i].getFileName() %>'>
+			<img src='images/bin.png' width='30em'> </a>
 	</div>
 	<div class='filesListTableCell'>
 		<a href='#'
 			onclick='return personalizeProgramFile("<%=urlListFuzzifications%>", "<%= params %>", "<%=filesList[i].getFileName() %>");'
-			title='personalize program file <%= filesList[i].getFileName() %>'>
-			<img src='images/edit.png' width='20em'>
+			title='personalize program file <%= filesList[i].getFileName() %>'> <label>PERSONALIZE</label>
+			<!-- <img src='images/edit.png' width='20em'>  -->
 		</a>
 	</div>
 </div>
@@ -84,12 +89,9 @@
 
 <div id='<%=KConstants.JspsDivsIds.fileViewContentsDiv %>'
 	class='filesListTable' style='display: none;'></div>
-
-
-
-
-
-</body>
+	
+	</body>
 </html>
 
 <!-- END -->
+

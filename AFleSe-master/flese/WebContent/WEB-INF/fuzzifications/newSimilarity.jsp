@@ -47,7 +47,7 @@
 								class="personalizationDivFuzzificationFunctionValuesTableRow">
 								<div
 									class="personalizationDivFuzzificationFunctionValuesTableCell">
-									Select Database for defining Similarity:</div>
+									SELECT THE DATA FILE FOR DEFINING SIMILARITY:</div>
 								<div
 									class="personalizationDivFuzzificationFunctionValuesTableCell">
 									<select id='predNecessary'

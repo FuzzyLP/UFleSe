@@ -16,12 +16,12 @@ html {
 }
 
 body {
-	background-color: #EBE8D9;
-	color: #000000;
-	margin: 1em;
-	padding: 1em;
+	margin: 0px;
+	padding: 0px;
 	width: 100%;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-align: left;
+	position: absolute;
 }
 
 hr {
@@ -354,48 +354,50 @@ div {
 	text-align: center;
 }
 
-.filesListTable {
-	display: table;
-	border: 0.1em solid #000000;
-	margin: 1em;
+/***********new design ************/
+.filesListTableRow {
+	display: table-row;
+	border: 0.1em solid grey;
+	align-content: center; 
+
+}
+
+.filesListTableCell {
+	display: table-cell;
+	border: 0 solid grey;
 	text-align: center;
+	border-bottom: 1px solid gray;
+	align-content: center;
+	padding: 10px 10px 5px 10px;
+	
+  
+}
+
+.filesListTable {
+	display: inline-table;
+	text-align: center;
+	position:absolute;
+	margin: 70px 30px 50px 3px;
+	align-content: center; 
+height: 20px;
+	width: 550px;
+	background-color: #29363F;
+	
+	
 }
 
 .filesListTableRow {
 	display: table-row;
 	border: 0.1em solid grey;
 	text-align: left;
-	padding: 0.1em;
+	align-content: center; 
+	
 }
-
-.filesListTableCell {
-	display: table-cell;
-	border: 0.1em solid grey;
-	text-align: left;
-	padding: 0.1em;
-}
-
-.filesListTable {
-	display: table;
-	border: 0.1em solid #000000;
-	margin: 1em;
-	text-align: center;
-}
-
-.filesListTableRow {
-	display: table-row;
-	border: 0.1em solid grey;
-	text-align: left;
-	padding: 0.1em;
-}
-
-.filesListTableCell {
-	display: table-cell;
-	border: 0.1em solid grey;
-	text-align: left;
-	padding: 0.1em;
-}
-
+.filesListTableCell h6{
+	color: white;
+	font-size: 0.8em;
+font-family: arial; }
+/******************/
 .fileViewTableCell {
 	display: table-cell;
 	border: 0em solid grey;
@@ -945,4 +947,81 @@ input:checked + .slider:before {
 
 .hiddenDefault{
 	display:none;
+}
+
+/*********** New Flese Style *******/ 
+
+	
+#bttn2{
+	padding: 10px 89px 10px 100px;
+	vertical-align: middle;
+  background: #29363F;
+	color: #ffffff;
+	border-color: #6ED9A1;
+	outline: none;
+	font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	font-size: 15px;	
+	font-family: sans-serif;
+	border: 1px solid #6ED9A1;
+}
+
+#bttn{
+	cursor: pointer;
+	position: absolute; 
+	background: #6ED9A1;
+	padding: 11px 50px;
+	color: #ffffff;
+	border: none;
+	outline: none;
+	font-weight: 500;
+	text-decoration: none;
+	margin:  0 0 0 0;
+	text-align: center;
+	font-size: 15px;	
+	font-family: sans-serif;
+	
+}
+.filesListTableCell a{
+	color:white;
+}
+	  
+
+.filesListTableCell button{
+	padding: 0px 10px 0px 10px;
+	border-radius: 4px;
+	cursor:pointer;
+  background: lightslategrey;
+	color: white;
+	border-color: gray;
+	border-color: gray;
+	font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	font-size: 14px;	
+	font-weight:20;
+	font-family: sans-serif;
+	border: 1px solid lightslategray;
+}
+
+.filesListTableCell label{
+	cursor: pointer;
+	padding: 0px 10px 0px 10px;
+	border-radius: 4px;
+  background: lightslategrey;
+	color: white;
+	border-color: gray;
+	border-color: gray;
+	font-weight: 600;
+	text-decoration: none;
+	text-align: center;
+	font-size: 14px;	
+	font-weight:20;
+	font-family: sans-serif;
+	border: 1px solid lightslategray;
+}
+
+#ontologyStartDivId{
+	display: none;
 }

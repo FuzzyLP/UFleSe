@@ -37,7 +37,7 @@
 %>
 
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-		Select Column for defining Similarity:</div>
+		SELECT THE FIELD FOR DEFINING SIMILARITY:</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		<select id='predNecessary'
 			onchange="selectedColumnChanged('<%=KConstants.JspsDivsIds.fuzzificationSimilarityValueId%>',this, '<%=url1%>');">

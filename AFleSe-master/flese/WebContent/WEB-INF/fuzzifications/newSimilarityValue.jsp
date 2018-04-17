@@ -44,7 +44,7 @@
 
 <div class="personalizationDivFuzzificationFunctionValuesTableRow">
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-		Select values between which defining Similarity:</div>
+		CHOOSE THE ITEMS FOR DEFINING THEIR SIMILARITIES:</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		<select id='value1' onchange='reloadOtherCombo()'>
 			<option selected="selected" value="---" />
@@ -73,7 +73,7 @@
 </div>
 <div class="personalizationDivFuzzificationFunctionValuesTableRow">
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-		Select the Similarity Value:</div>
+		DEFINE THE DEGREE OF SIMILARITY BETWEEN THE BOTH ITEMS:</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		<input type="range" name="defaultValue" min="0" max="1" step="0.01"
 			value="1" width="150px" id="defaultValue" onchange="setSlider()">

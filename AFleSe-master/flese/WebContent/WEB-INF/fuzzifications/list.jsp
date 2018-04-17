@@ -30,14 +30,15 @@
 	}
 	if (resultsStoreHouse.getProgramFileInfo().getFileName().endsWith(".pl")) {
 %>
-<center><br> Select the <strong> <%=textMode %> </strong> fuzzification you want to personalize: </center>
+<!--  <center><br> Select the <strong> <%=textMode %> </strong> fuzzification you want to personalize: </center> -->
+<center><br> <strong>DEFINING AND PERSONALIZING THE CRITERIAS</strong> </center>
 <div class='personalizationDivMainTable'>
 	<div class='personalizationDivMainTableRow'>
 		<div class='personalizationDivMainTableCell'>
 			<div class='personalizationDivSelectFuzzificationTable'>
 				<div class='personalizationDivSelectFuzzificationTableRow'>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
-						Personalization of already created Criterias: &nbsp;</div>
+				    Personalize The Existed Criterias: &nbsp;</div>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
 								<select name="personalizationSelectComboBoxId"
 							id="personalizationSelectComboBoxId"
@@ -78,14 +79,14 @@
 				
 				<div class='personalizationDivSelectFuzzificationTableRow'>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
-						Personalize the New Criterias:&nbsp;</div>
+						Define New Criterias:&nbsp;</div>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
 								<select name="personalizationSelectComboBoxId"
 							id="personalizationSelectComboBoxId"
 							onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId %>', '<%= urlEditFuzzification %>', '<%= urlNewFuzzification %>', '<%= urlDefineSimilarity %>', '<%= urlAddModifier %>');">
 							<%=JspsUtils.comboBoxDefaultValue() %>
 							
-							<option id='<%=id%>' title='New fuzzification' value='<%=id%>'>adding new fuzzification</option>
+							<option id='<%=id%>' title='New fuzzification' value='<%=id%>'>Define New Fuzzy Criteria</option>
 							
 							<%
 							id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() +
@@ -94,7 +95,7 @@
 							
 							
 							%>
-							<option id='<%=id%>' title='Define Similarity' value='<%=id%>'>defining new Similarity</option>
+							<option id='<%=id%>' title='Define Similarity' value='<%=id%>'> Define New Similarity Criteria</option>
 							<%
 							id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() +
 									"&" + KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + 
@@ -102,7 +103,7 @@
 							
 							
 							%>
-							<option id='<%=id%>' title='Add Modifier' value='<%=id%>'>adding Modifier</option>
+							<option id='<%=id%>' title='Add Modifier' value='<%=id%>'>Define The Modifiers</option>
 						</select>
 					</div>
 					
