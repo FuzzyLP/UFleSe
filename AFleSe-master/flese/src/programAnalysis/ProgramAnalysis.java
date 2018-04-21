@@ -24,6 +24,7 @@ import constants.ArrayStructure;
 import constants.KConstants;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
+import functionUtils.SimilarityFunction;
 
 public class ProgramAnalysis {
 	final Log LOG = LogFactory.getLog(ProgramAnalysis.class);
@@ -41,6 +42,8 @@ public class ProgramAnalysis {
 
 	private ProgramPartAnalysis[][] programFunctionsOrdered = null;
 	private LinkedList<ProgramPartAnalysis> programFields = new LinkedList<ProgramPartAnalysis>();
+
+	private List<SimilarityFunction> programSimilarityFnctions = null;
 
 	/**
 	 * Analizes the program file pointed by filePath.
@@ -116,6 +119,33 @@ public class ProgramAnalysis {
 		String fullPath = programFileInfo.getProgramFileFullPath();
 
 		CacheStoreHouse.store(ProgramAnalysis.class, fullPath, fullPath, fullPath, null, true);
+	}
+
+	public List<SimilarityFunction> getSimilarityFunctions() throws Exception {
+
+		LOG.info("getSimilarityFunctions");
+		if (programParts == null)
+			throw new Exception("programParts is null.");
+
+		// Cache.
+		if (programSimilarityFnctions != null) {
+			return programSimilarityFnctions;
+		}
+
+		programSimilarityFnctions = new ArrayList<SimilarityFunction>();
+
+		for (int i = 0; i < programParts.size(); i++) {
+			ProgramPartAnalysis programPart = programParts.get(i);
+			if (programPart.getHead() != null
+					&& programPart.getHead().startsWith(KConstants.Fuzzifications.similarityFunction)) {
+				SimilarityFunction parsedSimilarity = parseSimilarity(programPart.getHead());
+				if (parsedSimilarity != null && !parsedSimilarity.getDatabaseName().equals("_")) {
+					programSimilarityFnctions.add(parsedSimilarity);
+				}
+			}
+		}
+
+		return programSimilarityFnctions;
 	}
 
 	private ProgramPartAnalysis[][] getProgramFuzzifications() throws Exception {
@@ -779,20 +809,30 @@ public class ProgramAnalysis {
 
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
-			writeProgramPart(programPart, bw);
+
 			if (programPart.getHead() != null
 					&& programPart.getHead().startsWith(KConstants.Fuzzifications.similarityFunction)) {
-				List<String> parsedSimilarity = parseSimilarity(programPart.getHead());
-				if (parsedSimilarity.size() > 0) {
-					if (parsedSimilarity.get(0).equals(databaseName) && parsedSimilarity.get(1).equals(columnName)
-							&& ((parsedSimilarity.get(2).equals(value1) && parsedSimilarity.get(3).equals(value2))
-									|| (parsedSimilarity.get(3).equals(value1)
-											&& parsedSimilarity.get(2).equals(value2)))) {
-						occurrence = true;
+				SimilarityFunction parsedSimilarity = parseSimilarity(programPart.getHead());
+				if (parsedSimilarity != null && parsedSimilarity.getDatabaseName() != null && bw != null) {
+					if (parsedSimilarity.getDatabaseName().equals(databaseName)
+							&& parsedSimilarity.getTableName().equals(columnName)
+							&& ((parsedSimilarity.getColumnValue1().equals(value1)
+									&& parsedSimilarity.getColumnValue2().equals(value2))
+									|| (parsedSimilarity.getColumnValue2().equals(value1)
+											&& parsedSimilarity.getColumnValue1().equals(value2)))) {
+						if (!KConstants.Request.modeUpdate.equals(mode)) {
+							occurrence = true;
+							writeProgramPart(programPart, bw);
+						}
+					} else {
+						writeProgramPart(programPart, bw);
 					}
+				} else {
+					writeProgramPart(programPart, bw);
 				}
+			} else {
+				writeProgramPart(programPart, bw);
 			}
-
 		}
 
 		int result = -1;
@@ -814,38 +854,41 @@ public class ProgramAnalysis {
 		return result;
 	}
 
-	private List<String> parseSimilarity(String function) {
-		List<String> similarityFunctionParts = new ArrayList<String>();
+	private SimilarityFunction parseSimilarity(String function) {
+		SimilarityFunction simiarityParsed = new SimilarityFunction();
+
 		String[] temp = function.split("\\(", 2);
 		String[] functionParts = temp[1].split(",");
 
 		try {
-			similarityFunctionParts.add(functionParts[0]); // database
+			simiarityParsed.setDatabaseName(functionParts[0]); // database
 
 			if (!functionParts[1].equals("X") && !functionParts[1].equals("Y")) {
 				temp = functionParts[1].split("\\(", 2);
-				similarityFunctionParts.add(temp[0].trim()); // table column
-				similarityFunctionParts.add(temp[1].replaceAll("\\)", "").trim()); // first
-																			// value
+				simiarityParsed.setTableName(temp[0].trim()); // table column
+				simiarityParsed.setColumnValue1(temp[1].replaceAll("\\)", "").trim()); // first
+				// value
 			} else {
-				similarityFunctionParts.add(functionParts[1].trim()); // table column
-				similarityFunctionParts.add(functionParts[1].trim()); // first
+				simiarityParsed.setTableName(functionParts[1].trim()); // table
+																		// column
+				simiarityParsed.setColumnValue1(functionParts[1].trim()); // first
 
 			}
 
 			if (!functionParts[2].trim().equals("X") && !functionParts[2].trim().equals("Y")) {
 				temp = functionParts[2].split("\\(", 2);
-				similarityFunctionParts.add(temp[1].replaceAll("\\)", "").trim()); // second
-																			// value
+				simiarityParsed.setColumnValue2(temp[1].replaceAll("\\)", "").trim()); // second
+				// value
 			} else {
-				similarityFunctionParts.add(functionParts[2].trim()); // second
+				simiarityParsed.setColumnValue2(functionParts[2].trim()); // second
 			}
-			similarityFunctionParts.add(functionParts[3].trim()); // similarity value
+			simiarityParsed.setSimilarityValue(functionParts[3].replaceAll("\\)", "").trim()); // similarity
+			// value
 		} catch (IndexOutOfBoundsException ind) {
 			throw ind;
 		}
 
-		return similarityFunctionParts;
+		return simiarityParsed;
 	}
 
 	public int updateProgramFile(LocalUserInfo localUserInfo, String mode, String modifierValue) throws Exception {

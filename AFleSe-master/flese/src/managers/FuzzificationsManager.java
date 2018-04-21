@@ -39,7 +39,7 @@ public class FuzzificationsManager extends AbstractManager {
 
 		resultsStoreHouse.setProgramFileInfo(programFileInfo);
 		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
-		resultsStoreHouse.setProgramPart(programAnalized.getProgramParts());
+		resultsStoreHouse.setSimilarityFnctions(programAnalized.getSimilarityFunctions());
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.ListPage, ""));
 
@@ -110,6 +110,20 @@ public class FuzzificationsManager extends AbstractManager {
 
 	}
 
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void editSimilarity() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.EditSimilarityPage, ""));
+
+	}
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -199,17 +213,27 @@ public class FuzzificationsManager extends AbstractManager {
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
 		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
 
-		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
-		int databaseIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
-		int columnIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex));
-		String value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
-		String value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
-
 		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
+		String databaseName = "";
+		String columnName = "";
+		String value1 = "";
+		String value2 = "";
 
-		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
-		String columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
-
+		if (KConstants.Request.modeUpdate.equals(mode)) {
+			databaseName = requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex);
+			columnName = requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex);
+			value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+			value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		} else {
+			int databaseIndex = Integer
+					.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
+			int columnIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex));
+			value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+			value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+			databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
+			columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
+		}
 		int result = -1;
 
 		result = programAnalized.updateProgramFile(localUserInfo, databaseName, columnName, value1, value2, mode,

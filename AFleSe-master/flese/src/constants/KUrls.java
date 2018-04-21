@@ -153,6 +153,9 @@ public class KUrls {
 		public static final UrlMap EditPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/edit.jsp");
 		public static final UrlMap Edit = getUrlMap(manager, "edit", EditPage, KUrls.Pages.Exception, "");
 		
+		public static final UrlMap EditSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/editSimilarity.jsp");
+		public static final UrlMap EditSimilarity = getUrlMap(manager, "editSimilarity", EditSimilarityPage, KUrls.Pages.Exception, "");
+		
 		public static final UrlMap NewPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/new.jsp");
 		public static final UrlMap New = getUrlMap(manager, "newFuzz", EditPage, KUrls.Pages.Exception, "");
 
