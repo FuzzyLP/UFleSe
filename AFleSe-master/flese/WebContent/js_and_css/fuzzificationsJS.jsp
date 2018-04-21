@@ -486,6 +486,13 @@ function saveSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, s
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
 }
 
+function updateSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity){
+	saveUrl = saveUrl + "&" + '<%=KConstants.Request.value1Index%>' + "=" + value1 +
+	"&" + '<%=KConstants.Request.value2Index%>' + "=" + value2 +
+	"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
+	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
+}
+
 function saveModifier(fuzzificationSaveStatusDivId, saveUrl, modifier){
 	saveUrl = saveUrl + "&" + '<%=KConstants.Request.modifierValue%>' + "=" + modifier;
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);

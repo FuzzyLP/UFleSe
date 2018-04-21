@@ -52,6 +52,7 @@ public class KConstants {
 		public static final String mode = "mode";
 		public static final String modeBasic = "basic";
 		public static final String modeAdvanced = "advanced";
+		public static final String modeUpdate = "update";
 		public static final String modeEditingDefault = "editing default";
 		public static final String defaultParam = "defaultParam";
 		
