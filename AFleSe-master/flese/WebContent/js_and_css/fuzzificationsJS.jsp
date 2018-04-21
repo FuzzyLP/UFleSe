@@ -392,7 +392,7 @@ function fuzzificationFunctionNameInColloquial(currentName, grade) {
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
-function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderModificationDivId, urlEdit, urlNew, urlDefine, urlAdd) {
+function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderModificationDivId, urlEdit, urlNew, urlDefine, urlAdd, urlUpdate) {
 	
 	var params = getComboBoxValue(comboBox);
 	if (params != "") {
@@ -403,6 +403,8 @@ function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderMo
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlDefine + params);
 		else if(params.split("&")[params.split("&").length-1] == "add")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlAdd + params);
+		else if(params.split("&")[params.split("&").length-1] == "update")
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdate + params);
 		else
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlEdit + params);
 	}
