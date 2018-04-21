@@ -21,7 +21,8 @@
 	String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
 	String urlEditFuzzification = KUrls.Fuzzifications.Edit.getUrl(true);
 	String urlNewFuzzification = KUrls.Fuzzifications.New.getUrl(true);
-	String urlDefineSimilarity = KUrls.Fuzzifications.EditSimilarity.getUrl(true);
+	String urlDefineSimilarity = KUrls.Fuzzifications.NewSimilarity.getUrl(true);
+	String urlUpdateSimilarity = KUrls.Fuzzifications.EditSimilarity.getUrl(true);
 	String urlAddModifier = KUrls.Fuzzifications.AddModifier.getUrl(true);
 
 	String modeSimilarity = "update";
@@ -48,7 +49,7 @@
 					<div class='personalizationDivSelectFuzzificationTableCell'>
 						<select name="personalizationSelectComboBoxId"
 							id="personalizationSelectComboBoxId"
-							onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>');">
+							onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlUpdateSimilarity%>');">
 							<%=JspsUtils.comboBoxDefaultValue()%>
 							<%
 								for (int i = 0; i < fuzzifications.length; i++) {
@@ -88,7 +89,7 @@
 													+ "=" + similarityFunctions.get(i).getColumnValue2() + "&"
 													+ KConstants.Request.similarityValue + "="
 													+ similarityFunctions.get(i).getSimilarityValue() + "&" + KConstants.Request.mode + "="
-													+ modeSimilarity + "&"+ "define";
+													+ modeSimilarity + "&"+ "update";
 							%>
 							<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>'><%=desc%></option>
 							<%

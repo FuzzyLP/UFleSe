@@ -160,16 +160,16 @@ public class KUrls {
 		public static final UrlMap New = getUrlMap(manager, "newFuzz", EditPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap NewSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/newSimilarity.jsp");
-		public static final UrlMap NewSimilarity = getUrlMap(manager, "newSimilarity", EditPage, KUrls.Pages.Exception, "");
+		public static final UrlMap NewSimilarity = getUrlMap(manager, "newSimilarity", NewSimilarityPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap SimilarityColumnPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/newSimilarityColumn.jsp");
-		public static final UrlMap SimilarityColumn = getUrlMap(manager, "similarityColumn", EditPage, KUrls.Pages.Exception, "");
+		public static final UrlMap SimilarityColumn = getUrlMap(manager, "similarityColumn", SimilarityColumnPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap SimilarityValuePage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/newSimilarityValue.jsp");
-		public static final UrlMap SimilarityValue = getUrlMap(manager, "similarityValue", EditPage, KUrls.Pages.Exception, "");
+		public static final UrlMap SimilarityValue = getUrlMap(manager, "similarityValue", SimilarityValuePage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap SaveSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
-		public static final UrlMap SaveSimilarity = getUrlMap(manager, "saveSimilarity", EditPage, KUrls.Pages.Exception, "");
+		public static final UrlMap SaveSimilarity = getUrlMap(manager, "saveSimilarity", SaveSimilarityPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap SaveDefaultSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
 		public static final UrlMap SaveDefaultSimilarity = getUrlMap(manager, "saveDefaultSimilarity", EditPage, KUrls.Pages.Exception, "");
