@@ -1,0 +1,191 @@
+This is TeXk, Version 3.14159265 (TeX Live 2016) (preloaded format=tex 2017.4.24)  24 APR 2018 16:15
+ file:line:error style messages enabled.
+**\nonstopmode\input rfuzzy_doc.texic
+(./rfuzzy_doc.texic (./texinfo.tex Loading texinfo package [Version 2.257]:
+Basics,
+\bindingoffset=\dimen16
+\normaloffset=\dimen17
+\pagewidth=\dimen18
+\pageheight=\dimen19
+\outerhsize=\dimen20
+\outervsize=\dimen21
+\cornerlong=\dimen22
+\cornerthick=\dimen23
+\topandbottommargin=\dimen24
+\headlinebox=\box16
+\footlinebox=\box17
+\margin=\insert252
+\EMsimple=\toks12
+\singlespaceskip=\skip18
+\groupinvalidhelp=\toks13
+\mil=\dimen25
+\exdentamount=\skip19
+\inmarginspacing=\skip20
+ fonts,
+\sffam=\fam8
+\mainmagstep=\count26
+\fontdepth=\count27
+ page headings,
+\titlepagetopglue=\skip21
+\titlepagebottomglue=\skip22
+\evenheadline=\toks14
+\oddheadline=\toks15
+\evenfootline=\toks16
+\oddfootline=\toks17
+ tables,
+\tableindent=\dimen26
+\itemindent=\dimen27
+\itemmargin=\dimen28
+\itemmax=\dimen29
+\itemno=\count28
+\multitableparskip=\skip23
+\multitableparindent=\skip24
+\multitablecolspace=\dimen30
+\multitablelinespace=\skip25
+\colcount=\count29
+ indexing,
+\secondaryindent=\skip26
+\partialpage=\box18
+\doublecolumnhsize=\dimen31
+ sectioning,
+\chapno=\count30
+\secno=\count31
+\subsecno=\count32
+\subsubsecno=\count33
+\appendixno=\count34
+\absseclevel=\count35
+\secbase=\count36
+\chapheadingskip=\skip27
+\secheadingskip=\skip28
+\subsecheadingskip=\skip29
+ toc,
+\tocfile=\write0
+\contentsrightmargin=\skip30
+\savepageno=\count37
+\lastnegativepageno=\count38
+\shortappendixwidth=\dimen32
+\tocindent=\dimen33
+ environments,
+\dblarrowbox=\box19
+\longdblarrowbox=\box20
+\pushcharbox=\box21
+\bullbox=\box22
+\equivbox=\box23
+\errorbox=\box24
+\lispnarrowing=\skip31
+\envskipamount=\skip32
+\circthick=\dimen34
+\cartouter=\dimen35
+\cartinner=\dimen36
+\normbskip=\skip33
+\normpskip=\skip34
+\normlskip=\skip35
+\lskip=\skip36
+\rskip=\skip37
+
+defuns,
+\defbodyindent=\skip38
+\defargsindent=\skip39
+\deftypemargin=\skip40
+\deflastargmargin=\skip41
+\parencount=\count39
+ macros,
+\macscribble=\write1
+\paramno=\count40
+\macname=\toks18
+ cross references,
+\auxfile=\write2
+\footnoteno=\count41
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/epsf/epsf.tex
+This is `epsf.tex' v2.7.4 <14 February 2011>
+\epsffilein=\read0
+\epsfframemargin=\dimen37
+\epsfframethickness=\dimen38
+\epsfrsize=\dimen39
+\epsftmp=\dimen40
+\epsftsize=\dimen41
+\epsfxsize=\dimen42
+\epsfysize=\dimen43
+\pspoints=\dimen44
+)
+\noepsfhelp=\toks19
+ paper sizes,
+\defaultparindent=\dimen45
+ and turning on texinfo input format.) (./rfuzzy_doc.aux)
+@fnindfile=@write3
+@liindfile=@write4
+@pdindfile=@write5
+@prindfile=@write6
+@teindfile=@write7
+@deindfile=@write8
+@coindfile=@write9
+@auindfile=@write10
+@glindfile=@write11
+
+[1
+\openout2 = `rfuzzy_doc.aux'.
+
+\openout3 = `rfuzzy_doc.fn'.
+
+\openout4 = `rfuzzy_doc.li'.
+
+\openout5 = `rfuzzy_doc.pd'.
+
+\openout6 = `rfuzzy_doc.pr'.
+
+\openout7 = `rfuzzy_doc.te'.
+
+\openout8 = `rfuzzy_doc.de'.
+
+\openout9 = `rfuzzy_doc.co'.
+
+\openout10 = `rfuzzy_doc.au'.
+
+\openout11 = `rfuzzy_doc.gl'.
+
+] [2] (./rfuzzy_doc.toc) [-1] (./rfuzzy_docintro.texic (rfuzzy)
+\openout0 = `rfuzzy_doc.toc'.
+
+)
+(./rfuzzy_docrefs.texic (References) [1] [2]
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a1 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a4 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^bc in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^ba in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a9 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a9 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a9 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^ad in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^b1 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^b1 in font cmr10!
+Missing character: There is no ^^c3 in font cmr10!
+Missing character: There is no ^^a1 in font cmr10!
+) (./rfuzzy_docliindex.texic
+(Library/Module Index) [3] [4]) (./rfuzzy_docpdindex.texic
+(Predicate/Method Index) [5] [6]) (./rfuzzy_docprindex.texic (Property Index)
+[7] [8]) (./rfuzzy_docteindex.texic (Regular Type Index) [9] [10])
+(./rfuzzy_docdeindex.texic (Declaration Index) [11] [12])
+(./rfuzzy_doccoindex.texic (Concept Index) [13] [14])
+(./rfuzzy_docauindex.texic (Author Index) [15] [16]) (./rfuzzy_docglindex.texic
+(Global Index) [17] [18] (./rfuzzy_doc.gls)) [19] [20] ) 
+Here is how much of TeX's memory you used:
+ 1230 strings out of 497973
+ 13513 string characters out of 6220659
+ 32961 words of memory out of 5000000
+ 2071 multiletter control sequences out of 15000+600000
+ 30088 words of font info for 104 fonts, out of 8000000 for 9000
+ 19 hyphenation exceptions out of 8191
+ 15i,5n,10p,387b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+Output written on rfuzzy_doc.dvi (23 pages, 19700 bytes).

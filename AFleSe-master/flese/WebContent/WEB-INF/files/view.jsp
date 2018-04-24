@@ -313,7 +313,7 @@
 											+ fileOwner;
 					%>
 				</form>
-				<INPUT type='submit' value='Create Prolog file (with Default Similarity)'
+				<INPUT type='submit' value='Create Prolog file'
 					onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
 </div>
 <div class='personalizationDivSaveButtonAndMsgTableCell'
@@ -327,9 +327,8 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file (with Default Similarity)'
+<INPUT type='submit' value='Create Prolog file'
 	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
-</div>
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
 <%
@@ -341,9 +340,9 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file (with Default Similarity)'
+<INPUT type='submit' value='Create Prolog file'
 	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
-</div>
+
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
 <%
@@ -355,9 +354,9 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file (with Default Similarity)'
+<INPUT type='submit' value='Create Prolog file'
 	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
-</div>
+
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
 <%
@@ -369,9 +368,9 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file (with Default Similarity)'
+<INPUT type='submit' value='Create Prolog file'
 	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
-</div>
+
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
 <%
@@ -382,7 +381,6 @@
 	}
 %>
 
-</div>
 
 
 

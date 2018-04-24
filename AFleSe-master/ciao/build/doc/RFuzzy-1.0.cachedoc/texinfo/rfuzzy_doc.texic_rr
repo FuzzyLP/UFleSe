@@ -1,0 +1,15 @@
+modtype(package).
+main_title([[string_esc("RFuzzy")]]).
+sect([level(0)],global_label("RFuzzy"),[string_esc("RFuzzy")]).
+refs_link(rfuzzy_docintro).
+sect([level(2)],local_label("Other information"),string_esc("Other information")).
+sect([level(2)],local_label("Known bugs and planned improvements"),string_esc("Known bugs and planned improvements")).
+refs_link(rfuzzy_docrefs).
+refs_link(rfuzzy_docliindex).
+refs_link(rfuzzy_docpdindex).
+refs_link(rfuzzy_docprindex).
+refs_link(rfuzzy_docteindex).
+refs_link(rfuzzy_docdeindex).
+refs_link(rfuzzy_doccoindex).
+refs_link(rfuzzy_docauindex).
+refs_link(rfuzzy_docglindex).

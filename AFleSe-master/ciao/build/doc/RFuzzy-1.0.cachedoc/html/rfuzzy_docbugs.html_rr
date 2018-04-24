@@ -1,0 +1,1 @@
+sect([level(1),is_special(bugs)],global_label("Known bugs and planned improvements"),string_esc("Known bugs and planned improvements")).
