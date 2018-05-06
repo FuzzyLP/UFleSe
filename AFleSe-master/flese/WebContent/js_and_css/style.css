@@ -637,9 +637,29 @@ font-family: arial; }
 
 .personalizationDivFuzzificationFunctionValuesTableCell {
 	display: table-cell;
-	border: 0.05em solid #000000;
+	/* border: 0.05em solid #000000; */
 	text-align: center;
 	padding: 0.3em;
+	vertical-align: middle;
+}
+
+.creteriaFormats {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.creteriaFormats .personalizationDivFuzzificationFunctionValuesTableCell {
+	line-height: 32px;
+	text-align: left !important;
+}
+
+input[name="creteriaFormat"] {
+    margin-right: 4px;
+}
+
+.selectedFormats .personalizationDivFuzzificationFunctionValuesTableCell {
+	line-height: 32px;
+	text-align: left !important;
 }
 
 .personalizationDivSaveButtonAndMsgTable {
@@ -1025,10 +1045,8 @@ input:checked + .slider:before {
 	display: none;
 }
 .about{
-	padding: 0px 450px 0px 450px;
-}
-.about{
-	padding: 0px 450px 0px 450px;
+	padding: 0px 250px 0px 250px;
+
 }
 .about p{
 	color: gray;
@@ -1063,4 +1081,13 @@ input:checked + .slider:before {
 	margin: -10px 0px 0px 0px;
 		padding: 0px 10px 0px 10px;
 
+}
+.predDefinedTarget{
+	color: orange;
+}
+.predNecessaryTarget{
+	color:orange;
+}
+.dbTarget{
+color: orange;	
 }

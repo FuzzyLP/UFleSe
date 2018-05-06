@@ -10,6 +10,7 @@
 <%@page import="java.io.*"%>
 <%@page import="java.io.InputStreamReader"%>
 
+
 <%
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
@@ -52,7 +53,62 @@
 	String predDefined = "", predNecessary = "";
 	int x, y;
 
+	String saveUrl = KUrls.Fuzzifications.Save.getUrl(true) + 
+			"&" + KConstants.Request.fileNameParam + "=" + fileName + 
+			"&" + KConstants.Request.fileOwnerParam + "=" + fileOwner +
+			"&" + KConstants.Request.mode + "=" + mode;
 %>
+
+
+<script type="text/javascript">
+	var selectedFormat;
+	$(function(){
+		$(".selectedFormats div.format").hide();
+		var regExp = /\(([^)]+)\)/;
+		var dbName = regExp.exec($("#predNecessary").val())[1];
+		$(".dbTarget").html(dbName);
+		var regExpFuncName = "((\\w+)\\s*\\()";
+		var predNecessary = $("#predNecessary").val().match(regExpFuncName)[2];
+		$(".predNecessaryTarget").html(predNecessary);
+		$("#predNecessary").change(function() {
+			predNecessary = $("#predNecessary").val().split("(")[0];
+			$(".predNecessaryTarget").html(predNecessary);
+		});
+		$("#predDefined").keyup(function() {
+			var predDefined = $(this).val();
+			$(".predDefinedTarget").html(predDefined);
+		});
+		
+		$("input[name='creteriaFormat']").change(function() {
+			$(".selectedFormats div.format").hide();
+			selectedFormat = $("input[name='creteriaFormat']:checked").val();
+			$(".selectedFormats div."+selectedFormat).show();
+			
+		});
+		
+		$("#saveModification").click(function() {
+			var fuzzificationSaveStatusId = '<%= KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>';
+			var saveUrl	= '<%= saveUrl %>';
+			var predNecessary = $("#predNecessary").val();
+			var predDefined = $("#predDefined").val();
+			var creteriaFormat = selectedFormat;
+			var values = {};
+			values.xValue = $("input[id='xPoint']:visible").val();
+			values.tValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#tValue").val();
+			values.yPoint = $("input[id='yPoint']:visible").val();
+			values.ytValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ytValue").val();
+			if($("input[name='creteriaFormat']:checked").val() == "mediumFormat") {
+				values.zValue = $("input[id='zPoint']:visible").val();
+				values.ztValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ztValue").val();
+				values.wPoint = $("input[id='wPoint']:visible").val();
+				values.wtValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#wtValue").val();
+			}
+			var defaultValueResult = $("#defaultValueResult").val();
+			saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValueResult, validateCheckBox());
+		});
+	});
+</script>
+<hr>
 <div class='personalizationDivFuzzificationFunctionTable'>
 	<div id='FuzzificationTable'>
 		<div class='personalizationDivFuzzificationFunctionTableRow'>
@@ -65,7 +121,7 @@
 							class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
 							<div class="personalizationDivFuzzificationFunctionValuesTableRow">
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										Select column and name for the fuzzification:
+										Select the ITEM on which you want create your criteria:
 									</div>
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 										<select id = 'predNecessary'>
@@ -87,25 +143,158 @@
 										</select>
 									</div>
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										Function Name <input type ='text' id = 'predDefined'></input>
+										Criteria's Name <input type ='text' id = 'predDefined'></input>
 									</div>
+							</div>
+							<hr>
+							<div class="creteriaFormats">
+							<div align="left"><strong>Choose the FORMAT for your criteria:</strong></div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="increasingFormat" >When the value of <b class="predNecessaryTarget"></b> is INCREASING then 
+										<b class="dbTarget"></b> is becoming MORE <b class="predDefinedTarget">_</b>
+									</div>
+								</div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="decreasingFormat" >When the value of <b class="predNecessaryTarget"></b> is DECREASING then 
+										<b class="dbTarget"></b> is becoming MORE <b class="predDefinedTarget">_</b>
+									</div>
+								</div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="mediumFormat" >When the value of <b class="predNecessaryTarget"></b> is BETWEEN a certain interval of values, then  
+										the <b class="dbTarget"></b> is <b class="predDefinedTarget">_</b> and when the <b class="predNecessaryTarget"></b> is LOWER/HIGHER than the interval of values, then 
+										the <b class="dbTarget"></b> is NOT <b class="predDefinedTarget">_</b>
+									</div>
+								</div>
+							</div>
+							<div class="selectedFormats">
+							
+								<div class="format increasingFormat">
+								<hr>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> at all?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'xPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='tValue' value="0" style="display: none !important;"></input>
+										
+										</div>
+									</div>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'yPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+								</div>
+								
+								<div class="format decreasingFormat">
+								<hr>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'xPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='tValue' value="1" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'yPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='ytValue' value="0" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+								</div>
+								
+								<div class="format mediumFormat">
+								<hr>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> at all?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'xPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='tValue' value="0" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'yPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'zPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='ztValue' value="1" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+									<div class="personalizationDivFuzzificationFunctionValuesTableRow">
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> ?
+										</div>
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' id = 'wPoint'></input>
+										</div>&nbsp;&nbsp;
+										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											<input type ='number' min='0' max='1' id='wtValue' value="0" style="display: none !important;"></input>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- <div class="personalizationDivFuzzificationFunctionValuesTableRow">
+								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											Initial value: x: <input type ='number' id = 'xPoint'></input>
+										</div>
+								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+								Truth value: <input type ='number' min='0' max='1' id='tValue'></input>
+								</div>
 							</div>
 							<div class="personalizationDivFuzzificationFunctionValuesTableRow">
-							<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										Initial value: x: <input type ='number' id = 'xPoint'></input>
-									</div>
-							<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-							Truth value: <input type ='number' min='0' max='1' id='tValue'></input>
-							</div>
-							</div>
-							<div class="personalizationDivFuzzificationFunctionValuesTableRow">
-							<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										Initial value: y: <input type ='number' id = 'yPoint'></input>
-									</div>
-							<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-							Truth value for y: <input type ='number' min='0' max='1' id='ytValue'></input>
-							</div>
-							</div>
+								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+											Initial value: y: <input type ='number' id = 'yPoint'></input>
+										</div>
+								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+								Truth value for y: <input type ='number' min='0' max='1' id='ytValue'></input>
+								</div>
+							</div> -->
 							
 						</div>
 					</div>
@@ -129,14 +318,11 @@
 							<input type="text" id="defaultValueResult">
 							</div>
         
-	<%
-	
- String saveUrl = KUrls.Fuzzifications.Save.getUrl(true) + 
-			"&" + KConstants.Request.fileNameParam + "=" + fileName + 
-			"&" + KConstants.Request.fileOwnerParam + "=" + fileOwner +
-			"&" + KConstants.Request.mode + "=" + mode;
-JspsUtils.getValue(saveUrl); 
+
+<%
+	JspsUtils.getValue(saveUrl); 
 %>
+
 					<div
 						class='personalizationDivFuzzificationFunctionWithButtonTableRow'>
 						<div
@@ -144,8 +330,7 @@ JspsUtils.getValue(saveUrl);
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<div class='personalizationDivSaveButtonAndMsgTableRow'>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
-										<INPUT type='submit' value='Save modifications'
-											onclick="saveNewFuzzification('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>', '<%=saveUrl %>', predNecessary, predDefined, xPoint, tValue, yPoint, ytValue, defaultValueResult, validateCheckBox())">
+										<INPUT id="saveModification" type='submit' value='Save modifications'>
 									</div>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
 										&nbsp;&nbsp;&nbsp;&nbsp;</div>

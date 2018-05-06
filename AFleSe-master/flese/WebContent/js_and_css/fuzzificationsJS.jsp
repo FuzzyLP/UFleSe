@@ -448,37 +448,37 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
 }
 
 
-function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, xValue, tValue, yPoint, ytValue, defaultValue, addDefault)
+function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValue, addDefault)
 {
-	console.log("values:"+ defaultValue.value + addDefault);
+	//console.log("values:"+ defaultValue + addDefault);
+	funcPoints = [[values.xValue,values.tValue],[values.yPoint,values.ytValue]];
+	if(creteriaFormat == "mediumFormat") {
+		funcPoints.push([values.zValue,values.ztValue],[values.wPoint,values.wtValue]);
+	}
 	if(addDefault == true){
-		funcPoints = [[xValue.value,tValue.value],[yPoint.value,ytValue.value]];
 		owner = saveUrl.split("&")[4].split("=")[1];
-		setFuzzificationFunction(predDefined.value, predNecessary.value, 0, predDefined.value, predNecessary.value, [fuzzificationPoints(owner, owner, funcPoints)]);
+		setFuzzificationFunction(predDefined, predNecessary, 0, predDefined, predNecessary, [fuzzificationPoints(owner, owner, funcPoints)]);
 		this.fuzzificationFunction.fuzzificationPoints[0].modified = true;
-			value =  defaultValue.value;
+			value =  defaultValue;
 			
 			saveUrl = saveUrl +
-			"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined.value + "(" + predNecessary.value.split("(")[1] +
-			"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary.value
+			"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
+			"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary
 			+ "&"+ '<%=KConstants.Fuzzifications.defaultValue%>' + "=" + value + "&" + 
 			'<%=KConstants.Request.defaultParam%>' + "=" + 'true';
-			saveFuzzification(fuzzificationSaveStatusId, saveUrl);
 			console.log(saveUrl);
+			saveFuzzification(fuzzificationSaveStatusId, saveUrl);
+	} else {
+		owner = saveUrl.split("&")[4].split("=")[1];
+		setFuzzificationFunction(predDefined, predNecessary, 0, predDefined, predNecessary, [fuzzificationPoints(owner, owner, funcPoints)]);
+		this.fuzzificationFunction.fuzzificationPoints[0].modified = true;
+		saveUrl = saveUrl +
+		"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
+		"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary+ "&" + 
+		'<%=KConstants.Request.defaultParam%>' + "=" + 'false';
+		console.log(saveUrl);
+		saveFuzzification(fuzzificationSaveStatusId, saveUrl);
 	}
-		else{
-			funcPoints = [[xValue.value,tValue.value],[yPoint.value,ytValue.value]];
-			owner = saveUrl.split("&")[4].split("=")[1];
-			setFuzzificationFunction(predDefined.value, predNecessary.value, 0, predDefined.value, predNecessary.value, [fuzzificationPoints(owner, owner, funcPoints)]);
-			this.fuzzificationFunction.fuzzificationPoints[0].modified = true;
-			saveUrl = saveUrl +
-			"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined.value + "(" + predNecessary.value.split("(")[1] +
-			"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary.value+ "&" + 
-			'<%=KConstants.Request.defaultParam%>' + "=" + 'false';
-			console.log(saveUrl);
-			saveFuzzification(fuzzificationSaveStatusId, saveUrl);
-			
-			}
 }
 
 function saveSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity){
