@@ -179,6 +179,9 @@ public class KConstants {
 		public static final String defaultFunction = "default_to";
 		public static final String similarityFunction = "define_similarity_between";
 		public static final String defaultValue = "default";
+		public static final String modifierFunction= "define_modifier";
+		public static final String negationFunction= "define_negation_op";
+		public static final String connectiveFunction= "define_connective";
 	}
 
 	public static class ProgramIntrospectionFields {

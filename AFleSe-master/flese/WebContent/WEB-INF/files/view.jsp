@@ -29,6 +29,9 @@
 	<%
 		RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 		ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
+		
+		String defineModifierOne = "define_modifier(rather/2, TV_In, TV_Out) :- TV_Out .=. TV_In * TV_In </br>define_modifier(very/2, TV_In, TV_Out) :- TV_Out .=. TV_In * TV_In * TV_In </br>define_modifier(little/2, TV_In, TV_Out) :- TV_Out * TV_Out .=. TV_In </br>define_modifier(very_little/2, TV_In, TV_Out) :- TV_Out * TV_Out * TV_Out .=. TV_In";
+
 
 		String[] msgs = resultsStoreHouse.getResultMessages();
 		String fileName = resultsStoreHouse.getRequestParamsHashMap().get("fileName")[0];
@@ -353,6 +356,7 @@
 				String saveUrl = KUrls.Files.SaveXLS.getUrl(true) + "&fileName=" + fileName + "&fileOwner="
 						+ fileOwner;
 %>
+
 </form>
 <INPUT type='submit' value='Create Prolog file'
 	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">

@@ -938,6 +938,8 @@ public class ProgramAnalysis {
 		return 0;
 	}
 
+	//Auto Generated Criteria after clicking on Convert into prolog button
+
 	public int updateProgramFileForDefaultSimiarity(LocalUserInfo localUserInfo, String mode, String databaseNameValue)
 			throws Exception {
 		LOG.info("saving the defaut similarity" + databaseNameValue + " in mode " + mode);
@@ -980,11 +982,30 @@ public class ProgramAnalysis {
 
 		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
 				createDefaulDifferencetSimilarityFunction(databaseNameValue), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createRatherModifier(), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createVeryModifier(), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createLittleModifier(), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createVeryLittleModifier(), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createNegation(), predOwner), bw);
+		
+		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
+				createConnective(), predOwner), bw);
 
 		bw.close();
 		return 0;
 	}
 
+	
 	private String createDefaultSimilarityFunction(String databaseNameValue) {
 		String defaultSimilarityFunction = KConstants.Fuzzifications.similarityFunction + "(" + databaseNameValue + ","
 				+ "X" + ", " + "X" + ", " + "1" + "):- ground(" + "X" + ")";
@@ -997,6 +1018,37 @@ public class ProgramAnalysis {
 		return defaultSimilarityFunction;
 	}
 
+	
+	private String createRatherModifier() {
+		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"rather"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out"+" "+ ".=."+" "+ "TV_In"+" "+"*" + " " + "TV_In";
+		return defaultModifierFunction;
+	}
+	
+	private String createVeryModifier() {
+		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"very"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out" + " " + ".=." + " " + "TV_In" + " " + "*" + " " + "TV_In"+" " + "*" + " " + "TV_In";
+		return defaultModifierFunction;
+	}
+	
+	private String createLittleModifier() {
+		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"little"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out" + " " + "*" + " " + "TV_Out" + " " + ".=." + " " + "TV_In";
+		return defaultModifierFunction;
+	}
+	
+	private String createVeryLittleModifier() {
+		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"very_little"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")" + " " +":- TV_Out" + " " + "*" + " " + "TV_Out" +" "+ "*" + " " + "TV_Out" + " " + ".=." + " " + "TV_In";
+		return defaultModifierFunction;
+	}
+	
+	private String createNegation() {
+		String defaultNegationFunction = KConstants.Fuzzifications.negationFunction + "(" +"godel_neg"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")" + " " + ":-" +" "+ "((" + "TV_In" + " " + ".=." + " " + "0" +","+ " "+ "TV_Out" + " " + ".=." + " " + "1" + " " + ";" + " " + "("+ "\\"  + "+" + "(TV_In" + " " + ".=." + " "+ "0" + ")" + "," + " " + "TV_Out" + ".=." + " " + "0" + "))";      
+ 		return defaultNegationFunction;
+	}
+	
+	private String createConnective() {
+		String defaultConnectiveFunction = KConstants.Fuzzifications.connectiveFunction + "(" +"max_with_min_a_half"+ "/"+ "3" + "," +" "+ "TV_In_1"+"," + " " + "TV_In_2"+","+ " " + "TV_Out" +")" + " " +":-"+ " " + "max(" + "TV_In_1" + "," +" "+ "TV_In_2" +","+ " " + "TV_Aux) " + "," + " " + "min(" + "TV_Aux "+"," + " " + "0.5" + " " + "TV_Out)";
+		return defaultConnectiveFunction;
+	}
+	
 	private ArrayList<ProgramPartAnalysis> updateAffectedProgramParts(
 			ArrayList<ProgramPartAnalysis> programPartsAffected, String modifierValue, String predOwner) {
 		boolean updated = false;

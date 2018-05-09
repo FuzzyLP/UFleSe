@@ -30,14 +30,14 @@
 <html>
 <body>
 
-<!-- <div class='filesListTableRow'>
+<div class='filesListTableRow'>
 
 	<div class='filesListTableCell'> <h6>
-	DATA FILES</h6></div>
-	<div class='filesListTableCell'><h6>SHARING STATUS</h6></div>
+	UPLOADED DATA FILES</h6></div>
+	<div class='filesListTableCell'><h6>PRIVACITY</h6></div>
 	<div class='filesListTableCell'><h6>REMOVE FILE</h6></div>
-	<div class='filesListTableCell'><h6>PERSONALIZE</h6></div>
-</div> -->
+	<div class='filesListTableCell'><h6>CREATE/MODIFY</h6></div>
+</div> 
 <%	}
 	else {
 %>
