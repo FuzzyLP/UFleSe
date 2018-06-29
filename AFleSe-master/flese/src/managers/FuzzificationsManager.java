@@ -6,6 +6,8 @@ import programAnalysis.ProgramPartAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import auxiliar.LocalUserInfo;
 import auxiliar.NextStep;
 import constants.KConstants;
@@ -396,11 +398,13 @@ public class FuzzificationsManager extends AbstractManager {
 	public ArrayList<HashMap<String, String>> getAllDefinedFunctionDefinition(ProgramPartAnalysis[] concept,
 			ArrayList<int[]> caracsOfInterest, int[] caracsActualUser) {
 		ArrayList<HashMap<String, String>> personalizationSelected = new ArrayList<HashMap<String, String>>();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
 		for (int j = 0; j < concept.length; j++) {
 			// Taking out the default rule
 			int[] caracs = getUserCaracFromUserName(concept[j].getPredOwner(), caracsActualUser);
 			if (concept[j].getOnly_for_user() != null && caracs != null
-					&& ArrayListContainArray(caracsOfInterest, caracs)) {
+					&& ArrayListContainArray(caracsOfInterest, caracs)
+					&& StringUtils.equals(concept[j].getOnly_for_user(), localUserInfo.getLocalUserName())) {
 				HashMap<String, String> personalization = concept[j].getFunctionPoints();
 				personalizationSelected.add(personalization);
 			}

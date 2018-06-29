@@ -1,3 +1,13 @@
-/programAnalysis/
-/constants/
+/fileConverters/
+/filesAndPaths/
+/filters/
+/functionUtils/
+/logs/
 /managers/
+/ontologies/
+/org/
+/programAnalysis/
+/prologConnector/
+/servlets/
+/storeHouse/
+/urls/

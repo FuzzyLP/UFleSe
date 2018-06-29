@@ -424,11 +424,20 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
 	fuzzificationSaveStatusDiv.innerHTML = loadingImageHtml(false);
 	
 	var i = indexOfMyPersonalizedFunction();
+	
+	if($("input.values[data-modified='true']").length !== 0) {
+		fuzzificationFunction.fuzzificationPoints[i].modified = true;
+	}
 
 	if (i >= 0) {
 		if (fuzzificationFunction.fuzzificationPoints[i].modified) {
 			for (var j=0; j < fuzzificationFunction.fuzzificationPoints[i].data.length; j++) {
-				var fpx = fuzzificationFunction.fuzzificationPoints[i].data[j][0];
+				var fpx = null;
+				if($("input#valueOf"+j).length !== 0) {
+					fpx = parseInt($("input#valueOf"+j).val());
+				} else {
+					var fpx = fuzzificationFunction.fuzzificationPoints[i].data[j][0];
+				}
 				var fpy = fuzzificationFunction.fuzzificationPoints[i].data[j][1];
 		
 				saveUrl += "&fpx["+j+"]=" + fpx;
@@ -465,7 +474,8 @@ function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary,
 			"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
 			"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary
 			+ "&"+ '<%=KConstants.Fuzzifications.defaultValue%>' + "=" + value + "&" + 
-			'<%=KConstants.Request.defaultParam%>' + "=" + 'true';
+			'<%=KConstants.Request.defaultParam%>' + "=" + 'true'
+			+ "&mode=create";
 			console.log(saveUrl);
 			saveFuzzification(fuzzificationSaveStatusId, saveUrl);
 	} else {
@@ -475,7 +485,8 @@ function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary,
 		saveUrl = saveUrl +
 		"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
 		"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary+ "&" + 
-		'<%=KConstants.Request.defaultParam%>' + "=" + 'false';
+		'<%=KConstants.Request.defaultParam%>' + "=" + 'false'
+		+ "&mode=create";
 		console.log(saveUrl);
 		saveFuzzification(fuzzificationSaveStatusId, saveUrl);
 	}

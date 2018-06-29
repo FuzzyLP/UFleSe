@@ -1,0 +1,10 @@
+\initial {J}
+\entry {\code {java_constructor/1}}{11}
+\entry {\code {java_event/1}}{11}
+\entry {\code {java_field/1}}{11}
+\entry {\code {java_method/1}}{12}
+\entry {\code {java_object/1}}{11}
+\initial {M}
+\entry {\code {machine_name/1}}{10}
+\initial {P}
+\entry {\code {prolog_goal/1}}{11}

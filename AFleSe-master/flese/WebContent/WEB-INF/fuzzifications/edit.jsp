@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="programAnalysis.FunctionPoint"%>
 <%@page import="programAnalysis.ProgramPartAnalysis"%>
 <%@page import="constants.KUrls"%>
@@ -36,8 +37,25 @@
 	String [] keyValues = null;
 
 	if (fuzzifications.length >= 1) {
-		thisFuzzification = fuzzifications[0];
-		keyValues = JspsUtils.getKeyValues(thisFuzzification);
+		if(fuzzifications[0].length == 1) {
+			thisFuzzification = fuzzifications[0];
+			keyValues = JspsUtils.getKeyValues(thisFuzzification);
+		} else if(fuzzifications[0].length > 1) {
+			if(StringUtils.equals(mode, KConstants.Request.modeAdvanced)) {
+				thisFuzzification = fuzzifications[0];
+				keyValues = JspsUtils.getKeyValues(thisFuzzification);
+			} else if(StringUtils.equals(mode, KConstants.Request.modeBasic)) {
+				for(ProgramPartAnalysis program : fuzzifications[0]) {
+					if(program.getOnly_for_user() != null && StringUtils.equals(program.getOnly_for_user(), localUserInfo.getLocalUserName())) {
+						ProgramPartAnalysis [] thisFuzz = new ProgramPartAnalysis[1];
+						thisFuzz[0] = program;
+						keyValues = JspsUtils.getKeyValues(thisFuzz);
+						thisFuzzification = thisFuzz;
+						break;
+					}
+				}
+			}
+		}
 		
 		if (thisFuzzification.length == 1) {
 			defaultFuzzification = thisFuzzification[0];
@@ -83,7 +101,7 @@
 										<%= JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.predNecessary, true) %>
 										is
 									</div>
-									<div
+									<%-- <div
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
 										is
 										<%= JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.predDefined, true) %>
@@ -99,21 +117,21 @@
 										<% } else { %>
 										Default Value
 										<% } %>
-									</div>
+									</div> --%>
 								</div>
 	
 								<% for (int i=0; i<keyValues.length; i++) { 
 										String fuzzificationBarDivId = KConstants.JspsDivsIds.fuzzificationBarValueDivId + "[" + i + "]";
-										String defaultValue = JspsUtils.getValueFor(keyValues[i], defaultFuzzPoints, defaultFuzzPoints);
-										String myValue = JspsUtils.getValueFor(keyValues[i], myFuzzPoints, defaultFuzzPoints);
+										/* String defaultValue = JspsUtils.getValueFor(keyValues[i], defaultFuzzPoints, defaultFuzzPoints);
+										String myValue = JspsUtils.getValueFor(keyValues[i], myFuzzPoints, defaultFuzzPoints); */
 								%>
 								<div
 									class='personalizationDivFuzzificationFunctionValuesTableRow'>
 									<div
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
-										<input type="number" value ='<%= keyValues[i] %>' onchange="pointChanged('<%= keyValues[i] %>', this,fuzzificationBars[<%= i %>], '<%=fuzzificationBarDivId %>' '<%= KConstants.JspsDivsIds.fuzzificationGraphicDivId %>')"> 
+										<input id='valueOf<%= i %>' class="values" data-modified="false" type="number" value ='<%= keyValues[i] %>' onchange="pointChanged('<%= keyValues[i] %>', this,fuzzificationBars[<%= i %>], '<%=fuzzificationBarDivId %>' '<%= KConstants.JspsDivsIds.fuzzificationGraphicDivId %>')"> 
 									</div>
-									<div
+									<%-- <div
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
 										<input type='hidden' name='fuzzificationBars[<%= i %>].fpx'
 											value='<%= keyValues[i] %>' /> <input type='range'
@@ -128,10 +146,10 @@
 									<div
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
 										<%= defaultValue %>
-									</div>
+									</div> --%>
 								</div>
 								<% } %>
-								<div
+								<%-- <div
 									class='personalizationDivFuzzificationFunctionValuesTableRow'>
 									<div
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
@@ -148,7 +166,7 @@
 										class='personalizationDivFuzzificationFunctionValuesTableCell'>
 										-1
 									</div>
-								</div>
+								</div> --%>
 							</div>
 						</div>
 					</div>
@@ -226,6 +244,14 @@
 	
 	
 	insertFuzzificationGraphicRepresentation('<%= KConstants.JspsDivsIds.fuzzificationGraphicDivId %>');
+	
+	$("input.values").on("change paste keyup", function(){
+	   if($(this).attr("value") != $(this).val())
+	      $(this).attr("data-modified",true);
+	   else
+	      $(this).attr("data-modified",false);
+	});
+	
 </script>
 
 <!-- END -->

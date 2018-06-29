@@ -6,12 +6,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,6 +30,7 @@ import constants.KConstants;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
 import functionUtils.SimilarityFunction;
+import jnr.ffi.Struct.id_t;
 
 public class ProgramAnalysis {
 	final Log LOG = LogFactory.getLog(ProgramAnalysis.class);
@@ -388,6 +394,18 @@ public class ProgramAnalysis {
 		databaseName = temp[1].replaceAll("\\)", "");
 
 		boolean madeChanges = false;
+		
+		for(int i = 0; i < programParts.size(); i++) {
+			ProgramPartAnalysis programP = programParts.get(i);
+			if (StringUtils.equals(mode, KConstants.Request.modeBasic) && (programP.isFunction())
+					&& (programP.getPredDefined().equals(predDefined))
+					&& (programP.getPredNecessary().equals(predNecessary))
+					&& StringUtils.equals(programP.getOnly_for_user(), localUserInfo.getLocalUserName())) {
+				programParts.remove(i);
+			}
+		}
+		
+//		String indexOfFunc = null;
 
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
@@ -398,10 +416,15 @@ public class ProgramAnalysis {
 						&& (programPart.getPredNecessary().equals(predNecessary))) {
 					foundFuzzifications = true;
 					programPartsAffected.add(programPart);
+					if(StringUtils.equals(mode, KConstants.Request.modeCreate)) {
+						mode = KConstants.Request.modeBasic;
+					}
 				} else {
 					if (foundFuzzifications) {
-						programPartsAffected = updateAffectedProgramParts(programPartsAffected, predDefined,
-								predNecessary, predOwner, functionDefinition);
+						if (StringUtils.equals(mode, KConstants.Request.modeAdvanced)) {
+							programPartsAffected = updateAffectedProgramParts(programPartsAffected, predDefined,
+									predNecessary, predOwner, functionDefinition);
+						}
 						writeProgramParts(programPartsAffected, bw);
 						copiedBackFuzzifications = true;
 					}
@@ -424,14 +447,38 @@ public class ProgramAnalysis {
 			if ((!foundFuzzifications) || (foundFuzzifications && copiedBackFuzzifications)) {
 				writeProgramPart(programPart, bw);
 			}
+			
+//			if(programPart.isFunction()) {
+//				indexOfFunc = programPart.getPredDefined();
+//			}
+			
 		}
 
-		if (!madeChanges)
+		if (StringUtils.equals(mode, KConstants.Request.modeBasic) && !madeChanges)
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), predDefined,
 					predNecessary, predOwner, functionDefinition), bw);
-
+		
 		bw.close();
 
+		//add the new defined fuzzy criteria
+		if (StringUtils.equals(mode, KConstants.Request.modeCreate) && !madeChanges) {
+			Path path = Paths.get(programFileInfo.getProgramFileFullPath());
+			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+			ProgramPartAnalysis newProgramPart = createNewProgramPart(predDefined,
+					predNecessary, functionDefinition);
+			String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0)." + "\n";  
+			String[] programPartLines = newProgramPart.getLines();
+			if (programPartLines != null) {
+				for (int i = 0; i < programPartLines.length; i++) {
+					extraLine += programPartLines[i] + "\n";
+				}
+			}
+//			int newLinePosition = lines.indexOf(indexOfFunc + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0).");
+//			lines.add(newLinePosition, extraLine);
+			lines.add(extraLine);
+			Files.write(path, lines, StandardCharsets.UTF_8);
+		}
+		
 		if (copiedBackFuzzifications) {
 			this.programParts = null;
 			this.programFunctionsOrdered = null;
@@ -506,6 +553,17 @@ public class ProgramAnalysis {
 		return programPartsAffected;
 	}
 
+	private ProgramPartAnalysis createNewProgramPart(
+			String predDefined, String predNecessary,
+			String[][] functionDefinition) throws ProgramAnalysisException {
+		ProgramPartAnalysis newProgramPart = new ProgramPartAnalysis();
+		newProgramPart.setPredDefined(predDefined);
+		newProgramPart.setPredNecessary(predNecessary);
+		newProgramPart.updateFunction(functionDefinition);
+		return newProgramPart;
+	}
+
+	
 	public String[][] getFunctionDefinition(RequestStoreHouse requestStoreHouse) {
 		int counter = 0;
 		String[][] functionDefinition = null;
@@ -685,6 +743,16 @@ public class ProgramAnalysis {
 
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
+		
+		for(int i = 0; i < programParts.size(); i++) {
+			ProgramPartAnalysis programP = programParts.get(i);
+			if (StringUtils.equals(mode, KConstants.Request.modeBasic) && (programP.isFunction())
+					&& (programP.getPredDefined().equals(predDefined))
+					&& (programP.getPredNecessary().equals(predNecessary))
+					&& StringUtils.equals(programP.getOnly_for_user(), localUserInfo.getLocalUserName())) {
+				programParts.remove(i);
+			}
+		}
 
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
@@ -722,15 +790,32 @@ public class ProgramAnalysis {
 			}
 		}
 
-		if (!foundDefault)
+		if (!foundDefault && !StringUtils.equals(mode, KConstants.Request.modeCreate))
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), predDefined,
 					defaultFunction, predOwner, defaultValue), bw);
 
-		if (!foundFuzzifications)
+		if (!foundFuzzifications && !StringUtils.equals(mode, KConstants.Request.modeCreate))
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), predDefined,
 					predNecessary, predOwner, functionDefinition), bw);
 
 		bw.close();
+		
+		//add the new defined fuzzy criteria
+				if (StringUtils.equals(mode, KConstants.Request.modeCreate)) {
+					Path path = Paths.get(programFileInfo.getProgramFileFullPath());
+					List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+					ProgramPartAnalysis newProgramPart = createNewProgramPart(predDefined,
+							predNecessary, functionDefinition);
+					String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(" + defaultValue + ")." + "\n";  
+					String[] programPartLines = newProgramPart.getLines();
+					if (programPartLines != null) {
+						for (int i = 0; i < programPartLines.length; i++) {
+							extraLine += programPartLines[i] + "\n";
+						}
+					}
+					lines.add(extraLine);
+					Files.write(path, lines, StandardCharsets.UTF_8);
+				}
 
 		if (copiedBackFuzzifications) {
 			this.programParts = null;
@@ -982,25 +1067,6 @@ public class ProgramAnalysis {
 
 		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
 				createDefaulDifferencetSimilarityFunction(databaseNameValue), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createRatherModifier(), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createVeryModifier(), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createLittleModifier(), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createVeryLittleModifier(), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createNegation(), predOwner), bw);
-		
-		writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(),
-				createConnective(), predOwner), bw);
-
 		bw.close();
 		return 0;
 	}
@@ -1016,37 +1082,6 @@ public class ProgramAnalysis {
 		String defaultSimilarityFunction = KConstants.Fuzzifications.similarityFunction + "(" + databaseNameValue + ","
 				+ "X" + ", " + "Y" + ", " + "0" + "):- ground(" + "X" + "), " + "ground(" + "Y" + "), " + "X\\=Y";
 		return defaultSimilarityFunction;
-	}
-
-	
-	private String createRatherModifier() {
-		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"rather"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out"+" "+ ".=."+" "+ "TV_In"+" "+"*" + " " + "TV_In";
-		return defaultModifierFunction;
-	}
-	
-	private String createVeryModifier() {
-		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"very"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out" + " " + ".=." + " " + "TV_In" + " " + "*" + " " + "TV_In"+" " + "*" + " " + "TV_In";
-		return defaultModifierFunction;
-	}
-	
-	private String createLittleModifier() {
-		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"little"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")"+ " "+":- TV_Out" + " " + "*" + " " + "TV_Out" + " " + ".=." + " " + "TV_In";
-		return defaultModifierFunction;
-	}
-	
-	private String createVeryLittleModifier() {
-		String defaultModifierFunction = KConstants.Fuzzifications.modifierFunction + "(" +"very_little"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")" + " " +":- TV_Out" + " " + "*" + " " + "TV_Out" +" "+ "*" + " " + "TV_Out" + " " + ".=." + " " + "TV_In";
-		return defaultModifierFunction;
-	}
-	
-	private String createNegation() {
-		String defaultNegationFunction = KConstants.Fuzzifications.negationFunction + "(" +"godel_neg"+ "/"+ "2" + ","+" "+ "TV_In"+","+" "+"TV_Out"+")" + " " + ":-" +" "+ "((" + "TV_In" + " " + ".=." + " " + "0" +","+ " "+ "TV_Out" + " " + ".=." + " " + "1" + " " + ";" + " " + "("+ "\\"  + "+" + "(TV_In" + " " + ".=." + " "+ "0" + ")" + "," + " " + "TV_Out" + ".=." + " " + "0" + "))";      
- 		return defaultNegationFunction;
-	}
-	
-	private String createConnective() {
-		String defaultConnectiveFunction = KConstants.Fuzzifications.connectiveFunction + "(" +"max_with_min_a_half"+ "/"+ "3" + "," +" "+ "TV_In_1"+"," + " " + "TV_In_2"+","+ " " + "TV_Out" +")" + " " +":-"+ " " + "max(" + "TV_In_1" + "," +" "+ "TV_In_2" +","+ " " + "TV_Aux) " + "," + " " + "min(" + "TV_Aux "+"," + " " + "0.5" + " " + "TV_Out)";
-		return defaultConnectiveFunction;
 	}
 	
 	private ArrayList<ProgramPartAnalysis> updateAffectedProgramParts(

@@ -1,0 +1,423 @@
+/*
+ * LPdoc stylesheet for the HTML backend
+ *
+ * Author: Jose F. Morales
+ */
+
+/* --------------------------------------------------------------------------- */
+/* Language and documentation elements */
+
+.lpdoc-defname {
+    font-size: 105%;
+    font-weight:bold;
+}
+
+.lpdoc-deftext {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.lpdoc-on-right {
+    float: right;
+}
+
+.lpdoc-iso {
+    color: white;
+    background-color: #48d;
+    text-shadow: 0px 1px 2px #000;
+    font-size: 80%;
+    padding-left: 4px; padding-right: 4px;
+    border-radius: 4px;
+}
+
+.lpdoc-emacskey {
+    border-radius: 3px;
+/*    border-bottom: 1px solid #666;*/
+/*    border-left: 1px solid #666;*/
+/*    border-right: 1px solid #666;*/
+/*    border-top: 1px solid #888;*/
+    background-color: #444;
+    font-size: 14px;
+    font-family: arial, helvetica;
+    font-weight: normal;
+    color: #fff;
+    text-shadow: 0px 0px 2px #000;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.lpdoc-itemize-none {
+    list-style-type: none;
+}
+
+.lpdoc-itemize-plain {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.lpdoc-itemize-minus {
+    list-style-type: circle;
+}
+
+pre.lpdoc-codeblock {
+    font-size: 14px;
+    line-height:1.0em;
+    padding: 8px;
+    background: #fff8dd;
+    border: 1px solid #fbe89d;
+    border-radius: 3px;
+    overflow-x: auto;
+}
+
+.lpdoc-var {
+    color: #e06000;
+}
+
+.lpdoc-var, pre, tt, code {
+    font-family: "Source Code Pro", monospace;
+}
+
+/* Assertion status tags */
+span.lpdoc-test-header,
+span.lpdoc-true-header,
+span.lpdoc-false-header,
+span.lpdoc-check-header,
+span.lpdoc-checked-header,
+span.lpdoc-trust-header {
+    color: white;
+    padding: 3px 8px 3px 8px;
+    border-radius: 3px 0px 0px 3px;
+}
+
+/* Name tag for test assertions (E.g., Test) */
+span.lpdoc-test-header { background: #ad62ff; }
+/* Name tag for true assertions (in green) */
+span.lpdoc-true-header { background: #78ac2b; }
+/* Name tag for false assertions (in red) */
+span.lpdoc-false-header { background: #ff6262; }
+/* Name tag for check assertions (including Usage) (in blue) */
+span.lpdoc-check-header { background: #3f8cdc; }
+/* Name tag for checked assertions (in lightest green) */
+span.lpdoc-checked-header { background: #6eb88c; }
+/* Name tag for trust assertions (in orange) */
+span.lpdoc-trust-header { background: #ffa162; }
+
+/* E.g., foo(+,-,+) */
+span.lpdoc-usagedecl {
+    background: #eee;
+    padding: 3px 8px 3px 8px;
+    border-radius: 0px 3px 3px 0px;
+    line-height: 1.6em; /* TODO: better way? (avoid some overlap in narrow windows) */
+}
+
+/* Tag for predicates (PREDICATE, REGTYPE, etc.) */
+span.lpdoc-predtag,
+span.lpdoc-predtag-on-right {
+    font-size: 14px;
+    color: #888;
+    background: #eee;
+    padding: 3px 8px 3px 8px;
+    border-radius: 3px;
+}
+
+span.lpdoc-predtag-on-right { float: right; } /* on the right */
+
+/* --------------------------------------------------------------------------- */
+/* Special blocks */
+
+.lpdoc-cartouche {
+    border: 1px solid #C8E2F0;
+    border-radius: 3px;
+    padding: 8px;
+    background: #EFF6FC;
+}
+
+.lpdoc-alert {
+    border: 1px solid #aaa;
+    border-left: 10px solid #ab4263;
+    padding: 8px;
+}
+
+div.lpdoc-twocolumns {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+    column-count: 2;
+    column-gap: 20px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Page elements */
+
+html {
+    /* Force a vertical scrollbar to avoid centering jumps */
+    overflow-y: scroll;
+}
+
+body, html {
+    margin:0;
+    padding:0;
+    font-family: "Source Sans Pro", arial, helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.3em;
+}
+
+div.lpdoc-nav {
+    padding: 5px 0px 5px 0px;
+    background: #fff;
+}
+div.lpdoc-nav ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+div.lpdoc-nav li {
+    display:inline;
+    margin:0;
+    padding:0;
+}
+
+div.lpdoc-main {
+    background-color:#fff;
+    color: #000000;
+    padding: 1px 20px 30px 20px;
+    border-right: 1px solid #dedede; /* right-sidebar */
+}
+
+div.lpdoc-sidebar {
+    background-color:#fff;
+    padding:10px 10px 10px 20px;
+    font-size: 14px;
+    line-height: 1.3em;
+}
+
+div.lpdoc-sidebar h2 {
+    margin-top: 1ex;
+}
+
+div.lpdoc-clearer {
+    clear: both;
+}
+
+div.lpdoc-footer {
+    font-size: 12px;
+    color: #888;
+    background: #f8f8f8;
+    width: 100%;
+    padding: 3px 0 3px 0;
+    text-align: center;
+/*    font-size: 75%;*/
+}
+
+div.lpdoc-footer a {
+    color: black;
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Source Sans Pro', sans-serif;
+    line-height: 1.3em;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Page layout */
+
+div.lpdoc-page {
+    background-color: #fff;
+}
+
+/* Document with left sidebar */
+.leftbar {
+}
+.leftbar > div.lpdoc-main {
+    margin-left: 230px;
+}
+.leftbar > div.lpdoc-sidebar {
+    box-sizing: border-box; /* include padding in width */
+    float: left;
+    width: 230px;
+    height: 100%;
+    position: relative;
+}
+
+/* Document with right sidebar */
+.rightbar {
+}
+.rightbar > div.lpdoc-main {
+    margin-right: 230px;
+}
+.rightbar > div.lpdoc-sidebar {
+    box-sizing: border-box; /* include padding in width */
+    float: right;
+    width: 230px;
+    height: 100%;
+    position: relative;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Links */
+
+a.lpdoc-missing:link { color: #aa0000; text-decoration: none; }
+a.lpdoc-missing:visited { color: #aa0000; text-decoration: none; }
+a.lpdoc-missing:hover { color: #aa0000; text-decoration: underline; }
+a.lpdoc-missing:active { color: #FA0000; text-decoration: underline; }
+
+a.lpdoc-idx-anchor:link { color: #4263ab; text-decoration: none; }
+a.lpdoc-idx-anchor:visited { color: #0645AD; text-decoration: none; }
+a.lpdoc-idx-anchor:hover { color: #4263ab; text-decoration: underline; }
+a.lpdoc-idx-anchor:active { color: #FAA700; text-decoration: underline; }
+
+div.lpdoc-defname a.lpdoc-idx-anchor:link { color: #000; text-decoration: none; }
+div.lpdoc-defname a.lpdoc-idx-anchor:visited { color: #000; text-decoration: none; }
+div.lpdoc-defname a.lpdoc-idx-anchor:hover { color: #000; text-decoration: underline; }
+div.lpdoc-defname a.lpdoc-idx-anchor:active { color: #000; text-decoration: underline; }
+
+a:link { color: #4263ab; text-decoration: none; }
+a:visited { color: #0645AD; text-decoration: none; }
+a:hover { color: #4263ab; text-decoration: underline; }
+a:active { color: #FAA700; text-decoration: underline; }
+
+/* --------------------------------------------------------------------------- */
+/* Navigation buttons (special links) */
+
+.lpdoc-navbutton,
+.lpdoc-navbutton-disabled {
+    font-size: 20px;
+    border-radius: 2px;
+    padding: 2px 8px 2px 8px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.lpdoc-navbutton { color: #4263ab; }
+a.lpdoc-navbutton:link { color: #4263ab; text-decoration: none; }
+a.lpdoc-navbutton:visited { color: #4263ab; text-decoration: none; }
+a.lpdoc-navbutton:hover { color: #0645AD; text-decoration: none; }
+a.lpdoc-navbutton:active { color: #FAA700; text-decoration: none; }
+
+.lpdoc-navbutton-disabled { color: #ccc; }
+
+/* --------------------------------------------------------------------------- */
+/* Toggleable sidebar (for small screens) */
+
+div#sidebar {
+    display: block;
+}
+
+a#sidebar-toggle-button {
+    display:none;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Menu at sidebar */
+
+div.lpdoc-sidebar h2 {
+    font-size: 100%;
+}
+
+div.lpdoc-sidebar p {
+    margin-left: 0px;
+}
+
+div.lpdoc-sidebar ul {
+    margin-left: 0px;
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 0px;
+    /* padding-left:3ex; */
+    /* list-style-type: square; */
+}
+
+div.lpdoc-sidebar li {
+    list-style-type: none;
+    padding-left: 8px;
+    margin: 0px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Cover */
+
+div.lpdoc-cover-address {
+    line-height:1.3em;
+    font-size:12px;
+    float:right;
+    padding: 16px;
+    color: #888;
+}
+
+div.lpdoc-cover-authors {
+    font-size: 12px;
+    line-height: 1.3em;
+    padding: 16px;
+    float:right;
+    text-align:right;
+    color: #888;
+}
+
+div.lpdoc-cover-logo {
+    float: right;
+}
+
+div.lpdoc-cover-title {
+    padding: 16px;
+    margin: 0px;
+    background: white;
+    color: #4263ab;
+}
+
+div.lpdoc-cover-subtitle-extra {
+    font-size: 12px;
+    line-height: 1.3em;
+    padding: 16px;
+    border-radius: 8px;
+    color: #888;
+}
+
+div.lpdoc-cover-h1 {
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Mobile-friendly */
+
+@media (max-width: 700px) {
+    /* Reset sidebar position */
+    .leftbar > div.lpdoc-main {
+	margin-left: 0;
+    }
+    .rightbar > div.lpdoc-main {
+	margin-right: 0;
+    }
+    .leftbar > div.lpdoc-sidebar,
+    .rightbar > div.lpdoc-sidebar {
+	float: none;
+	width: auto;
+	position: relative;
+    }
+
+    div.lpdoc-nav {
+	padding-right: 20px; /* some space for toggle button */
+    }
+    a#sidebar-toggle-button {
+	z-index: 1;
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding:7px 10px 7px 10px;
+    }
+    div#sidebar {
+	display: none;
+    }
+    div#sidebar.sidebar-toggled {
+	display: block;
+	border-bottom: 1px solid #dedede;
+	font-size: 16px;
+	z-index: 0;
+    }
+}
+
