@@ -148,7 +148,26 @@
 							</div>
 							<hr>
 							<div class="creteriaFormats">
-							<div align="left"><strong>Choose the FORMAT for your criteria:</strong></div>
+							<div align="left"><strong>Choose the correct sentence</strong></div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="increasingFormat" >More <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
+									</div>
+								</div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="decreasingFormat" >Less <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
+									</div>
+								</div>
+								<div class="row">
+									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
+										<input type="radio" name="creteriaFormat" value="mediumFormat" > Only for a range of  <b class="predNecessaryTarget"></b> 
+									</div>
+								</div>
+							</div>
+							
+							<!-- <div class="creteriaFormats">
+							<div align="left"><strong>Choose the correct sentence</strong></div>
 								<div class="row">
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 										<input type="radio" name="creteriaFormat" value="increasingFormat" >When the value of <b class="predNecessaryTarget"></b> is INCREASING then 
@@ -168,7 +187,8 @@
 										the <b class="dbTarget"></b> is NOT <b class="predDefinedTarget">_</b>
 									</div>
 								</div>
-							</div>
+							</div> -->
+							
 							<div class="selectedFormats">
 							
 								<div class="format increasingFormat">
@@ -194,7 +214,7 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
-											
+											<img id="format1" src="images/format1.png">
 										</div>
 									</div>
 								</div>
@@ -222,6 +242,7 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="0" style="display: none !important;"></input>
+											<img id="format2" src="images/format2.png">
 											
 										</div>
 									</div>
@@ -274,7 +295,7 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='wtValue' value="0" style="display: none !important;"></input>
-											
+													<img id="format3" src="images/format3.png">
 										</div>
 									</div>
 								</div>

@@ -1091,3 +1091,31 @@ input:checked + .slider:before {
 .dbTarget{
 color: orange;	
 }
+
+input[type=number]{
+    width: 100px;
+} 
+.personalizationDivFuzzificationFunctionValuesTableRow img{
+		width: 250px;
+	height: 120px;
+	position: relative;
+	margin: -60px 20px 0px 20px;
+}
+#format1{
+		margin: -60px 20px 0px 20px;
+		width: 369px;
+	height: 140px;
+}
+#format2{
+		margin: -60px 20px 0px 20px;
+		width: 369px;
+	height: 140px;
+}
+#format3{
+		margin: -160px 20px 0px 20px;
+		width: 369px;
+	height: 175px;
+}
+.selectedFormats{
+	font-size: 13px;
+}

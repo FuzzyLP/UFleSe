@@ -31,7 +31,6 @@
 	String textMode2 = "";
 	if (mode.equals(KConstants.Request.modeAdvanced)) {
 		textMode = "Default";
-		textMode2 = "If any user modifies a fuzzification, it is not possible to modify the default fuzzification anymore.";
 	}
 	if (resultsStoreHouse.getProgramFileInfo().getFileName().endsWith(".pl")) {
 %>
@@ -45,7 +44,7 @@
 			<div class='personalizationDivSelectFuzzificationTable'>
 				<div class='personalizationDivSelectFuzzificationTableRow'>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
-						Personalize The Existed Criterias: &nbsp;</div>
+						Modify the existing criterion &nbsp;</div>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
 						<select name="personalizationSelectComboBoxId"
 							id="personalizationSelectComboBoxId"
@@ -108,22 +107,21 @@
 
 				<div class='personalizationDivSelectFuzzificationTableRow'>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
-						Define New Criterias:&nbsp;</div>
+						Define new &nbsp;</div>
 					<div class='personalizationDivSelectFuzzificationTableCell'>
 						<select name="personalizationSelectComboBoxId"
 							id="personalizationSelectComboBoxId"
 							onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>');">
 							<%=JspsUtils.comboBoxDefaultValue()%>
 
-							<option id='<%=id%>' title='New fuzzification' value='<%=id%>'>Define
-								New Fuzzy Criteria</option>
+							<option id='<%=id%>' title='New fuzzification' value='<%=id%>'>Fuzzy search criterion</option>
 
 							<%
 								id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 											+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "define";
 							%>
 							<option id='<%=id%>' title='Define Similarity' value='<%=id%>'>
-								Define New Similarity Criteria</option>
+								Similarity relation</option>
 							<%
 								id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 											+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "add";
