@@ -1119,3 +1119,9 @@ input[type=number]{
 .selectedFormats{
 	font-size: 13px;
 }
+
+img.removeRow {
+	cursor: pointer;
+    float: right;
+    margin-top: -24px;
+}

@@ -14,7 +14,7 @@
 		<%
 		RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 		ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
-		ProgramFileInfo[] filesList = resultsStoreHouse.getFilesList();
+		List<ProgramFileInfo> plFilesList = resultsStoreHouse.getPLFilesList();
 
 		String urlSelectQueryStartType = KUrls.Queries.SelectQueryStartType.getUrl(true);
 		String urlProgramFileActions = KUrls.Queries.ProgramFileActions.getUrl(true); 
@@ -25,7 +25,7 @@
 
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
 	
-		if (filesList.length == 0) {
+		if (plFilesList.size() == 0) {
 	%>
 		<div class="selectDatabaseTableRow">
 			<div class="selectDatabaseTableCell">No configuration files available. Please
@@ -44,11 +44,11 @@
 					<%
 					ArrayList<String> descList = new ArrayList<String>();
 					ArrayList<String> valueList = new ArrayList<String>();
-		for (int i=0; i<filesList.length; i++) { 
-			if ((filesList[i].getSharingState())||(filesList[i].getFileOwner()).equals(localUserInfo.getLocalUserName()))
+		for (ProgramFileInfo programFileInfo : plFilesList) { 
+			if ((programFileInfo.getSharingState())||(programFileInfo.getFileOwner()).equals(localUserInfo.getLocalUserName()))
 			{
-				String value = filesList[i].getInfoForUrls();
-				String desc = filesList[i].getFileName() + " ( owned by " + filesList[i].getFileOwner() + " ) ";
+				String value = programFileInfo.getInfoForUrls();
+				String desc = programFileInfo.getFileName() + " ( owned by " + programFileInfo.getFileOwner() + " ) ";
 				descList.add(desc);
 				valueList.add(value);
 			}

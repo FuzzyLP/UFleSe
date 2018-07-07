@@ -15,6 +15,17 @@ Pablos Ceruelo */ /*
 <script type="text/javascript">
 <% } %>
 
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
 function updateFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
 	var fuzzificationSaveStatusDiv = getContainer(fuzzificationSaveStatusDivId);
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
@@ -106,7 +117,7 @@ function scriptHasProblematicParts(scriptString) {
 	return problematic; 
 }
 
-function loadAjaxIn(containerId, ajaxPageUrl) {
+function loadAjaxIn(containerId, ajaxPageUrl, callback) {
 	// debug.info("loadAjaxIn("+containerId + ", " + ajaxPageUrl + ")");
 	var container = getContainer(containerId);
 	if (container === null) {
@@ -131,6 +142,8 @@ function loadAjaxIn(containerId, ajaxPageUrl) {
         complete: function() {
         	debug.info("load of html is complete.");
         	// container.innerHTML=loadingImageHtml(true);
+        	if(callback)
+        		callback();
         },
         success: function(html) {
         	console.log("loading html: " + html);
@@ -508,6 +521,12 @@ function incrementQueryLinesCounterFieldValue() {
 	return getQueryLinesCounterFieldValue();
 }
 
+function decrementQueryLinesCounterFieldValue() {
+	var queryLinesCounterFieldId = "<%=KConstants.Request.linesCounterParam %>";
+	document.getElementById(queryLinesCounterFieldId).value --;
+	return getQueryLinesCounterFieldValue();
+}
+
 function getQueryLinesCounterFieldValue() {
 	var queryLinesCounterFieldId = "<%=KConstants.Request.linesCounterParam %>";
 	if ((document.getElementById(queryLinesCounterFieldId) != null) &&
@@ -543,8 +562,58 @@ function selectQueryAddLine(urlQueryAddLine, urlQueryAddAggregator) {
 	var lineId = "&" + "<%= KConstants.Request.lineIdParam %>" + "=" + queryLineId;
 	var linesCounter = "&" + "<%= KConstants.Request.linesCounterParam %>" + "=" + queryLinesCounter;
 	
+	var imgRemove = null;
+	if(queryLinesCounter != 0) {
+		imgRemove = document.createElement('img');
+		imgRemove.className = "removeRow";
+		imgRemove.dataset.rowId = row.id;
+		imgRemove.src = "images/remove.png";
+		imgRemove.width = "20";
+		imgRemove.alt = "Remove this condition from the query";
+		imgRemove.title = "Remove this condition from the query";
+		imgRemove.onclick = function() {
+			/* document.getElementById(this.dataset.rowId).remove(); */
+			this.parentElement.remove();
+			var removedIndex = $(this).attr("data-row-id").split("queryLine[")[1].split("].row")[0];
+			var count = document.getElementById("queryLinesTable").children.length;
+			for(var j=removedIndex;j<count;j++) {
+				$.each($("div[id*='queryLine[']"), function(i, div) {
+					var currIndex = $(div).attr("id").split("queryLine[")[1].split("]."+$(div).attr("id").split("].")[1])[0];
+					if(currIndex >= removedIndex)
+						$(div).attr("id",$(div).attr("id").replace(currIndex,parseInt(currIndex)-1));
+				});
+				$.each($("select[id*='queryLine[']"), function(i, div) {
+					var currIndex = $(div).attr("id").split("queryLine[")[1].split("]."+$(div).attr("id").split("].")[1])[0];
+					if(currIndex >= removedIndex) {
+						$(div).attr("id",$(div).attr("id").replace(currIndex,parseInt(currIndex)-1));
+						$(div).attr("name",$(div).attr("id").replace(currIndex,parseInt(currIndex)-1));
+					}
+				});
+				$.each($("input[id*='queryLine[']"), function(i, div) {
+					var currIndex = $(div).attr("id").split("queryLine[")[1].split("]."+$(div).attr("id").split("].")[1])[0];
+					if(currIndex >= removedIndex) {
+						$(div).attr("id",$(div).attr("id").replace(currIndex,parseInt(currIndex)-1));						
+						$(div).attr("name",$(div).attr("id").replace(currIndex,parseInt(currIndex)-1));
+					}
+				});
+				$.each($("img[data-row-id*='queryLine[']"), function(i, img) {
+					var currIndex = $(img).attr("data-row-id").split("queryLine[")[1].split("].row")[0];
+					if(currIndex >= removedIndex)
+						$(img).attr("data-row-id",$(img).attr("data-row-id").replace(currIndex,parseInt(currIndex)-1));
+				});
+			}
+			queryLinesCounter = decrementQueryLinesCounterFieldValue();
+		};
+	}
+	
 	loadAjaxIn(destinyAddLine, urlQueryAddLine + lineInfo + lineId);
-	loadAjaxIn(queryLinesAggregatorTableId, urlQueryAddAggregator + lineInfo + lineId + linesCounter);
+	if(imgRemove)
+		loadAjaxIn(queryLinesAggregatorTableId, urlQueryAddAggregator
+					+ lineInfo + lineId + linesCounter, function() {
+				document.getElementById(destinyAddLine).append(imgRemove);
+			});
+	else
+		loadAjaxIn(queryLinesAggregatorTableId, urlQueryAddAggregator + lineInfo + lineId + linesCounter);
 	
 	queryLinesCounter = incrementQueryLinesCounterFieldValue();
 	// Do not allow navigator to call url.

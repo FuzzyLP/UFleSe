@@ -152,9 +152,24 @@ function createPL(convertToPrologDivId, saveUrl)
 			saveUrl+="&type["+i+"]=datetime";
 		}
 	}
-	loadAjaxIn(convertToPrologDivId, saveUrl);
-}
+	loadAjaxIn(convertToPrologDivId, saveUrl, function() {
+					//Add modifiers
+					var modifiers = "define_modifier(rather/2, TV_In, TV_Out) :- TV_Out .=. TV_In * TV_In </br>define_modifier(very/2, TV_In, TV_Out) :- TV_Out .=. TV_In * TV_In * TV_In </br>define_modifier(little/2, TV_In, TV_Out) :- TV_Out * TV_Out .=. TV_In </br>define_modifier(very_little/2, TV_In, TV_Out) :- TV_Out * TV_Out * TV_Out .=. TV_In";
+					var newSaveUrl = "Servlet?manager=Fuzzifications&op=saveModifier&ajax=true"
+						+ "&fileName="
+						+ getParamFromGivenUrl(saveUrl, "fileName").split(".")[0].toLowerCase() + ".pl"
+						+ "&fileOwner="
+						+ getParamFromGivenUrl(saveUrl, "fileOwner")
+						+ "&mode=";
+					saveModifier(convertToPrologDivId, newSaveUrl,
+							modifiers);
+				});
+	}
 
+	function getParamFromGivenUrl(url, name) {
+		return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [ ,
+				null ])[1]);
+	};
 <% if (JspsUtils.getStringWithValueS().equals("N")) { %>
 </script>
 <%

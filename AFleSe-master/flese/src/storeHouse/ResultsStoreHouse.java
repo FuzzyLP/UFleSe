@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import ontologies.InterfaceOntologyQuery;
 import programAnalysis.ProgramPartAnalysis;
 import prologConnector.CiaoPrologQueryAnswer;
@@ -88,6 +90,14 @@ public class ResultsStoreHouse {
 			return new ProgramFileInfo[0];
 		}
 		return filesList;
+	}
+	
+	public List<ProgramFileInfo> getPLFilesList() {
+		List<ProgramFileInfo> plFilesList = new ArrayList<ProgramFileInfo>();
+		for(int i=0;i<=filesList.length-1;i++)
+			if(StringUtils.contains(filesList[i].getFileName(), ".pl"))
+				plFilesList.add(filesList[i]);
+		return plFilesList;
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
