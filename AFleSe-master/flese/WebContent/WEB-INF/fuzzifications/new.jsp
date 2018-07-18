@@ -79,32 +79,55 @@
 			$(".predDefinedTarget").html(predDefined);
 		});
 		
+		$("#predDefined").keyup(function() {
+			if($(this).val() == "") {
+				$(".selectedFormats div.format").hide();
+				$("input[name='creteriaFormat']").attr("disabled","disabled");
+				$("input[name='creteriaFormat']").prop('checked', false);
+			} else {
+				$("input[name='creteriaFormat']").removeAttr("disabled","disabled");
+			}
+		});
+		
 		$("input[name='creteriaFormat']").change(function() {
-			$(".selectedFormats div.format").hide();
-			selectedFormat = $("input[name='creteriaFormat']:checked").val();
-			$(".selectedFormats div."+selectedFormat).show();
-			
+			if($("#predDefined").val() !== "") {
+				$(".selectedFormats div.format").hide();
+				selectedFormat = $("input[name='creteriaFormat']:checked").val();
+				$(".selectedFormats div."+selectedFormat).show();
+			} else 
+				$(".selectedFormats div.format").hide();
 		});
 		
 		$("#saveModification").click(function() {
-			var fuzzificationSaveStatusId = '<%= KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>';
-			var saveUrl	= '<%= saveUrl %>';
-			var predNecessary = $("#predNecessary").val();
-			var predDefined = $("#predDefined").val();
-			var creteriaFormat = selectedFormat;
-			var values = {};
-			values.xValue = $("input[id='xPoint']:visible").val();
-			values.tValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#tValue").val();
-			values.yPoint = $("input[id='yPoint']:visible").val();
-			values.ytValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ytValue").val();
-			if($("input[name='creteriaFormat']:checked").val() == "mediumFormat") {
-				values.zValue = $("input[id='zPoint']:visible").val();
-				values.ztValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ztValue").val();
-				values.wPoint = $("input[id='wPoint']:visible").val();
-				values.wtValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#wtValue").val();
+			if(validation.validate) {
+				var fuzzificationSaveStatusId = '<%= KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>';
+				var saveUrl	= '<%= saveUrl %>';
+				var predNecessary = $("#predNecessary").val();
+				var predDefined = $("#predDefined").val();
+				var creteriaFormat = selectedFormat;
+				var values = {};
+				values.xValue = $("input[id='xPoint']:visible").val();
+				values.tValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#tValue").val();
+				values.yPoint = $("input[id='yPoint']:visible").val();
+				values.ytValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ytValue").val();
+				if($("input[name='creteriaFormat']:checked").val() == "mediumFormat") {
+					values.zValue = $("input[id='zPoint']:visible").val();
+					values.ztValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#ztValue").val();
+					values.wPoint = $("input[id='wPoint']:visible").val();
+					values.wtValue = $(".selectedFormats .format."+$("input[name='creteriaFormat']:checked").val()+" input#wtValue").val();
+				}
+				/* var defaultValueResult = $("#defaultValueResult").val(); */
+				var defaultValueResult = null;
+				saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValueResult, null /*validateCheckBox()*/, function(){
+					$("#auxAndInvisibleSection").dialog("close");
+				});
+			} else {
+				$("#fuzzificationSaveStatus").html(validation.msg);
 			}
-			var defaultValueResult = $("#defaultValueResult").val();
-			saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValueResult, validateCheckBox());
+		});
+		
+		$("#closeDialog").click(function() {
+			$("#auxAndInvisibleSection").dialog("close");
 		});
 	});
 </script>
@@ -151,17 +174,17 @@
 							<div align="left"><strong>Choose the correct sentence</strong></div>
 								<div class="row">
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="increasingFormat" >More <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
+										<input type="radio" name="creteriaFormat" value="increasingFormat" disabled="disabled">More <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
 									</div>
 								</div>
 								<div class="row">
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="decreasingFormat" >Less <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
+										<input type="radio" name="creteriaFormat" value="decreasingFormat" disabled="disabled">Less <b class="predNecessaryTarget"></b> more <b class="predDefinedTarget">_</b>
 									</div>
 								</div>
 								<div class="row">
 									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="mediumFormat" > Only for a range of  <b class="predNecessaryTarget"></b> 
+										<input type="radio" name="creteriaFormat" value="mediumFormat" disabled="disabled"> Only for a range of  <b class="predNecessaryTarget"></b> 
 									</div>
 								</div>
 							</div>
@@ -324,7 +347,7 @@
 							<div>
 							<hr/>
 							</div>
-							<div class="row">
+							<!-- <div class="row">
 							&nbsp;&nbsp;
 							<label class="switch">
   							<input type="checkbox" id="toggleButton" onchange="Toggle()" value="0">
@@ -337,7 +360,8 @@
 							<div class="personalizationDivFuzzificationFunctionValuesTableRow hiddenDefault" id="personalizationDivFuzzificationDefaultValues">
 							Default Value:  <input type="range" name="defaultValue" min="0" max="1" step="0.01" value="1" width="150px" id="defaultValue">
 							<input type="text" id="defaultValueResult">
-							</div>
+							</div> -->
+							 
         
 
 <%
@@ -346,8 +370,7 @@
 
 					<div
 						class='personalizationDivFuzzificationFunctionWithButtonTableRow'>
-						<div
-							class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
+						<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<div class='personalizationDivSaveButtonAndMsgTableRow'>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
@@ -359,6 +382,11 @@
 										id='<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>'>
 									</div>
 								</div>
+							</div>
+						</div>
+						<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
+							<div class='personalizationDivSaveButtonAndMsgTable'>
+								<INPUT id="closeDialog" type="button" value='Exit'>
 							</div>
 						</div>
 					</div>

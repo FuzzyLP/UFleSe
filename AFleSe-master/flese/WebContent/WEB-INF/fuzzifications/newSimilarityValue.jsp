@@ -41,7 +41,13 @@
 	<hr />
 </div>
 
-
+<%
+	String updateUrl = KUrls.Fuzzifications.CheckSimilarity.getUrl(true) + "&" + KConstants.Request.fileNameParam
+			+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
+			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
+			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
+	JspsUtils.getValue(updateUrl);
+%>
 <div class="personalizationDivFuzzificationFunctionValuesTableRow">
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		CHOOSE THE ITEMS FOR DEFINING THEIR SIMILARITIES:</div>
@@ -59,7 +65,7 @@
 	</div>
 
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-		<select id='value2'>
+		<select id='value2' onchange="checkIfSimilarityExist('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=updateUrl%>', value1, value2, defaultValueResult)">
 			<option selected="selected" value="---" />
 			<%
 				for (int i = 0; i < values.length; i++) {
@@ -76,10 +82,11 @@
 		DEFINE THE DEGREE OF SIMILARITY BETWEEN THE BOTH ITEMS:</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		<input type="range" name="defaultValue" min="0" max="1" step="0.01"
-			value="1" width="150px" id="defaultValue" onchange="setSlider()">
+			value="0.5" width="150px" id="defaultValue" onchange="setSlider()" oninput="setSlider()">
 	</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-		<input type="text" id="defaultValueResult">
+		<input type="text" id="defaultValueResult" value="0.5">
+		<span id="similarityMsg">Similar</span>
 	</div>
 </div>
 

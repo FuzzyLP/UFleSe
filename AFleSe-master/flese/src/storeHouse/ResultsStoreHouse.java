@@ -6,13 +6,16 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import auxiliar.Dates;
+import filesAndPaths.FilesAndPathsException;
+import filesAndPaths.ProgramFileInfo;
+import functionUtils.SimilarityFunction;
+import managers.FileSharingException;
+import managers.FilesManagerAux;
 import ontologies.InterfaceOntologyQuery;
 import programAnalysis.ProgramPartAnalysis;
 import prologConnector.CiaoPrologQueryAnswer;
 import prologConnector.ProgramIntrospection;
-import auxiliar.Dates;
-import filesAndPaths.ProgramFileInfo;
-import functionUtils.SimilarityFunction;
 
 public class ResultsStoreHouse {
 
@@ -92,12 +95,31 @@ public class ResultsStoreHouse {
 		return filesList;
 	}
 	
-	public List<ProgramFileInfo> getPLFilesList() {
+	public List<ProgramFileInfo> getPLFilesList(RequestStoreHouse requestStoreHouse) {
 		List<ProgramFileInfo> plFilesList = new ArrayList<ProgramFileInfo>();
-		for(int i=0;i<=filesList.length-1;i++)
-			if(StringUtils.contains(filesList[i].getFileName(), ".pl"))
-				plFilesList.add(filesList[i]);
+		
+		if(filesList.length > 0)
+			filterPL(filesList,plFilesList);
+		
+		if(filesList.length == 0 && requestStoreHouse != null && requestStoreHouse.getSession().getLocalUserInfo() != null) {
+			FilesManagerAux filesManagerAux = new FilesManagerAux();
+			try {
+				ProgramFileInfo[] newFilesList = filesManagerAux.list(requestStoreHouse);
+				filterPL(newFilesList,plFilesList);
+			} catch (RequestStoreHouseException e) {
+				e.printStackTrace();
+			} catch (FilesAndPathsException e) {
+				e.printStackTrace();
+			} catch (FileSharingException e) {
+				e.printStackTrace();
+			}
+		}
 		return plFilesList;
+	}
+	private void filterPL(ProgramFileInfo[] sourceList, List<ProgramFileInfo> targetList) {
+		for(int i=0;i<=sourceList.length-1;i++)
+			if(StringUtils.contains(sourceList[i].getFileName(), ".pl"))
+				targetList.add(sourceList[i]);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////

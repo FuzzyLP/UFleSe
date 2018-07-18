@@ -56,6 +56,7 @@ public class KConstants {
 		public static final String modeUpdate = "update";
 		public static final String modeEditingDefault = "editing default";
 		public static final String defaultParam = "defaultParam";
+		public static final String modeUpdateSimilarity = "updateSimilarity";
 		
 		// define similarity parameters
 		public static final String databaseIndex = "databaseIndex";

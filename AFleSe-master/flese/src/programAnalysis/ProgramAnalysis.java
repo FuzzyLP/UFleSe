@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,17 +21,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import storeHouse.CacheStoreHouse;
-import storeHouse.CacheStoreHouseCleaner;
-import storeHouse.CacheStoreHouseException;
-import storeHouse.RequestStoreHouse;
 import auxiliar.LocalUserInfo;
 import constants.ArrayStructure;
 import constants.KConstants;
 import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
 import functionUtils.SimilarityFunction;
-import jnr.ffi.Struct.id_t;
+import storeHouse.CacheStoreHouse;
+import storeHouse.CacheStoreHouseCleaner;
+import storeHouse.CacheStoreHouseException;
+import storeHouse.RequestStoreHouse;
 
 public class ProgramAnalysis {
 	final Log LOG = LogFactory.getLog(ProgramAnalysis.class);
@@ -466,7 +466,8 @@ public class ProgramAnalysis {
 			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 			ProgramPartAnalysis newProgramPart = createNewProgramPart(predDefined,
 					predNecessary, functionDefinition);
-			String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0)." + "\n";  
+//			String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0)." + "\n";  
+			String extraLine = "";
 			String[] programPartLines = newProgramPart.getLines();
 			if (programPartLines != null) {
 				for (int i = 0; i < programPartLines.length; i++) {
@@ -589,9 +590,9 @@ public class ProgramAnalysis {
 		return functionDefinition;
 	}
 
-	public ArrayList<HashMap<String, String>> getAllDefinedFunctionDefinition(String predDefined) {
+	public ArrayList<LinkedHashMap<String, String>> getAllDefinedFunctionDefinition(String predDefined) {
 		int i = 0;
-		ArrayList<HashMap<String, String>> fuzz = new ArrayList<HashMap<String, String>>();
+		ArrayList<LinkedHashMap<String, String>> fuzz = new ArrayList<LinkedHashMap<String, String>>();
 		boolean found = false;
 		System.out.println("" + programFunctionsOrdered.length);
 		while ((i < programFunctionsOrdered.length) && (!found)) {
@@ -599,7 +600,7 @@ public class ProgramAnalysis {
 				for (int j = 0; j < programFunctionsOrdered[i].length; j++) {
 					// Taking out the default rule
 					if (programFunctionsOrdered[i][j].getOnly_for_user() != null) {
-						HashMap<String, String> h = programFunctionsOrdered[i][j].getFunctionPoints();
+						LinkedHashMap<String, String> h = programFunctionsOrdered[i][j].getFunctionPoints();
 						fuzz.add(h);
 					}
 				}
@@ -608,7 +609,7 @@ public class ProgramAnalysis {
 			i++;
 			return fuzz;
 		}
-		return new ArrayList<HashMap<String, String>>();
+		return new ArrayList<LinkedHashMap<String, String>>();
 	}
 
 	// public int updateProgramFileForDefault(LocalUserInfo localUserInfo,
@@ -855,6 +856,40 @@ public class ProgramAnalysis {
 		}
 		return resultData;
 	}
+	
+	public SimilarityFunction getParsedSimilarity(LocalUserInfo localUserInfo, String databaseName, String columnName, String value1,
+			String value2) throws Exception {
+		LOG.info("Checking the simiarity for " + databaseName + " depending on " + columnName + " if exist");
+
+		if ("".equals(databaseName))
+			throw new Exception("Database cannot be empty string.");
+		if ("".equals(columnName))
+			throw new Exception("Column cannot be empty string.");
+		
+		SimilarityFunction parsedSimilarity = null;
+		ProgramPartAnalysis programPart = null;
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+
+			if (programPart.getHead() != null
+					&& programPart.getHead().startsWith(KConstants.Fuzzifications.similarityFunction)) {
+				SimilarityFunction similarity = parseSimilarity(programPart.getHead());
+				if (similarity != null && similarity.getDatabaseName() != null) {
+					if (similarity.getDatabaseName().equals(databaseName)
+							&& similarity.getTableName().equals(columnName)
+							&& ((similarity.getColumnValue1().equals(value1)
+									&& similarity.getColumnValue2().equals(value2))
+									|| (similarity.getColumnValue2().equals(value1)
+											&& similarity.getColumnValue1().equals(value2)))) {
+						parsedSimilarity = similarity;
+					}
+				}
+			}
+		}
+
+		return parsedSimilarity;
+	}
 
 	public int updateProgramFile(LocalUserInfo localUserInfo, String databaseName, String columnName, String value1,
 			String value2, String mode, String similartyValue) throws Exception {
@@ -891,6 +926,7 @@ public class ProgramAnalysis {
 		BufferedWriter bw = new BufferedWriter(fw);
 
 		boolean occurrence = false;
+		boolean toUpdate = false;
 
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
@@ -905,7 +941,9 @@ public class ProgramAnalysis {
 									&& parsedSimilarity.getColumnValue2().equals(value2))
 									|| (parsedSimilarity.getColumnValue2().equals(value1)
 											&& parsedSimilarity.getColumnValue1().equals(value2)))) {
-						if (!KConstants.Request.modeUpdate.equals(mode)) {
+						if(KConstants.Request.modeUpdateSimilarity.equals(mode)) {
+							toUpdate = true;
+						} else if (!KConstants.Request.modeUpdate.equals(mode)) {
 							occurrence = true;
 							writeProgramPart(programPart, bw);
 						}
@@ -921,7 +959,7 @@ public class ProgramAnalysis {
 		}
 
 		int result = -1;
-		if (!occurrence) {
+		if (!occurrence || toUpdate) {
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 					value1, value2, similartyValue, predOwner), bw);
 

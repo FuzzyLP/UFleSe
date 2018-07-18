@@ -36,7 +36,7 @@
 	UPLOADED DATA FILES</h6></div>
 	<div class='filesListTableCell'><h6>PRIVACITY</h6></div>
 	<div class='filesListTableCell'><h6>REMOVE FILE</h6></div>
-	<div class='filesListTableCell'><h6>CREATE/MODIFY</h6></div>
+	<!-- <div class='filesListTableCell'><h6>CREATE/MODIFY</h6></div> -->
 </div> 
 <%	}
 	else {
@@ -77,13 +77,13 @@
 			title='remove program file <%= filesList[i].getFileName() %>'>
 			<img src='images/bin.png' width='30em'> </a>
 	</div>
-	<div class='filesListTableCell'>
+	<%-- <div class='filesListTableCell'>
 		<a href='#'
 			onclick='return personalizeProgramFile("<%=urlListFuzzifications%>", "<%= params %>", "<%=filesList[i].getFileName() %>");'
 			title='personalize program file <%= filesList[i].getFileName() %>'> <label>PERSONALIZE</label>
 			<!-- <img src='images/edit.png' width='20em'>  -->
 		</a>
-	</div>
+	</div> --%>
 </div>
 <%  }  %>
 

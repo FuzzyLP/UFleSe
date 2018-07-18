@@ -1,4 +1,4 @@
-modtype(package).
+filetype(package).
 main_title([[string_esc("RFuzzy")]]).
 sect([level(0)],global_label("RFuzzy"),[string_esc("RFuzzy")]).
 refs_link(rfuzzy_docfulltoc).

@@ -1,10 +1,7 @@
 package managers;
 
-import programAnalysis.ProgramAnalysis;
-import programAnalysis.ProgramPartAnalysis;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,8 +9,10 @@ import auxiliar.LocalUserInfo;
 import auxiliar.NextStep;
 import constants.KConstants;
 import constants.KUrls;
-import filesAndPaths.FilesAndPathsException;
 import filesAndPaths.ProgramFileInfo;
+import functionUtils.SimilarityFunction;
+import programAnalysis.ProgramAnalysis;
+import programAnalysis.ProgramPartAnalysis;
 
 public class FuzzificationsManager extends AbstractManager {
 
@@ -136,7 +135,7 @@ public class FuzzificationsManager extends AbstractManager {
 			LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
 			ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
 
-			String defaultAdded = requestStoreHouse.getRequestParameter(KConstants.Request.defaultParam);
+//			String defaultAdded = requestStoreHouse.getRequestParameter(KConstants.Request.defaultParam);
 
 			// preDefined = expensive(house) - predNecessary price(house) mode
 			// advanced - functionDefinition table
@@ -149,17 +148,17 @@ public class FuzzificationsManager extends AbstractManager {
 
 			int result = -1;
 
-			if (defaultAdded.equals("true")) {
-				String defaultFunction = KConstants.Fuzzifications.defaultFunction;
-				String defaultValue = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.defaultValue);
-
-				result = programAnalized.updateProgramFile(localUserInfo, predDefined, predNecessary, mode,
-						functionDefinition, defaultFunction, defaultValue);
-			} else {
+//			if (defaultAdded.equals("true")) {
+//				String defaultFunction = KConstants.Fuzzifications.defaultFunction;
+//				String defaultValue = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.defaultValue);
+//
+//				result = programAnalized.updateProgramFile(localUserInfo, predDefined, predNecessary, mode,
+//						functionDefinition, defaultFunction, defaultValue);
+//			} else {
 
 				result = programAnalized.updateProgramFile(localUserInfo, predDefined, predNecessary, mode,
 						functionDefinition);
-			}
+//			}
 
 			String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
 					+ " has NOT been updated. ";
@@ -210,6 +209,33 @@ public class FuzzificationsManager extends AbstractManager {
 
 	}
 
+	public void checkSimilarity() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+
+		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
+		int databaseIndex = Integer
+				.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
+		int columnIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex));
+		String value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+		String value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
+		String columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
+		
+		SimilarityFunction founfSimilarity = programAnalized.getParsedSimilarity(localUserInfo, databaseName,
+				columnName, value1, value2);
+		
+		String result = null;
+		
+		if(founfSimilarity != null) {
+			result = founfSimilarity.getSimilarityValue();
+		}
+		resultsStoreHouse.addResultMessage(result);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.CheckSimilarityPage, ""));
+	}
+	
 	public void saveSimilarity() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
@@ -360,7 +386,7 @@ public class FuzzificationsManager extends AbstractManager {
 									actualUsercaracs);
 
 							String relatedConceptName = concept[0].getPredNecessary();
-							ArrayList<HashMap<String, String>> PersonalizationsToUse = getAllDefinedFunctionDefinition(
+							ArrayList<LinkedHashMap<String, String>> PersonalizationsToUse = getAllDefinedFunctionDefinition(
 									concept, usersCaracsOfInterest, actualUsercaracs);
 							String[][] newDefaultDefinition = null;
 							if (PersonalizationsToUse.size() != 0)
@@ -395,9 +421,9 @@ public class FuzzificationsManager extends AbstractManager {
 
 	}
 
-	public ArrayList<HashMap<String, String>> getAllDefinedFunctionDefinition(ProgramPartAnalysis[] concept,
+	public ArrayList<LinkedHashMap<String, String>> getAllDefinedFunctionDefinition(ProgramPartAnalysis[] concept,
 			ArrayList<int[]> caracsOfInterest, int[] caracsActualUser) {
-		ArrayList<HashMap<String, String>> personalizationSelected = new ArrayList<HashMap<String, String>>();
+		ArrayList<LinkedHashMap<String, String>> personalizationSelected = new ArrayList<LinkedHashMap<String, String>>();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
 		for (int j = 0; j < concept.length; j++) {
 			// Taking out the default rule
@@ -405,7 +431,7 @@ public class FuzzificationsManager extends AbstractManager {
 			if (concept[j].getOnly_for_user() != null && caracs != null
 					&& ArrayListContainArray(caracsOfInterest, caracs)
 					&& StringUtils.equals(concept[j].getOnly_for_user(), localUserInfo.getLocalUserName())) {
-				HashMap<String, String> personalization = concept[j].getFunctionPoints();
+				LinkedHashMap<String, String> personalization = concept[j].getFunctionPoints();
 				personalizationSelected.add(personalization);
 			}
 		}

@@ -943,7 +943,7 @@ Usage and interface
           'jtopl'.
         - System library modules:
 
-          'fastrw', 'sockets', 'format', 'concurrency', 'sockets_io'.
+          'sockets', 'format', 'concurrency', 'sockets_io'.
         - Packages:
 
           'prelude', 'nonpure', 'condcomp', 'assertions', 'regtypes',
@@ -1304,8 +1304,6 @@ to in the text of the document.
 * condcomp <2>:                          Low-level Prolog to Java socket connection.
                                                               (line  39)
 * Distributed Programming Model:         Introduction.        (line  39)
-* fastrw:                                Low-level Prolog to Java socket connection.
-                                                              (line  36)
 * format:                                Low-level Prolog to Java socket connection.
                                                               (line  36)
 * isomodes:                              Prolog to Java interface.
@@ -1562,14 +1560,14 @@ Node: Introduction4353
 Node: Prolog to Java interface8178
 Node: Java to Prolog interface32017
 Node: Low-level Prolog to Java socket connection37813
-Node: References42982
-Node: Library/Module Index43167
-Node: Predicate/Method Index43787
-Node: Property Index48813
-Node: Regular Type Index48963
-Node: Declaration Index50118
-Node: Concept Index50268
-Node: Author Index52008
-Node: Global Index52597
+Node: References42972
+Node: Library/Module Index43157
+Node: Predicate/Method Index43777
+Node: Property Index48803
+Node: Regular Type Index48953
+Node: Declaration Index50108
+Node: Concept Index50258
+Node: Author Index51998
+Node: Global Index52587
 
 End Tag Table

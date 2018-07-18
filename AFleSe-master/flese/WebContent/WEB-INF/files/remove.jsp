@@ -16,7 +16,10 @@
 
 <script type="text/javascript">
 	showMsgsArray(<%= msgsArray %>);
-	loadAjaxIn('<%=KConstants.JspsDivsIds.filesListDiv %>', '<%=urlList %>');	
+	loadAjaxIn('<%=KConstants.JspsDivsIds.filesListDiv %>', '<%=urlList %>', function() {
+		sessionStorage.reloadAfterPageLoad = true;
+	    window.location.reload();
+	});
 </script>
 
 

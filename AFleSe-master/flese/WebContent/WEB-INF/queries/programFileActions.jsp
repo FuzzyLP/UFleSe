@@ -32,7 +32,7 @@ Data file actions: &nbsp;
 </a>
 &nbsp;and/or&nbsp;
 <a href='#' 
-	onclick='return personalizeProgramFile("<%=urlListFuzzifications%>", "<%= fuzzificationParams %>", "<%=programFileInfo.getFileName() %>");'
+	onclick='return personalizeProgramFile("<%=urlListFuzzifications%>", "<%= fuzzificationParams %>", "<%=programFileInfo.getFileName() %>", "Personalize the existing criterion");'
 	title='personalize program file'>Personalize
 </a>
 

@@ -1,7 +1,8 @@
 package programAnalysis;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,7 +23,7 @@ public class ProgramPartAnalysis {
 	private String body = null;
 	private String fuzzyBody = null;
 	private float value = -1;
-	private HashMap<String, String> functionPoints = null;
+	private LinkedHashMap<String, String> functionPoints = null;
 	private String ruleBody = null;
 	private String ruleAggregator = null;
 	private float defaults_to = -1;
@@ -32,9 +33,19 @@ public class ProgramPartAnalysis {
 	private boolean partIsIncomplete = false;
 	private String[][] programFields = null;
 	private String databaseName = null;
+	private String functionFormat = null;
+
 
 	public String getDatabaseName() {
 		return databaseName;
+	}
+	
+	public String getFunctionFormat() {
+		return functionFormat;
+	}
+
+	public void setFunctionFormat(String functionFormat) {
+		this.functionFormat = functionFormat;
 	}
 
 	private static final String whiteSpacesPattern = "[\\s]*";
@@ -457,6 +468,8 @@ public class ProgramPartAnalysis {
 	void parseFunctionPoints(String input) throws Exception {
 		// LOG.info("input: " + input);
 
+		LinkedHashMap<String, String> linked = new LinkedHashMap<String, String>();
+		
 		boolean morePoints = true;
 		int indexStart, indexMiddle, indexEnd;
 		String pointsPairString = "";
@@ -483,12 +496,13 @@ public class ProgramPartAnalysis {
 						String pointY = pointsPairString.substring(indexMiddle + 1);
 
 						if (functionPoints == null) {
-							functionPoints = new HashMap<String, String>();
+							functionPoints = new LinkedHashMap<String, String>();
 						}
 						FunctionPoint functionPoint = new FunctionPoint(pointX, pointY);
 						// LOG.info("functionPoint " +
 						// functionPoint.toString());
 						functionPoints.put(functionPoint.getCoordinate1(), functionPoint.getCoordinate2());
+						linked.put(functionPoint.getCoordinate1(), functionPoint.getCoordinate2());
 						logMsg.append(functionPoint.toString());
 					} else
 						throw new Exception("no comma between point coordinates.");
@@ -499,6 +513,19 @@ public class ProgramPartAnalysis {
 				morePoints = false;
 			}
 		}
+		
+		//Determine function format (increasing/decreasing)
+//		if(linked.size() == 2)
+			Set<String> keyValuesSet = linked.keySet();
+			String[] keyValues = keyValuesSet.toArray(new String[keyValuesSet.size()]);
+			if(linked.size() == 2)
+				if(Double.valueOf(keyValues[0]) < Double.valueOf(keyValues[1]))
+					functionFormat = "increasing";
+				else 
+					functionFormat = "decreasing";
+			else if (linked.size() == 4)
+				functionFormat = "medium";
+					
 
 		LOG.info(logMsg.toString());
 
@@ -739,9 +766,9 @@ public class ProgramPartAnalysis {
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public HashMap<String, String> getFunctionPoints() {
+	public LinkedHashMap<String, String> getFunctionPoints() {
 		if (functionPoints == null) {
-			return new HashMap<String, String>();
+			return new LinkedHashMap<String, String>();
 		}
 		return functionPoints;
 	}
@@ -762,7 +789,7 @@ public class ProgramPartAnalysis {
 		programSubPartLines = new ArrayList<String>();
 		String line = this.predDefined + " :~ function(" + this.predNecessary + ", [";
 
-		functionPoints = new HashMap<String, String>();
+		functionPoints = new LinkedHashMap<String, String>();
 		FunctionPoint functionPoint = null;
 
 		for (int i = 0; i < params.length; i++) {

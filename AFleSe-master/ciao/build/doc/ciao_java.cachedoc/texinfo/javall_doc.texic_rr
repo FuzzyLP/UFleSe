@@ -1,4 +1,4 @@
-modtype(application).
+filetype(application).
 main_title([[string_esc("Prolog/Java Bidirectional Interface")]]).
 sect([level(0)],global_label("Prolog/Java Bidirectional Interface"),[string_esc("Prolog/Java Bidirectional Interface")]).
 sect([level(1)],local_label("Summary"),string_esc("Summary")).

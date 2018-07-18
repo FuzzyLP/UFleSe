@@ -1,4 +1,4 @@
-modtype(module).
+filetype(module).
 sect([level(1)],global_label("Prolog to Java interface"),[string_esc("Prolog to Java interface")]).
 idx(def,lib,global_label("javart"),"javart").
 idx(def,author,local_label("Jesus Correas"),"Jesus Correas").

@@ -1,2 +1,2 @@
-modtype(package).
+filetype(package).
 main_title([[string_esc("RFuzzy")]]).

@@ -36,7 +36,7 @@
 @subtitle @i{Printed on:} @today
 
 @author Jes@'us Correas
-@author The CLIP Group
+@author The Ciao Development Team
 @author 
 @author @code{clip@@dia.fi.upm.es}
 @author @code{http://www.clip.dia.fi.upm.es/}

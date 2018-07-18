@@ -1,3 +1,3 @@
 #!/bin/sh
-export CIAOPATH=/home/halimdeedar/Documents/NewGit02/FleseV2/AFleSe-master/ciao
+export CIAOPATH=/home/halimdeedar/Documents/Github/FleseV2/AFleSe-master/ciao
 exec "/home/halimdeedar/.ciaoroot/master/build/bin/ciaoc" "$@"

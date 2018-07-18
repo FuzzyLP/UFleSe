@@ -6,6 +6,7 @@
 .IX javall
 
 
+
 .SH DESCRIPTION
 This manual includes the complete reference to the low-level Prolog to Java interface. This interface allows a Prolog program to start a Java process and manipulate Java objects.
 
@@ -55,7 +56,7 @@ Any incompatibility of the above clauses with legal, contractual or judiciary de
 .br
 Jesu\*'s Correas
 .br
-The CLIP Group
+The Ciao Development Team
 .br
 
 .br

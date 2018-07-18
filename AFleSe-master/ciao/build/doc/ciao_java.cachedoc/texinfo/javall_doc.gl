@@ -113,7 +113,6 @@
 \entry{java{\_}debug{\_}redo/1}{21}{\code {java_debug_redo/1}}
 \entry{start{\_}threads/0}{21}{\code {start_threads/0}}
 \entry{jtopl}{21}{\code {jtopl}}
-\entry{fastrw}{21}{\code {fastrw}}
 \entry{sockets}{21}{\code {sockets}}
 \entry{format}{21}{\code {format}}
 \entry{concurrency}{21}{\code {concurrency}}

@@ -3,17 +3,18 @@ package auxiliar;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import constants.KConstants;
 import logs.LogsManager;
 import programAnalysis.ProgramPartAnalysis;
 import storeHouse.RequestStoreHouse;
 import storeHouse.ResultsStoreHouse;
 import storeHouse.SessionStoreHouse;
 import urls.ServerAndAppUrls;
-import constants.KConstants;
 
 public class JspsUtils {
 
@@ -205,10 +206,10 @@ public class JspsUtils {
 	}
 
 	public static String[] getKeyValues(ProgramPartAnalysis[] fuzzifications) {
-		HashMap<String, String> keyValues = new HashMap<String, String>();
+		LinkedHashMap<String, String> keyValues = new LinkedHashMap<String, String>();
 
 		for (int i = 0; i < fuzzifications.length; i++) {
-			HashMap<String, String> functionPoints = fuzzifications[i].getFunctionPoints();
+			LinkedHashMap<String, String> functionPoints = fuzzifications[i].getFunctionPoints();
 			Set<String> functionKeyValuesSet = functionPoints.keySet();
 			String[] functionKeyValues = functionKeyValuesSet.toArray(new String[functionKeyValuesSet.size()]);
 			for (int j = 0; j < functionKeyValues.length; j++) {
@@ -280,7 +281,7 @@ public class JspsUtils {
 		return value;
 	}
 
-	public static String convertFunctionPointsToJS(String name, String[] keyValues, HashMap<String, String> functionPoints) {
+	public static String convertFunctionPointsToJS(String name, String[] keyValues, LinkedHashMap<String, String> functionPoints) {
 		boolean isTheFirstPoint = true;
 		StringBuilder result = new StringBuilder();
 		result.append("new fuzzificationPoints('" + name + "', '" + name + "', new Array(");

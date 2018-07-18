@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
 
 
 public class FuzzificationsAlgorithms {
-	public static String[][] algo(ArrayList<HashMap<String,String>> a)
+	public static String[][] algo(ArrayList<LinkedHashMap<String,String>> a)
 	{
 		//return averageAlgo();
 		return machineLearning(a);
@@ -51,7 +52,7 @@ public class FuzzificationsAlgorithms {
         }
 	
 	//make an average of the value of the fuzzifications
-	public static String[][] medianAlgo(ArrayList<HashMap<String,String>> a)
+	public static String[][] medianAlgo(ArrayList<LinkedHashMap<String,String>> a)
     {
         //problem cases
         if ((a == null)||(a.size() == 0))
@@ -67,7 +68,7 @@ public class FuzzificationsAlgorithms {
         {
             List<Double> contents = new ArrayList<Double>();
             double v;
-            for (HashMap<String, String> entry: a) 
+            for (LinkedHashMap<String, String> entry: a) 
             {
                 v = Double.parseDouble(entry.get(key));
                 contents.add(v);
@@ -197,7 +198,7 @@ public class FuzzificationsAlgorithms {
 		return positionsOfZonesSelected;
 	}
 	
-	public static String[][] machineLearning(ArrayList<HashMap<String,String>> a)
+	public static String[][] machineLearning(ArrayList<LinkedHashMap<String,String>> a)
     {
 		if ( ( a == null ) || ( a.size() == 0 ) )
         {
@@ -214,7 +215,7 @@ public class FuzzificationsAlgorithms {
         for ( String domainValue: domainValuesSet )
         {
             int personalizationNumber = 0;
-            for ( HashMap<String, String> personalization: a ) 
+            for ( LinkedHashMap<String, String> personalization: a ) 
             {
                 double value = Double.parseDouble( personalization.get( domainValue ) );
                 subspacesSet[ personalizationNumber ][ dimension ] = getSubspaceCoordinate( value, numberOfDivisionsPerDimension );
@@ -223,7 +224,7 @@ public class FuzzificationsAlgorithms {
             dimension++;
         }
         ArrayList<Integer> positionsOfZonesSelected = findtheAreaWithMorePersonalizations( subspacesSet );
-        ArrayList<HashMap<String,String>> selectedPersonalizations = new ArrayList<HashMap<String,String>>();
+        ArrayList<LinkedHashMap<String,String>> selectedPersonalizations = new ArrayList<LinkedHashMap<String,String>>();
         for( Integer position : positionsOfZonesSelected )
         {
         	selectedPersonalizations.add( a.get( position ) );

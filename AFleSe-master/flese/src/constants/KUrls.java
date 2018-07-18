@@ -170,6 +170,9 @@ public class KUrls {
 
 		public static final UrlMap SaveSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
 		public static final UrlMap SaveSimilarity = getUrlMap(manager, "saveSimilarity", SaveSimilarityPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap CheckSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
+		public static final UrlMap CheckSimilarity = getUrlMap(manager, "checkSimilarity", CheckSimilarityPage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap SaveDefaultSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/save.jsp");
 		public static final UrlMap SaveDefaultSimilarity = getUrlMap(manager, "saveDefaultSimilarity", EditPage, KUrls.Pages.Exception, "");

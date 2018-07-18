@@ -70,8 +70,8 @@
 	}
 	
 	
-	HashMap<String, String> defaultFuzzPoints = defaultFuzzification.getFunctionPoints();
-	HashMap<String, String> myFuzzPoints = myFuzzification.getFunctionPoints(); 
+	LinkedHashMap<String, String> defaultFuzzPoints = defaultFuzzification.getFunctionPoints();
+	LinkedHashMap<String, String> myFuzzPoints = myFuzzification.getFunctionPoints(); 
 
 %>
 <div class='personalizationDivFuzzificationFunctionTable'>
@@ -120,7 +120,8 @@
 									</div> --%>
 								</div>
 	
-								<% for (int i=0; i<keyValues.length; i++) { 
+								<% 
+									for (int i=0; i<keyValues.length; i++) { 
 										String fuzzificationBarDivId = KConstants.JspsDivsIds.fuzzificationBarValueDivId + "[" + i + "]";
 										/* String defaultValue = JspsUtils.getValueFor(keyValues[i], defaultFuzzPoints, defaultFuzzPoints);
 										String myValue = JspsUtils.getValueFor(keyValues[i], myFuzzPoints, defaultFuzzPoints); */
@@ -128,7 +129,7 @@
 								<div
 									class='personalizationDivFuzzificationFunctionValuesTableRow'>
 									<div
-										class='personalizationDivFuzzificationFunctionValuesTableCell'>
+										class='personalizationDivFuzzificationFunctionValuesTableCell valToEdit'>
 										<input id='valueOf<%= i %>' class="values" data-modified="false" type="number" value ='<%= keyValues[i] %>' onchange="pointChanged('<%= keyValues[i] %>', this,fuzzificationBars[<%= i %>], '<%=fuzzificationBarDivId %>' '<%= KConstants.JspsDivsIds.fuzzificationGraphicDivId %>')"> 
 									</div>
 									<%-- <div
@@ -209,7 +210,7 @@
 	String name;
 	
 	out.print("setFuzzificationFunction('" + defaultFuzzification.getPredDefined() + "', '" + defaultFuzzification.getPredNecessary());
-	out.print("', 0, '" + dbPredIsPredDefined + "', '" + PredNecessaryOfADbPred + "', new Array("); 
+	out.print("', '" + defaultFuzzification.getFunctionFormat() + "', 0, '" + dbPredIsPredDefined + "', '" + PredNecessaryOfADbPred + "', new Array("); 
 	
 	name = defaultFuzzification.getPredOwner();
 	if (mode.equals(KConstants.Request.modeAdvanced)) {

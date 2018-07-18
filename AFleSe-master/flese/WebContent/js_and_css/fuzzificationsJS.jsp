@@ -20,7 +20,18 @@ Pablos Ceruelo */ /*
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
+$(function() {
+    if (sessionStorage.reloadAfterPageLoad) {
+        sessionStorage.reloadAfterPageLoad = false;
+    	$("#userOptions").trigger("click");
+    }
+}); 
+
+var similarityExist = false;
+
 var fuzzificationFunction = null;
+
+var validation = {validate:false, msg:""};
 
 function fuzzificationPoints (predOwner, predOwnerHumanized, functionPoints) {
 	this.predOwner = predOwner;
@@ -30,17 +41,18 @@ function fuzzificationPoints (predOwner, predOwnerHumanized, functionPoints) {
 	return this;
 }
 
-function fuzzificationFunctionConstructor(predDefined, predNecessary, modifiable, msgTop, msgBottom, fuzzificationPoints) {
+function fuzzificationFunctionConstructor(predDefined, predNecessary, functionFormat, modifiable, msgTop, msgBottom, fuzzificationPoints) {
 	this.predDefined = predDefined;
 	this.predNecessary = predNecessary;
+	this.functionFormat = functionFormat;
 	this.modifiable = modifiable;
 	this.msgTop = msgTop;
 	this.msgBottom = msgBottom;
 	this.fuzzificationPoints = fuzzificationPoints; // ownersPersonalizations
 }
 
-function setFuzzificationFunction (predDefined, predNecessary, modifiable, msgTop, msgBottom, fuzzificationPoints) {
-	fuzzificationFunction = new fuzzificationFunctionConstructor(predDefined, predNecessary, modifiable, msgTop, msgBottom, fuzzificationPoints);
+function setFuzzificationFunction (predDefined, predNecessary, functionFormat, modifiable, msgTop, msgBottom, fuzzificationPoints) {
+	fuzzificationFunction = new fuzzificationFunctionConstructor(predDefined, predNecessary, functionFormat, modifiable, msgTop, msgBottom, fuzzificationPoints);
 }
 
 function indexOfMyPersonalizedFunction() {
@@ -244,7 +256,7 @@ function barValueChanged(barObject, fuzzificationBarDivId, fpx, fuzzificationGra
 	// Modify the stored value 
 	changeFuzzificationPointValue(fpx, valueFloat);
 
-	// Show the value in the div.
+	// Show value in the div.
 	var fuzzificationBarDiv = getContainer(fuzzificationBarDivId);
 	fuzzificationBarDiv.innerHTML = valueToShow;
 
@@ -309,6 +321,55 @@ function drawChart(divIdentifier) {
 		}
 		maxValue = maxValue + extension;
 		
+		//Start chart line from 0 or 1
+		var newMinValue = 0;
+		var newSeries = [];
+		var fuzzificationPointsData = [];
+		if(fuzzificationFunction.functionFormat == "decreasing") {
+			newMinValue = 1;
+			var tmp = $("div.valToEdit input#valueOf0").val();
+			$("div.valToEdit input#valueOf0").val($("div.valToEdit input#valueOf1").val());
+			$("div.valToEdit input#valueOf1").val(tmp);
+		}
+		$.each(fuzzificationFunction.fuzzificationPoints, function(i, fuzzificationPoint) {
+			var seriesPoints = {};
+			if(fuzzificationPoint.data.length > 0) { // && fuzzificationPoint.data[0][0] !== 0
+				fuzzificationPointsData[0] = [newMinValue, newMinValue];
+				for(var j=0;j<fuzzificationPoint.data.length;j++) {
+					if(fuzzificationFunction.functionFormat == "decreasing") {
+						fuzzificationPointsData[1] = [fuzzificationPoint.data[0][0], null];
+						fuzzificationPointsData[2] = [fuzzificationPoint.data[1][0], null];
+						fuzzificationPointsData[1][1] = fuzzificationPoint.data[1][1];
+						fuzzificationPointsData[2][1] = fuzzificationPoint.data[0][1];
+					} else 
+						fuzzificationPointsData[j+1] = fuzzificationPoint.data[j];
+				}
+				if(fuzzificationPointsData.length > 0) {
+					seriesPoints.data = fuzzificationPointsData;
+					seriesPoints.modified = fuzzificationPoint.modified;
+					seriesPoints.name = fuzzificationPoint.name;
+					seriesPoints.predOwner = fuzzificationPoint.predOwner;
+					newSeries.push(seriesPoints);
+				}
+			}
+		});
+		$.each(newSeries, function(i, serie) {
+			var a = serie.data[0][0];
+			var b = serie.data[1][0];
+			var dif = parseFloat(b) - parseFloat(a);
+			var newPx = parseFloat(serie.data[serie.data.length-1][0]) + dif;
+			var newPy = 0;
+			if(fuzzificationFunction.functionFormat == "increasing")
+				newPy = 1;
+			serie.data.push([newPx, newPy]);
+		});
+		/* $.each(newSeries, function(i, serie) {
+			serie.data.splice(serie.data.length-1,1);
+		}); */
+		if(newSeries.length == 0) {
+			newSeries = fuzzificationFunction.fuzzificationPoints;
+		}
+		
 //		$(document).ready(function() {
 			  // charts[i] = 
 		      chart = new Highcharts.Chart({
@@ -320,7 +381,7 @@ function drawChart(divIdentifier) {
 		         title: { text: fuzzificationFunction.msgTop },
 		         xAxis: {
 					title: { text: fuzzificationFunction.msgBottom },
-					min: minValue,
+					min: newMinValue, //minValue
 					max: maxValue
 		            // categories: ['Apples', 'Bananas', 'Oranges']
 		         },
@@ -331,7 +392,7 @@ function drawChart(divIdentifier) {
 		         	// categories: [0, 0.25, 0.5, 0.75, 1]
 	    	     },
 /*	    	     navigator: { height: 30, width: 40 }, center: [60, 45], size: 50, */
-	        	 series: fuzzificationFunction.fuzzificationPoints
+	        	 series: newSeries
 		         		/*	[{ name: 'Jane', data: [1, 0, 4] }, { name: 'John', data: [5, 7, 3] }] */
 		      });
 //		   });
@@ -350,10 +411,13 @@ function drawChart(divIdentifier) {
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
-function personalizeProgramFile(url, params, fileName) {
+function personalizeProgramFile(url, params, fileName, firstTabTitle) {
 	var containerId = '<%=KConstants.JspsDivsIds.auxAndInvisibleSection %>';
 	
-	loadAjaxInDialog(containerId, url + params, 'Personalize program file ' + fileName);
+	loadAjaxInDialog(containerId, url + params, 'Personalize program file ' + fileName, function() {
+		$("div.tab button#defaultOpen").html(firstTabTitle);
+		$("div.tabcontent div.customLabel").html(firstTabTitle+" ");
+	});
 	
 	//prevent the browser to follow the link
 	return false;
@@ -398,7 +462,7 @@ function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderMo
 	if (params != "") {
 		var ne = "";
 		if (params.split("&")[params.split("&").length-1] == "new")
-			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlNew + params);
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlNew + params,function(){ defineNewFuzzyFormValidation() });
 		else if (params.split("&")[params.split("&").length-1] == "define")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlDefine + params);
 		else if(params.split("&")[params.split("&").length-1] == "add")
@@ -419,7 +483,153 @@ function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderMo
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
-function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
+function defineNewFuzzyFormValidation() {
+	//increasingFormat FORM VALIDATION
+	$("div.increasingFormat input#xPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.increasingFormat input#yPoint").val()!=="")
+			if(parseInt($(this).val()) < parseInt($("div.increasingFormat input#yPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.increasingFormat input#yPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.increasingFormat input#yPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value1 should be <b>lower</b> than value2";
+			}
+	});
+	$("div.increasingFormat input#yPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.increasingFormat input#xPoint").val()!=="")
+			if(parseInt($(this).val()) > parseInt($("div.increasingFormat input#xPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.increasingFormat input#xPoint").css("border-color","");
+			} else {
+				validation.validate = false;
+				$(this).css("border-color","red");
+				$("div.increasingFormat input#xPoint").css("border-color","red");
+				validation.msg = "value1 should be <b>lower</b> than value2";
+			}
+	});
+	//decreasingFormat FORM VALIDATION
+	$("div.decreasingFormat input#xPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.decreasingFormat input#yPoint").val()!=="")
+			if(parseInt($(this).val()) > parseInt($("div.decreasingFormat input#yPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.decreasingFormat input#yPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.decreasingFormat input#yPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value1 should be <b>higher</b> than value2";
+			}
+	});
+	$("div.decreasingFormat input#yPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.decreasingFormat input#xPoint").val()!=="")
+			if(parseInt($(this).val()) < parseInt($("div.decreasingFormat input#xPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.decreasingFormat input#xPoint").css("border-color","");
+			} else {
+				validation.validate = false;
+				$(this).css("border-color","red");
+				$("div.decreasingFormat input#xPoint").css("border-color","red");
+				validation.msg = "value1 should be <b>higher</b> than value2";
+			}
+	});
+	//mediumFormat FORM VALIDATION
+	$("div.mediumFormat input#xPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.mediumFormat input#yPoint").val()!=="" && $("div.mediumFormat input#zPoint").val()!=="" && $("div.mediumFormat input#wPoint").val()!=="")
+			if(parseInt($(this).val()) < parseInt($("div.mediumFormat input#yPoint").val())
+					&& parseInt($("div.mediumFormat input#yPoint").val()) < parseInt($("div.mediumFormat input#zPoint").val())
+					&& parseInt($("div.mediumFormat input#zPoint").val()) < parseInt($("div.mediumFormat input#wPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.mediumFormat input#yPoint").css("border-color","");
+				$("div.mediumFormat input#zPoint").css("border-color","");
+				$("div.mediumFormat input#wPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.mediumFormat input#yPoint").css("border-color","red");
+				$("div.mediumFormat input#zPoint").css("border-color","red");
+				$("div.mediumFormat input#wPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+			}
+	});
+	$("div.mediumFormat input#yPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.mediumFormat input#xPoint").val()!=="" && $("div.mediumFormat input#zPoint").val()!=="" && $("div.mediumFormat input#wPoint").val()!=="")
+			if(parseInt($("div.mediumFormat input#xPoint").val()) < parseInt($(this).val())
+					&& parseInt($(this).val()) < parseInt($("div.mediumFormat input#zPoint").val())
+					&& parseInt($("div.mediumFormat input#zPoint").val()) < parseInt($("div.mediumFormat input#wPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.mediumFormat input#xPoint").css("border-color","");
+				$("div.mediumFormat input#zPoint").css("border-color","");
+				$("div.mediumFormat input#wPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.mediumFormat input#xPoint").css("border-color","red");
+				$("div.mediumFormat input#zPoint").css("border-color","red");
+				$("div.mediumFormat input#wPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+			}
+	});
+	$("div.mediumFormat input#zPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.mediumFormat input#xPoint").val()!=="" && $("div.mediumFormat input#yPoint").val()!=="" && $("div.mediumFormat input#wPoint").val()!=="")
+			if(parseInt($("div.mediumFormat input#xPoint").val()) < parseInt($("div.mediumFormat input#yPoint").val())
+					&& parseInt($("div.mediumFormat input#yPoint").val()) < parseInt($(this).val())
+					&& parseInt($(this).val()) < parseInt($("div.mediumFormat input#wPoint").val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.mediumFormat input#xPoint").css("border-color","");
+				$("div.mediumFormat input#yPoint").css("border-color","");
+				$("div.mediumFormat input#wPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.mediumFormat input#xPoint").css("border-color","red");
+				$("div.mediumFormat input#yPoint").css("border-color","red");
+				$("div.mediumFormat input#wPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+			}
+	});
+	$("div.mediumFormat input#wPoint").on("change paste keyup", function() {
+		if($(this).val()!=="" && $("div.mediumFormat input#xPoint").val()!=="" && $("div.mediumFormat input#yPoint").val()!=="" && $("div.mediumFormat input#zPoint").val()!=="")
+			if(parseInt($("div.mediumFormat input#xPoint").val()) < parseInt($("div.mediumFormat input#yPoint").val())
+					&& parseInt($("div.mediumFormat input#yPoint").val()) < parseInt($("div.mediumFormat input#zPoint").val())
+					&& parseInt($("div.mediumFormat input#zPoint").val()) < parseInt($(this).val())) {
+				validation.validate = true;
+				validation.msg = "";
+				$(this).css("border-color","");
+				$("div.mediumFormat input#xPoint").css("border-color","");
+				$("div.mediumFormat input#yPoint").css("border-color","");
+				$("div.mediumFormat input#zPoint").css("border-color","");
+			} else {
+				$(this).css("border-color","red");
+				$("div.mediumFormat input#xPoint").css("border-color","red");
+				$("div.mediumFormat input#yPoint").css("border-color","red");
+				$("div.mediumFormat input#zPoint").css("border-color","red");
+				validation.validate = false;
+				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+			}
+	});
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl, callback) {
 	var fuzzificationSaveStatusDiv = getContainer(fuzzificationSaveStatusDivId);
 	fuzzificationSaveStatusDiv.innerHTML = loadingImageHtml(false);
 	
@@ -438,14 +648,20 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
 				} else {
 					var fpx = fuzzificationFunction.fuzzificationPoints[i].data[j][0];
 				}
-				var fpy = fuzzificationFunction.fuzzificationPoints[i].data[j][1];
+				if(fuzzificationFunction.functionFormat=="decreasing" && j==0) {
+					var fpy = fuzzificationFunction.fuzzificationPoints[i].data[1][1];
+				} else if(fuzzificationFunction.functionFormat=="decreasing" && j==1) { 
+					var fpy = fuzzificationFunction.fuzzificationPoints[i].data[0][1];
+				} else {
+					var fpy = fuzzificationFunction.fuzzificationPoints[i].data[j][1];
+				}
 		
 				saveUrl += "&fpx["+j+"]=" + fpx;
 				saveUrl += "&fpy["+j+"]=" + fpy;
 			}
 	
 			fuzzificationFunction.fuzzificationPoints[i].modified = false;
-			loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
+			loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, callback);
 		}
 		else {
 			fuzzificationSaveStatusDiv.innerHTML = "No changes to save.";
@@ -457,14 +673,13 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl) {
 }
 
 
-function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValue, addDefault)
+function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValue, addDefault, callback)
 {
-	//console.log("values:"+ defaultValue + addDefault);
 	funcPoints = [[values.xValue,values.tValue],[values.yPoint,values.ytValue]];
 	if(creteriaFormat == "mediumFormat") {
 		funcPoints.push([values.zValue,values.ztValue],[values.wPoint,values.wtValue]);
 	}
-	if(addDefault == true){
+	<%-- if(addDefault == true){
 		owner = saveUrl.split("&")[4].split("=")[1];
 		setFuzzificationFunction(predDefined, predNecessary, 0, predDefined, predNecessary, [fuzzificationPoints(owner, owner, funcPoints)]);
 		this.fuzzificationFunction.fuzzificationPoints[0].modified = true;
@@ -477,7 +692,7 @@ function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary,
 			'<%=KConstants.Request.defaultParam%>' + "=" + 'true'
 			+ "&mode=create";
 			console.log(saveUrl);
-			saveFuzzification(fuzzificationSaveStatusId, saveUrl);
+			saveFuzzification(fuzzificationSaveStatusId, saveUrl, callback);
 	} else {
 		owner = saveUrl.split("&")[4].split("=")[1];
 		setFuzzificationFunction(predDefined, predNecessary, 0, predDefined, predNecessary, [fuzzificationPoints(owner, owner, funcPoints)]);
@@ -488,7 +703,38 @@ function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary,
 		'<%=KConstants.Request.defaultParam%>' + "=" + 'false'
 		+ "&mode=create";
 		console.log(saveUrl);
-		saveFuzzification(fuzzificationSaveStatusId, saveUrl);
+		saveFuzzification(fuzzificationSaveStatusId, saveUrl, callback);
+	} --%>
+	var owner = saveUrl.split("&")[4].split("=")[1];
+	setFuzzificationFunction(predDefined, predNecessary, null, 0, predDefined, predNecessary, [fuzzificationPoints(owner, owner, funcPoints)]);
+	this.fuzzificationFunction.fuzzificationPoints[0].modified = true;
+	saveUrl = saveUrl +
+	"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
+	"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary+ "&" + 
+	'<%=KConstants.Request.defaultParam%>' + "=" + 'false'
+	+ "&mode=create";
+	console.log(saveUrl);
+	saveFuzzification(fuzzificationSaveStatusId, saveUrl, callback);
+}
+
+function checkIfSimilarityExist(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity) {
+	if(value2 != "") {
+		saveUrl = saveUrl + "&" + '<%=KConstants.Request.value1Index%>' + "=" + value1.value +
+		"&" + '<%=KConstants.Request.value2Index%>' + "=" + value2.value +
+		"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
+		loadAjaxIn(null, saveUrl, function(res) {
+			var simalarityValue = res.replace(/\s/g, '').split("<!--END-->")[0];
+			if(simalarityValue != "") {
+				$("#defaultValue").val(simalarityValue);
+				$("#defaultValueResult").val(simalarityValue);
+				$("span#similarityMsg").html(getSimilarityState(simalarityValue));
+				similarityExist = true;
+			} else {
+				$("#defaultValue").val(0.5);
+				$("#defaultValueResult").val(0.5);
+				$("span#similarityMsg").html(getSimilarityState(0.5));
+			}
+		});
 	}
 }
 
@@ -496,6 +742,9 @@ function saveSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, s
 	saveUrl = saveUrl + "&" + '<%=KConstants.Request.value1Index%>' + "=" + value1.value +
 	"&" + '<%=KConstants.Request.value2Index%>' + "=" + value2.value +
 	"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
+	if(similarityExist) {
+		saveUrl = saveUrl + "&mode=" + '<%=KConstants.Request.modeUpdateSimilarity%>';
+	}
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
 }
 

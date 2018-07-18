@@ -66,8 +66,6 @@ This module defines a low-level socket interface, to be used by javart and jtopl
 @code{jtopl}.
 @item @i{System library modules:}
 
-@glindex fastrw
-@code{fastrw}, 
 @glindex sockets
 @code{sockets}, 
 @glindex format

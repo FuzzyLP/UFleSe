@@ -14,7 +14,7 @@
 		<%
 		RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 		ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
-		List<ProgramFileInfo> plFilesList = resultsStoreHouse.getPLFilesList();
+		List<ProgramFileInfo> plFilesList = resultsStoreHouse.getPLFilesList(null);
 
 		String urlSelectQueryStartType = KUrls.Queries.SelectQueryStartType.getUrl(true);
 		String urlProgramFileActions = KUrls.Queries.ProgramFileActions.getUrl(true); 

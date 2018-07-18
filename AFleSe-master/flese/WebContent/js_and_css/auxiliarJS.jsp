@@ -82,7 +82,7 @@ function debugInfoIfVarIsNull(varValue, varName, preMsg) {
 	}
 }
 
-function executeAjaxLoadedPageJS(loadedContent) {
+function executeAjaxLoadedPageJS(loadedContent,callback) {
 	// From http://stackoverflow.com/questions/10888326/executing-javascript-script-after-ajax-loaded-a-page-doesnt-work
 	var content = loadedContent;
 	// xmlhttp.responseText;
@@ -104,6 +104,8 @@ function executeAjaxLoadedPageJS(loadedContent) {
 			eval(scriptString);
     	}
 	}
+	if(callback)
+		setTimeout(function(){ callback() }, 3000);
 }
 
 function scriptHasProblematicParts(scriptString) {
@@ -120,7 +122,8 @@ function scriptHasProblematicParts(scriptString) {
 function loadAjaxIn(containerId, ajaxPageUrl, callback) {
 	// debug.info("loadAjaxIn("+containerId + ", " + ajaxPageUrl + ")");
 	var container = getContainer(containerId);
-	if (container === null) {
+	var notChkSimilarity = getParamFromGivenUrl(ajaxPageUrl, "op") != "checkSimilarity";
+	if (notChkSimilarity && container === null) {
 		debug.info("aborted loadAjaxIn");
 		debug.info("containerId: " + containerId);
 		debug.info("ajaxPageUrl: " + ajaxPageUrl);
@@ -130,26 +133,29 @@ function loadAjaxIn(containerId, ajaxPageUrl, callback) {
 
 	// Clear the msgs section. WHY ?????? 
 	// clearMsgsSection();
-	
-	container.innerHTML=loadingImageHtml(true);
+	if(notChkSimilarity)
+		container.innerHTML=loadingImageHtml(true);
     $.ajax({
         method: 'get',
         url: ajaxPageUrl,
         data: 'page=' + $(this).attr('rel'),
         beforeSend: function() {
-            container.innerHTML=loadingImageHtml(true);
+        	if(notChkSimilarity)
+            	container.innerHTML=loadingImageHtml(true);
         },
-        complete: function() {
+        complete: function(object) {
         	debug.info("load of html is complete.");
         	// container.innerHTML=loadingImageHtml(true);
         	if(callback)
-        		callback();
+        		callback(object.responseText);
         },
         success: function(html) {
-        	console.log("loading html: " + html);
-        	container.innerHTML=html;
-        	executeAjaxLoadedPageJS(html);
-        	//alert("success" + html);
+        	if(notChkSimilarity) {
+	        	console.log("loading html: " + html);
+	        	container.innerHTML=html;
+	        	executeAjaxLoadedPageJS(html);
+	        	//alert("success" + html);
+        	}
 		},
 		fail: function() { 
 			alert("error: Impossible to load page " + ajaxPageUrl); 
@@ -160,7 +166,7 @@ function loadAjaxIn(containerId, ajaxPageUrl, callback) {
 	return false;
 }
 
-function loadAjaxInDialog(containerId, ajaxPageUrl, title, width, height) {
+function loadAjaxInDialog(containerId, ajaxPageUrl, title, width, height, callback) {
 	var container = getContainer(containerId);
 	if (container === null) {
 		debug.info("aborted loadAjaxInDialog");
@@ -185,7 +191,7 @@ function loadAjaxInDialog(containerId, ajaxPageUrl, title, width, height) {
         	console.log("loading html: " + html);
         	container.innerHTML=html;
         	openDialogWindow(containerId, title, width, height);
-        	executeAjaxLoadedPageJS(html);
+        	executeAjaxLoadedPageJS(html,callback);
 		},
 		fail: function() { 
 			alert("error: Impossible to load page " + ajaxPageUrl); 

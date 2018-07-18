@@ -9,7 +9,6 @@
 \initial {D}
 \entry {\code {Distributed Programming Model}}{3}
 \initial {F}
-\entry {\code {fastrw}}{21}
 \entry {\code {format}}{21}
 \initial {I}
 \entry {\code {is_connected_to_java/0}}{21, 23}

@@ -30,7 +30,10 @@ var fuzzyTypes = null; //variable to keep the values of the columns
 function removeFileAction (urlRemove, params) {
 	var divId = "<%=KConstants.JspsDivsIds.auxAndInvisibleSection %>";
 	
-	loadAjaxIn(divId, urlRemove + params);
+	loadAjaxIn(divId, urlRemove + params, function() {
+		if(getParamFromGivenUrl(urlRemove, "fileName").indexOf(".pl") >= 0)
+			setTimeout(function(){ location.reload(); }, 1000);
+	});
 }
 
 function changeSharingState (urlRemove, params) {
@@ -106,7 +109,10 @@ function fileUploadAutomaticSendActionOnChange(formId, uploadStatusDivId) {
 	uploadStatusDiv.innerHTML = loadingImageHtml(true);
 
 	var form = document.getElementById(formId);
+	sessionStorage.reloadAfterPageLoad = true;
 	form.submit();
+	if($("#uploadForm #file").val().indexOf(".pl") >= 0)
+		setTimeout(function(){ location.reload(); }, 1000);
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------*/
