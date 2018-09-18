@@ -55,7 +55,7 @@
 				<br/> 
 					<ul id="nav">
 						<li><a id='userOptions' title='user options' href='#' onclick="return loadUserOptions();">user options</a> | </li>
-						<li><a id='searchQuery' title='search query' href='#' onclick="">Search query</a>
+						<li><a id='searchQuery' title='search options' href='#' onclick="">search options</a>
 						<% if (plFilesList.size() > 0) { %>
 							<ul>
 							<% for (ProgramFileInfo programFileInfo : plFilesList) { 
@@ -63,7 +63,7 @@
 										"&" + KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + 
 										"&" + KConstants.Request.mode + "=" + KConstants.Request.modeAdvanced;
 							%>
-								<li><b><a href="#"
+								<li><b><a href="#" id='backgr'
 										onclick='return personalizeProgramFile("<%=urlListFuzzifications%>", "<%= params %>", "<%=programFileInfo.getFileName() %>", "Modify the existing criterion");'
 										title="personalize program file"
 									> <%=programFileInfo.getFileName() %></a></b></li>

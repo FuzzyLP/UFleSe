@@ -1,4 +1,4 @@
-This is TeXk, Version 3.14159265 (TeX Live 2015/Debian) (preloaded format=tex 2018.7.18)  18 JUL 2018 18:40
+This is TeXk, Version 3.14159265 (TeX Live 2015/Debian) (preloaded format=tex 2018.7.18)  18 SEP 2018 12:49
  file:line:error style messages enabled.
 **\nonstopmode\input javall_doc.texic
 (./javall_doc.texic (./texinfo.tex Loading texinfo package [Version 2.257]:
@@ -475,4 +475,4 @@ Here is how much of TeX's memory you used:
  19 hyphenation exceptions out of 8191
  15i,6n,13p,983b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on javall_doc.dvi (46 pages, 117704 bytes).
+Output written on javall_doc.dvi (46 pages, 117712 bytes).

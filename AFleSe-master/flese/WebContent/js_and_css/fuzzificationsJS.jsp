@@ -496,7 +496,7 @@ function defineNewFuzzyFormValidation() {
 				$(this).css("border-color","red");
 				$("div.increasingFormat input#yPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value1 should be <b>lower</b> than value2";
+				validation.msg = "V1 should be <b>lower</b> than V2";
 			}
 	});
 	$("div.increasingFormat input#yPoint").on("change paste keyup", function() {
@@ -510,13 +510,13 @@ function defineNewFuzzyFormValidation() {
 				validation.validate = false;
 				$(this).css("border-color","red");
 				$("div.increasingFormat input#xPoint").css("border-color","red");
-				validation.msg = "value1 should be <b>lower</b> than value2";
+				validation.msg = "V1 should be <b>lower</b> than V2";
 			}
 	});
 	//decreasingFormat FORM VALIDATION
 	$("div.decreasingFormat input#xPoint").on("change paste keyup", function() {
 		if($(this).val()!=="" && $("div.decreasingFormat input#yPoint").val()!=="")
-			if(parseInt($(this).val()) > parseInt($("div.decreasingFormat input#yPoint").val())) {
+			if(parseInt($(this).val()) < parseInt($("div.decreasingFormat input#yPoint").val())) {
 				validation.validate = true;
 				validation.msg = "";
 				$(this).css("border-color","");
@@ -525,12 +525,12 @@ function defineNewFuzzyFormValidation() {
 				$(this).css("border-color","red");
 				$("div.decreasingFormat input#yPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value1 should be <b>higher</b> than value2";
+				validation.msg = "V1 should be <b>lower</b> than V2";
 			}
 	});
 	$("div.decreasingFormat input#yPoint").on("change paste keyup", function() {
 		if($(this).val()!=="" && $("div.decreasingFormat input#xPoint").val()!=="")
-			if(parseInt($(this).val()) < parseInt($("div.decreasingFormat input#xPoint").val())) {
+			if(parseInt($(this).val()) > parseInt($("div.decreasingFormat input#xPoint").val())) {
 				validation.validate = true;
 				validation.msg = "";
 				$(this).css("border-color","");
@@ -539,7 +539,7 @@ function defineNewFuzzyFormValidation() {
 				validation.validate = false;
 				$(this).css("border-color","red");
 				$("div.decreasingFormat input#xPoint").css("border-color","red");
-				validation.msg = "value1 should be <b>higher</b> than value2";
+				validation.msg = "V1 should be <b>lower</b> than V2";
 			}
 	});
 	//mediumFormat FORM VALIDATION
@@ -560,7 +560,7 @@ function defineNewFuzzyFormValidation() {
 				$("div.mediumFormat input#zPoint").css("border-color","red");
 				$("div.mediumFormat input#wPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+				validation.msg = "V2 should be <b>higher</b> than V1<br>V3 should be <b>higher</b> than V2<br>V4 should be <b>higher</b> than V3";
 			}
 	});
 	$("div.mediumFormat input#yPoint").on("change paste keyup", function() {
@@ -580,7 +580,7 @@ function defineNewFuzzyFormValidation() {
 				$("div.mediumFormat input#zPoint").css("border-color","red");
 				$("div.mediumFormat input#wPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+				validation.msg = "V2 should be <b>higher</b> than V1<br>V3 should be <b>higher</b> than V2<br>V4 should be <b>higher</b> than V3";
 			}
 	});
 	$("div.mediumFormat input#zPoint").on("change paste keyup", function() {
@@ -600,7 +600,7 @@ function defineNewFuzzyFormValidation() {
 				$("div.mediumFormat input#yPoint").css("border-color","red");
 				$("div.mediumFormat input#wPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+				validation.msg = "V2 should be <b>higher</b> than V1<br>V3 should be <b>higher</b> than V2<br>V4 should be <b>higher</b> than V3";
 			}
 	});
 	$("div.mediumFormat input#wPoint").on("change paste keyup", function() {
@@ -620,7 +620,7 @@ function defineNewFuzzyFormValidation() {
 				$("div.mediumFormat input#yPoint").css("border-color","red");
 				$("div.mediumFormat input#zPoint").css("border-color","red");
 				validation.validate = false;
-				validation.msg = "value2 should be <b>higher</b> than value1<br>value3 should be <b>higher</b> than value2<br>value4 should be <b>higher</b> than value3";
+				validation.msg = "V2 should be <b>higher</b> than V1<br>V3 should be <b>higher</b> than V2<br>value4 should be <b>higher</b> than V3";
 			}
 	});
 }

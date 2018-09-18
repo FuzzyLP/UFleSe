@@ -1,3 +1,16 @@
+/CiaoJava/
+/authProviders/
+/auxiliar/
+/config.properties
+/constants/
+/conversors/
+/fileConverters/
+/filesAndPaths/
+/filters/
+/functionUtils/
+/logs/
+/managers/
+/ontologies/
 /org/
 /programAnalysis/
 /prologConnector/

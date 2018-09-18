@@ -1181,3 +1181,15 @@ img.removeRow {
 	margin-bottom: -13px;
 	margin-left: -60px;
 }
+
+#defaultValueResult{
+	width: 30%;
+}
+
+#backgr{
+	background-color: #6ED9A1;
+	color: white;
+	position: center;
+	padding: 2px 12px 4px 8px;
+	opacity: 9%;
+}
