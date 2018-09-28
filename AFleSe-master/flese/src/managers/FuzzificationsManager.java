@@ -2,6 +2,7 @@ package managers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -65,6 +66,45 @@ public class FuzzificationsManager extends AbstractManager {
 		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.NewPage, ""));
+
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void updateFuzz() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		String predDefined = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predDefined);
+		String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+//		String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFuzzifications(localUserInfo,
+				predDefined, predNecessary, "");
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+		
+		ProgramPartAnalysis[][] programPartAnalysis2 = programAnalized.getProgramFields();
+		resultsStoreHouse.setProgramPartAnalysis2(programPartAnalysis2);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.UpdateFuzzPage, ""));
+
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void updateSimilarity() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFields();
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+		
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.UpdateSimilarityPage, ""));
 
 	}
 
@@ -188,6 +228,22 @@ public class FuzzificationsManager extends AbstractManager {
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SimilarityColumnPage, ""));
 	}
+	
+	public void updateSimilarityColumn() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFields();
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		
+		String columnIndex = requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex);
+		String value1Index = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+		String value2Index = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.UpdateSimilarityColumnPage, ""));
+	}
 
 	public void similarityValue() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
@@ -208,6 +264,30 @@ public class FuzzificationsManager extends AbstractManager {
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SimilarityValuePage, ""));
 
 	}
+	
+	public void updateSimilarityValue() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFields();
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+
+		String databaseIndex = requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex);
+		int dbIndex = Integer.parseInt(databaseIndex);
+		
+		String value1Index = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+		String value2Index = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
+
+		String[][] data = programAnalized.parseData(programPartAnalysis[0][dbIndex].getDatabaseName(),
+				programAnalized.getProgramParts());
+		resultsStoreHouse.setProgramPartData(data);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.UpdateSimilarityValuePage, ""));
+
+	}
 
 	public void checkSimilarity() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
@@ -223,14 +303,20 @@ public class FuzzificationsManager extends AbstractManager {
 		String databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
 		String columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
 		
-		SimilarityFunction founfSimilarity = programAnalized.getParsedSimilarity(localUserInfo, databaseName,
+		Map<String, SimilarityFunction> founfSimilarity = programAnalized.getParsedSimilarity(localUserInfo, databaseName,
 				columnName, value1, value2);
 		
 		String result = null;
 		
-		if(founfSimilarity != null) {
-			result = founfSimilarity.getSimilarityValue();
+		if(founfSimilarity.containsKey("exist") && founfSimilarity.get("exist") != null) {
+			result = founfSimilarity.get("exist").getSimilarityValue();
+		} else if(founfSimilarity.containsKey("opposit")) {
+			result = "opposit";
 		}
+		
+//		if(founfSimilarity != null) {
+//			result = founfSimilarity.getSimilarityValue();
+//		}
 		resultsStoreHouse.addResultMessage(result);
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.CheckSimilarityPage, ""));
@@ -247,12 +333,23 @@ public class FuzzificationsManager extends AbstractManager {
 		String columnName = "";
 		String value1 = "";
 		String value2 = "";
-
+		String oldValue1 = "";
+		String oldValue2 = "";
 		if (KConstants.Request.modeUpdate.equals(mode)) {
 			databaseName = requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex);
 			columnName = requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex);
 			value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
 			value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		} else if (KConstants.Request.modeUpdateExitingSimilarity.equals(mode)) {
+			int databaseIndex = Integer
+					.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
+			int columnIndex = Integer.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex));
+			value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+			value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+			oldValue1 = requestStoreHouse.getRequestParameter(KConstants.Request.oldValue1Index);
+			oldValue2 = requestStoreHouse.getRequestParameter(KConstants.Request.oldValue2Index);
+			databaseName = programAnalized.getProgramFields()[0][databaseIndex].getDatabaseName();
+			columnName = programAnalized.getProgramFields()[0][databaseIndex].getProgramFields()[columnIndex][0];
 		} else {
 			int databaseIndex = Integer
 					.parseInt(requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex));
@@ -265,7 +362,7 @@ public class FuzzificationsManager extends AbstractManager {
 		int result = -1;
 
 		result = programAnalized.updateProgramFile(localUserInfo, databaseName, columnName, value1, value2, mode,
-				similartyValue);
+				similartyValue, oldValue1, oldValue2);
 
 		String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
 				+ " has NOT been updated because of same similarity function already defined. ";
@@ -328,6 +425,54 @@ public class FuzzificationsManager extends AbstractManager {
 
 		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SaveModifierPage, ""));
 	}
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public void removeFuzzy() throws Exception {
+		try {
+			ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+			LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+			ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+
+			String predDefined = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predDefined);
+			String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+			String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+
+			String[][] functionDefinition = programAnalized.getFunctionDefinition(requestStoreHouse);
+
+			programAnalized.removeFuzzy(localUserInfo, predDefined, predNecessary, mode,
+					functionDefinition);
+
+			// getting the data
+			updateDefaults();
+
+//			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SavePage, ""));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void removeSimilarity() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+
+		String predDefined = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predDefined);
+		String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+		String similartyValue = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
+		String databaseName = requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex);
+		String columnName = requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex);
+		String value1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+		String value2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+		
+		programAnalized.removeSimilarity(localUserInfo, predDefined, predNecessary, databaseName, columnName, value1, value2);
+
+		//setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.ListPage, ""));
+
+	}
+	
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////

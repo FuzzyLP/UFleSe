@@ -1,3 +1,5 @@
+<%@page import="org.json.JSONObject"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="programAnalysis.FunctionPoint"%>
 <%@page import="programAnalysis.ProgramPartAnalysis"%>
 <%@page import="constants.KUrls"%>
@@ -18,20 +20,43 @@
 	String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
 	String fileName = requestStoreHouse.getRequestParameter(KConstants.Request.fileNameParam);
 	String fileOwner = requestStoreHouse.getRequestParameter(KConstants.Request.fileOwnerParam);
-	//String predDefined = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predDefined);
-	//String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+	String predDefined = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predDefined);
+	String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
 	
+	String saveUrl = KUrls.Fuzzifications.Save.getUrl(true) + 
+			"&" + KConstants.Request.fileNameParam + "=" + fileName + 
+			"&" + KConstants.Request.fileOwnerParam + "=" + fileOwner +
+			"&" + KConstants.Request.mode + "=" + mode;
+			JspsUtils.getValue(saveUrl);
 	
-	ProgramPartAnalysis [][] programFields = resultsStoreHouse.getProgramPartAnalysis();
+	ProgramPartAnalysis [][] fuzzifications = resultsStoreHouse.getProgramPartAnalysis();
+	ProgramPartAnalysis [][] programFields = resultsStoreHouse.getProgramPartAnalysis2();
 	ProgramPartAnalysis [] thisFuzzification = null;
 	ProgramPartAnalysis myFuzzification = null;
 	ProgramPartAnalysis defaultFuzzification = null;
 	ProgramPartAnalysis [] othersFuzzifications = null;
 	String [] keyValues = null;
-
-	/*if (programFields.length >= 1) {
-		thisFuzzification = programFields[0];
-		keyValues = JspsUtils.getKeyValues(thisFuzzification);
+	
+	if (fuzzifications.length >= 1) {
+		if(fuzzifications[0].length == 1) {
+			thisFuzzification = fuzzifications[0];
+			keyValues = JspsUtils.getKeyValues(thisFuzzification);
+		} else if(fuzzifications[0].length > 1) {
+			if(StringUtils.equals(mode, KConstants.Request.modeAdvanced)) {
+				thisFuzzification = fuzzifications[0];
+				keyValues = JspsUtils.getKeyValues(thisFuzzification);
+			} else if(StringUtils.equals(mode, KConstants.Request.modeBasic)) {
+				for(ProgramPartAnalysis program : fuzzifications[0]) {
+					if(program.getOnly_for_user() != null && StringUtils.equals(program.getOnly_for_user(), localUserInfo.getLocalUserName())) {
+						ProgramPartAnalysis [] thisFuzz = new ProgramPartAnalysis[1];
+						thisFuzz[0] = program;
+						keyValues = JspsUtils.getKeyValues(thisFuzz);
+						thisFuzzification = thisFuzz;
+						break;
+					}
+				}
+			}
+		}
 		
 		if (thisFuzzification.length == 1) {
 			defaultFuzzification = thisFuzzification[0];
@@ -45,22 +70,66 @@
 		}
 	}
 	
+	LinkedHashMap<String, String> defaultFuzzPoints = defaultFuzzification.getFunctionPoints();
+	LinkedHashMap<String, String> myFuzzPoints = myFuzzification.getFunctionPoints(); 
 	
-	HashMap<String, String> defaultFuzzPoints = defaultFuzzification.getFunctionPoints();
-	HashMap<String, String> myFuzzPoints = myFuzzification.getFunctionPoints(); 
+	JSONObject jsonVals = new JSONObject(myFuzzPoints);
 	
-	*/
-	String predDefined = "", predNecessary = "";
-	int x, y;
-
-	String saveUrl = KUrls.Fuzzifications.Save.getUrl(true) + 
-			"&" + KConstants.Request.fileNameParam + "=" + fileName + 
-			"&" + KConstants.Request.fileOwnerParam + "=" + fileOwner +
-			"&" + KConstants.Request.mode + "=" + mode;
+	
+	/* String format = "";
+	List<String> l = new ArrayList<String>(myFuzzPoints.values());
+	if(!myFuzzPoints.entrySet().isEmpty()) {
+		if(myFuzzPoints.entrySet().size() > 2) {
+			format = "mediumFormat";
+		} else if(StringUtils.equals(l.get(0), "0")) {
+			format = "increasingFormat";
+		} else {
+			format = "decreasingFormat";
+		}
+	} */
+	String format = myFuzzification.getFunctionFormat();
+	List<String> vals = new ArrayList<String>();
+	for (int i=0; i<keyValues.length; i++) {
+		//String fuzzificationBarDivId = KConstants.JspsDivsIds.fuzzificationBarValueDivId + "[" + i + "]";
+		vals.add(keyValues[i]);
+	}
 %>
 
 
 <script type="text/javascript">
+
+	<%
+		String dbPredIsPredDefined = JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.database, true) + " is " +
+				JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.predDefined, true);
+		String PredNecessaryOfADbPred = JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.predNecessary, true) +
+				" of a " + JspsUtils.getFromFuzzificationNameOf(defaultFuzzification, KConstants.Fuzzifications.database, true);
+		
+		String name;
+		
+		out.print("setFuzzificationFunction('" + defaultFuzzification.getPredDefined() + "', '" + defaultFuzzification.getPredNecessary());
+		out.print("', '" + defaultFuzzification.getFunctionFormat() + "', 0, '" + dbPredIsPredDefined + "', '" + PredNecessaryOfADbPred + "', new Array("); 
+		
+		name = defaultFuzzification.getPredOwner();
+		if (mode.equals(KConstants.Request.modeAdvanced)) {
+			name = KConstants.Fuzzifications.PREVIOUS_DEFAULT_DEFINITION;
+		}
+		
+		out.print(JspsUtils.convertFunctionPointsToJS(name, keyValues, defaultFuzzPoints));
+		out.print(", ");
+		
+		name = myFuzzification.getPredOwner();
+		out.print(JspsUtils.convertFunctionPointsToJS(name, keyValues, myFuzzPoints));
+		
+		if (othersFuzzifications.length > 0) {
+			for (int i=0; i<othersFuzzifications.length; i++) {
+				name = othersFuzzifications[i].getPredOwner();
+				out.print(", ");
+				out.print(JspsUtils.convertFunctionPointsToJS(name, keyValues, othersFuzzifications[i].getFunctionPoints()));			
+			}
+		}
+		out.print("));");
+	%>
+
 	var selectedFormat;
 	$(function(){
 		$(".selectedFormats div.format").hide();
@@ -121,7 +190,8 @@
 				}
 				/* var defaultValueResult = $("#defaultValueResult").val(); */
 				var defaultValueResult = null;
-				saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, defaultValueResult, null /*validateCheckBox()*/, function(){
+				
+				updateFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary, predDefined, creteriaFormat, values, function(){
 					$("#auxAndInvisibleSection").dialog("close");
 				});
 			} else {
@@ -132,6 +202,41 @@
 		$("#closeDialog").click(function() {
 			$("#auxAndInvisibleSection").dialog("close");
 		});
+		
+		//Fill values
+		var predNecessary = '<%= predNecessary %>';
+		var predDefined = '<%= predDefined %>';
+		$("#defineNew select#predNecessary").val(predNecessary);
+		$("#defineNew select#predNecessary").change();
+		$("#defineNew select#predNecessary").attr("disabled","disabled");
+		$("#defineNew input#predDefined").val(predDefined.split("(")[0]);
+		$("#defineNew input#predDefined").keyup();
+		$("#defineNew input#predDefined").attr("disabled","disabled");
+		
+		var format = '<%= format %>';
+		var vals = '<%= jsonVals %>';
+		var obj = JSON.parse(vals);
+		if(format == "increasing") {
+			$("#defineNew input[type='radio'][name='creteriaFormat'][value='increasingFormat']").trigger("click");
+			$("#defineNew div.selectedFormats div.format.increasingFormat input#xPoint").val(Object.keys(obj)[0]);
+			$("#defineNew div.selectedFormats div.format.increasingFormat input#yPoint").val(Object.keys(obj)[1]);
+			var container = document.getElementById("increasingChart");
+			drawChart(container,500,200);
+		} else if(format == "decreasing") {
+			$("#defineNew input[type='radio'][name='creteriaFormat'][value='decreasingFormat']").trigger("click");
+			$("#defineNew div.selectedFormats div.format.decreasingFormat input#xPoint").val(Object.keys(obj)[0]);
+			$("#defineNew div.selectedFormats div.format.decreasingFormat input#yPoint").val(Object.keys(obj)[1]);
+			var container = document.getElementById("decreasingChart");
+			drawChart(container,500,200);
+		} else if(format == "medium") {
+			$("#defineNew input[type='radio'][name='creteriaFormat'][value='mediumFormat']").trigger("click");
+			$("#defineNew div.selectedFormats div.format.mediumFormat input#xPoint").val(Object.keys(obj)[0]);
+			$("#defineNew div.selectedFormats div.format.mediumFormat input#yPoint").val(Object.keys(obj)[1]);
+			$("#defineNew div.selectedFormats div.format.mediumFormat input#zPoint").val(Object.keys(obj)[2]);
+			$("#defineNew div.selectedFormats div.format.mediumFormat input#wPoint").val(Object.keys(obj)[3]);
+			var container = document.getElementById("mediumChart");
+			drawChart(container,500,300);
+		}
 	});
 </script>
 <hr>
@@ -192,29 +297,6 @@
 								</div>
 							</div>
 							
-							<!-- <div class="creteriaFormats">
-							<div align="left"><strong>Choose the correct sentence</strong></div>
-								<div class="row">
-									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="increasingFormat" >When the value of <b class="predNecessaryTarget"></b> is INCREASING then 
-										<b class="dbTarget"></b> is becoming MORE <b class="predDefinedTarget">_</b>
-									</div>
-								</div>
-								<div class="row">
-									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="decreasingFormat" >When the value of <b class="predNecessaryTarget"></b> is DECREASING then 
-										<b class="dbTarget"></b> is becoming MORE <b class="predDefinedTarget">_</b>
-									</div>
-								</div>
-								<div class="row">
-									<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-										<input type="radio" name="creteriaFormat" value="mediumFormat" >When the value of <b class="predNecessaryTarget"></b> is BETWEEN a certain interval of values, then  
-										the <b class="dbTarget"></b> is <b class="predDefinedTarget">_</b> and when the <b class="predNecessaryTarget"></b> is LOWER/HIGHER than the interval of values, then 
-										the <b class="dbTarget"></b> is NOT <b class="predDefinedTarget">_</b>
-									</div>
-								</div>
-							</div> -->
-							
 							<div class="selectedFormats">
 							
 								<div class="format increasingFormat">
@@ -240,8 +322,9 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
-											<img id="format1" src="images/format1.png">
+											<!-- <img id="format1" src="images/format1.png"> -->
 										</div>
+										<div id="increasingChart" style="margin-top: -65px !important"></div>
 									</div>
 								</div>
 								
@@ -268,9 +351,9 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="0" style="display: none !important;"></input>
-											<img id="format2" src="images/format2.png">
-											
+											<!-- <img id="format2" src="images/format2.png"> -->
 										</div>
+										<div id="decreasingChart" style="margin-top: -65px !important"></div>
 									</div>
 								</div>
 								
@@ -321,50 +404,18 @@
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='wtValue' value="0" style="display: none !important;"></input>
-													<img id="format3" src="images/format3.png">
+											<!-- <img id="format3" src="images/format3.png"> -->
 										</div>
+										<div id="mediumChart" style="margin-top: -173px !important"></div>
 									</div>
 								</div>
 							</div>
-							<!-- <div class="personalizationDivFuzzificationFunctionValuesTableRow">
-								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											Initial value: x: <input type ='number' id = 'xPoint'></input>
-										</div>
-								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-								Truth value: <input type ='number' min='0' max='1' id='tValue'></input>
-								</div>
-							</div>
-							<div class="personalizationDivFuzzificationFunctionValuesTableRow">
-								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											Initial value: y: <input type ='number' id = 'yPoint'></input>
-										</div>
-								<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-								Truth value for y: <input type ='number' min='0' max='1' id='ytValue'></input>
-								</div>
-							</div> -->
-							
 						</div>
 					</div>
 					
-							<!-- New Code For Default -->
 							<div>
 							<hr/>
 							</div>
-							<!-- <div class="row">
-							&nbsp;&nbsp;
-							<label class="switch">
-  							<input type="checkbox" id="toggleButton" onchange="Toggle()" value="0">
-  							<span class="slider"></span>
-							</label>
-							&nbsp;&nbsp;Add Default Value
-							</div>
-							<div class="row">
-							</div>
-							<div class="personalizationDivFuzzificationFunctionValuesTableRow hiddenDefault" id="personalizationDivFuzzificationDefaultValues">
-							Default Value:  <input type="range" name="defaultValue" min="0" max="1" step="0.01" value="1" width="150px" id="defaultValue">
-							<input type="text" id="defaultValueResult">
-							</div> -->
-							 
         
 
 <%

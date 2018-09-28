@@ -22,6 +22,10 @@
 
 	ProgramPartAnalysis[][] programFields = resultsStoreHouse.getProgramPartAnalysis();
 	String[][] data = resultsStoreHouse.getProgramPartData();
+	
+	String columnValue1 = requestStoreHouse.getRequestParameter(KConstants.Request.value1Index);
+	String columnValue2 = requestStoreHouse.getRequestParameter(KConstants.Request.value2Index);
+	String value = requestStoreHouse.getRequestParameter(KConstants.Request.similarityValue);
 
 	String databaseIndex = requestStoreHouse.getRequestParameter(KConstants.Request.databaseIndex);
 	String columnIndex = requestStoreHouse.getRequestParameter(KConstants.Request.columnIndex);
@@ -34,6 +38,8 @@
 	String[] keyValues = null;
 	String predDefined = "", predNecessary = "";
 	int x, y;
+	
+	String modeSimilarity = KConstants.Request.modeUpdateExitingSimilarity;
 %>
 
 
@@ -41,12 +47,28 @@
 	<hr />
 </div>
 
+<script type="text/javascript">
+	$(function() {
+		var columnValue1 = '<%= columnValue1 %>';
+		var columnValue2 = '<%= columnValue2 %>';
+		$("select#value1").val(columnValue1);
+		$("select#value2").val(columnValue2);
+		var value = '<%= value %>';
+		$("#defaultValueResult").val(value);
+		$("input[type='range'][name='defaultValue']").val(value);
+		$("span#similarityMsg").html(getSimilarityState(value));
+		$("span#similarityMsg").removeAttr("class");
+		$("span#similarityMsg").addClass(getSimilarityStyle(value));
+	});
+</script>
+
 <%
 	String updateUrl = KUrls.Fuzzifications.CheckSimilarity.getUrl(true) + "&" + KConstants.Request.fileNameParam
 			+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
 			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
 			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
 	JspsUtils.getValue(updateUrl);
+	
 %>
 <div class="personalizationDivFuzzificationFunctionValuesTableRow">
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
@@ -86,22 +108,16 @@
 	</div>
 	<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 		<input type="text" id="defaultValueResult" value="0.5">
-		<span id="similarityMsg" class="lighterGreen">Similar</span>
+		<span id="similarityMsg">Similar</span>
 	</div>
 </div>
 
 <%
 	String saveUrl = KUrls.Fuzzifications.SaveSimilarity.getUrl(true) + "&" + KConstants.Request.fileNameParam
-			+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
-			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
-			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
+		+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
+		+ KConstants.Request.mode + "=" + modeSimilarity + "&" + KConstants.Request.databaseIndex + "="
+		+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
 	JspsUtils.getValue(saveUrl);
-	
-	String saveDefaultUrl = KUrls.Fuzzifications.SaveDefaultSimilarity.getUrl(true) + "&" + KConstants.Request.fileNameParam
-			+ "=" + fileName + "&" + KConstants.Request.fileOwnerParam + "=" + fileOwner + "&"
-			+ KConstants.Request.mode + "=" + mode + "&" + KConstants.Request.databaseIndex + "="
-			+ databaseIndex + "&" + KConstants.Request.columnIndex + "=" + columnIndex;
-	JspsUtils.getValue(saveDefaultUrl);
 %>
 <div class='personalizationDivFuzzificationFunctionWithButtonTableRow'>
 	<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
@@ -109,7 +125,8 @@
 			<div class='personalizationDivSaveButtonAndMsgTableRow'>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
 					<INPUT type='submit' value='Save modifications'
-						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)">
+						<%-- onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)"> --%>
+						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1.value, value2.value, defaultValueResult, '<%=columnValue1%>', '<%=columnValue2%>')">
 				</div>
 				<%-- <div class='personalizationDivSaveButtonAndMsgTableCell'>
 					<INPUT type='submit' value='Add Default Similarity'

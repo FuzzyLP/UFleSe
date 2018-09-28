@@ -158,6 +158,18 @@ public class KUrls {
 		
 		public static final UrlMap NewPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/new.jsp");
 		public static final UrlMap New = getUrlMap(manager, "newFuzz", EditPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap UpdateFuzzPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/updateFuzz.jsp");
+		public static final UrlMap UpdateFuzz = getUrlMap(manager, "updateFuzz", EditPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap UpdateSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/updateSimilarity.jsp");
+		public static final UrlMap UpdateSimilarity = getUrlMap(manager, "updateSimilarity", EditPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap UpdateSimilarityColumnPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/updateSimilarityColumn.jsp");
+		public static final UrlMap UpdateSimilarityColumn = getUrlMap(manager, "updateSimilarityColumn", UpdateSimilarityColumnPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap UpdateSimilarityValuePage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/updateSimilarityValue.jsp");
+		public static final UrlMap UpdateSimilarityValue = getUrlMap(manager, "updateSimilarityValue", UpdateSimilarityValuePage, KUrls.Pages.Exception, "");
 
 		public static final UrlMap NewSimilarityPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/newSimilarity.jsp");
 		public static final UrlMap NewSimilarity = getUrlMap(manager, "newSimilarity", NewSimilarityPage, KUrls.Pages.Exception, "");
@@ -189,6 +201,10 @@ public class KUrls {
 		public static final UrlMap SaveDefault = getUrlMap(manager, "saveDefault", SavePage, KUrls.Pages.Exception, "");
 		
 		public static final UrlMap Update = getUrlMap(manager, "selectQueryStartType", Queries.SelectQueryStartTypePage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap RemoveFuzzy = getUrlMap(manager, "removeFuzzy", ListPage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap RemoveSimilarity = getUrlMap(manager, "removeSimilarity", ListPage, KUrls.Pages.Exception, "");
 	}
 	
 	private static UrlMap getUrlMap(String manager, String op, UrlMap nextPage, UrlMap exceptionPage, String currentUrl) {

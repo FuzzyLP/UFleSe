@@ -57,12 +57,15 @@ public class KConstants {
 		public static final String modeEditingDefault = "editing default";
 		public static final String defaultParam = "defaultParam";
 		public static final String modeUpdateSimilarity = "updateSimilarity";
+		public static final String modeUpdateExitingSimilarity = "updateExitingSimilarity";
 		
 		// define similarity parameters
 		public static final String databaseIndex = "databaseIndex";
 		public static final String columnIndex = "columnIndex";
 		public static final String value1Index = "value1Index";
 		public static final String value2Index = "value2Index";
+		public static final String oldValue1Index = "oldValue1Index";
+		public static final String oldValue2Index = "oldValue2Index";
 		public static final String similarityValue = "similarity";
 		
 		public static final String modifierValue = "modifier";

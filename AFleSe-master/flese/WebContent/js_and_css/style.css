@@ -1193,3 +1193,58 @@ img.removeRow {
 	padding: 2px 12px 4px 8px;
 	opacity: 9%;
 }
+
+.darkRed {
+	background-color: #fc0000 !important;
+}
+.lightRed {
+	background-color: #f76d5e !important;
+}
+.lighterRed {
+	background-color: #ffad72 !important;
+}
+.lighterGreen {
+	background-color: #c7ff00 !important;
+}
+.lightGreen {
+	background-color: #00ff1b !important;
+}
+.darkGreen {
+	background-color: #00cc00 !important;
+}
+
+.darkRed{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:white;
+}
+
+.lightRed{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:white;
+}
+
+.lighterRed{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:white;
+}
+
+.lighterGreen{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:gray;
+}
+
+.lightGreen{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:gray;
+}
+
+.darkGreen{
+	padding:  7px 6px 7px 5px;
+	border-radius: 10%;
+	color:white;
+}

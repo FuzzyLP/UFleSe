@@ -33,6 +33,8 @@ var fuzzificationFunction = null;
 
 var validation = {validate:false, msg:""};
 
+var modifyFuzzification = false;
+
 function fuzzificationPoints (predOwner, predOwnerHumanized, functionPoints) {
 	this.predOwner = predOwner;
 	this.name = predOwnerHumanized;
@@ -285,7 +287,7 @@ function insertFuzzificationGraphicRepresentation(fuzzificationGraphicDivId) {
 		div.appendChild(container);
 	
 		// alert("insertFuzzificationGraphicRepresentation not implemented yet !!!");
-		drawChart(container.id);
+		drawChart(container.id, null, null);
 	}
 }
 
@@ -296,7 +298,7 @@ function insertFuzzificationGraphicRepresentation(fuzzificationGraphicDivId) {
 // var charts = new Array(); // globally available
 var chart = null;
 
-function drawChart(divIdentifier) {
+function drawChart(divIdentifier, width, height) {
 	
 	if ((fuzzificationFunction != null) && (fuzzificationFunction.fuzzificationPoints != null)) {
 
@@ -339,8 +341,8 @@ function drawChart(divIdentifier) {
 					if(fuzzificationFunction.functionFormat == "decreasing") {
 						fuzzificationPointsData[1] = [fuzzificationPoint.data[0][0], null];
 						fuzzificationPointsData[2] = [fuzzificationPoint.data[1][0], null];
-						fuzzificationPointsData[1][1] = fuzzificationPoint.data[1][1];
-						fuzzificationPointsData[2][1] = fuzzificationPoint.data[0][1];
+						fuzzificationPointsData[1][1] = fuzzificationPoint.data[0][1];
+						fuzzificationPointsData[2][1] = fuzzificationPoint.data[1][1];
 					} else 
 						fuzzificationPointsData[j+1] = fuzzificationPoint.data[j];
 				}
@@ -369,20 +371,37 @@ function drawChart(divIdentifier) {
 		if(newSeries.length == 0) {
 			newSeries = fuzzificationFunction.fuzzificationPoints;
 		}
-		
+		var xAxisLAbelPoint = [];
+		for(var i=1;i<newSeries[0]["data"].length-2;i++) {
+			xAxisLAbelPoint.push(newSeries[0]["data"][i][0]);
+		}
 //		$(document).ready(function() {
 			  // charts[i] = 
 		      chart = new Highcharts.Chart({
 		         chart: {
 	    	        renderTo: divIdentifier,
-	        	    type: 'line' //,
+	        	    type: 'line', //,
+	        	    width: width,
+	        	    height: height
 /*					style: { margin: '0 auto' } */
 		         },
 		         title: { text: fuzzificationFunction.msgTop },
 		         xAxis: {
 					title: { text: fuzzificationFunction.msgBottom },
 					min: newMinValue, //minValue
-					max: maxValue
+					max: maxValue,
+					/* labels: {
+			            format: '{value} V'
+			        } */
+			        labels: {
+			            formatter: function () {
+			            	if($.inArray(this.value, xAxisLAbelPoint) != -1) {
+		            			return this.value + "<br> V" + ($.inArray(this.value, xAxisLAbelPoint) + 1);
+		            		} else {
+		            			return this.value;
+		            		}
+			            }
+			        }
 		            // categories: ['Apples', 'Bananas', 'Oranges']
 		         },
 		         yAxis: {
@@ -461,16 +480,126 @@ function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderMo
 	var params = getComboBoxValue(comboBox);
 	if (params != "") {
 		var ne = "";
-		if (params.split("&")[params.split("&").length-1] == "new")
-			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlNew + params,function(){ defineNewFuzzyFormValidation() });
-		else if (params.split("&")[params.split("&").length-1] == "define")
+		if($(comboBox).attr("data-updatefuzz-url")) {
+			var urlUpdateFuzz = $(comboBox).attr("data-updatefuzz-url");
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdateFuzz + params,function(){ 
+				defineNewFuzzyFormValidation();
+				$('#defineNew select#personalizationSelectComboBoxId2').removeAttr('data-fromupdate');
+			});
+		 } else if($(comboBox).attr("data-updatesimilarity-url")) {
+			 var urlUpdateSimilarity = $(comboBox).attr("data-updatesimilarity-url");
+			 console.info(urlUpdateSimilarity + params);
+				loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdateSimilarity + params, function() {
+					$('#defineNew select#personalizationSelectComboBoxId2').removeAttr('data-fromupdate');
+				});
+		 }
+		else if (params.split("&")[params.split("&").length-1] == "new") {
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlNew + params,function(){ defineNewFuzzyFormValidation(); });
+		} else if (params.split("&")[params.split("&").length-1] == "define")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlDefine + params);
 		else if(params.split("&")[params.split("&").length-1] == "add")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlAdd + params);
 		else if(params.split("&")[params.split("&").length-1] == "update")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdate + params);
-		else
+		else {
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlEdit + params);
+		}
+	}
+	else {
+		var container = getContainer(PersonalizationFunctionUnderModificationDivId);
+		container.innerHTML = "Please choose a valid fuzzification function.";
+	}
+	
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+function removeExistingCriteria(comboBox, PersonalizationFunctionUnderModificationDivId, urlRemoveFuzzy, urlRemoveSimilarity) {
+	if($("#"+comboBox.id).val() !== "----") {
+		var params = getComboBoxValue(comboBox);
+		if (params != "") {
+			//$("b#criterionName").html('"'+$("#"+comboBox.id+" option:selected").html()+'"');
+			//$("b#criterionName").html('"'+getParamFromGivenUrl($("#"+comboBox.id).val(), "predDefined")+'"');
+			$("#dialog-confirm").dialog({
+	            resizable: false,
+	            height: "auto",
+	            width: 600,
+	            minHeight: 300,
+	            modal: true,
+	            buttons: {
+	              "Remove it": function() {
+	           			var ne = "";
+	           			if($("#"+comboBox.id).find(":selected").attr("data-type") == "fuzzy") {
+	           				loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlRemoveFuzzy + $("#"+comboBox.id).val(), function() {
+	           					$("#auxAndInvisibleSection").dialog("close");
+	           					$("b#criterionName").html("");
+	           					$("#dialog-confirm").dialog("close");
+	           				});
+	           			 } else if($("#"+comboBox.id).find(":selected").attr("data-type") == "similarity") {
+	           				loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlRemoveSimilarity + $("#"+comboBox.id).val(), function() {
+	           					$("#auxAndInvisibleSection").dialog("close");
+	           					$("b#criterionName").html("");
+	           					$("#dialog-confirm").dialog("close");
+	           				});
+	           			 }
+	              },
+	              Cancel: function() {
+	            	  $("b#criterionName").html("");
+	                $(this).dialog("close");
+	              }
+	    		}
+	 		});
+		} else {
+			var container = getContainer(PersonalizationFunctionUnderModificationDivId);
+			container.innerHTML = "Please choose a valid fuzzification function.";
+		}
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------------------*/
+
+function modificationFunctionChanged(comboBox, PersonalizationFunctionUnderModificationDivId, urlEdit, urlNew, urlDefine, urlAdd, urlUpdate, urlUpdateFuzz, urlUpdateSimilarity) {
+	
+	var params = getComboBoxValue(comboBox);
+	if (params != "") {
+		var tabName;
+		var label;
+		if(getParamFromGivenUrl(params, "mode") == "advanced" || getParamFromGivenUrl(params, "mode") == "update") {
+			tabName = "Modification";
+			label = "Modify &nbsp;";
+		} else if(getParamFromGivenUrl(params, "mode") == "basic") {
+			tabName = "Personalization";
+			label = "Personalize &nbsp;";
+		}
+		if($("#"+comboBox.id).find(":selected").attr("data-type") == "fuzzy") {
+			$('div.tab button.tablinks').eq(1).html(tabName);
+			$("#defineNew div.personalizationDivSelectFuzzificationTableCell").eq(0).html(label);
+			$("#defineNew select#personalizationSelectComboBoxId2").val($("#defineNew select#personalizationSelectComboBoxId2 option[data-type='fuzzy']").val());
+			$('#defineNew select#personalizationSelectComboBoxId2').removeAttr('data-updatesimilarity-url');
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('data-updatefuzz-url',urlUpdateFuzz + params);
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('data-fromupdate', true);
+			$("#defineNew select#personalizationSelectComboBoxId2 option[data-type='fuzzy']").trigger('change');
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('disabled','disabled');
+			$('div.tab button.tablinks').eq(1).click();
+		} else if($("#"+comboBox.id).find(":selected").attr("data-type") == "similarity") {
+			$('div.tab button.tablinks').eq(1).html(tabName);
+			$("#defineNew div.personalizationDivSelectFuzzificationTableCell").eq(0).html(label);
+			$("#defineNew select#personalizationSelectComboBoxId2").val($("#defineNew select#personalizationSelectComboBoxId2 option[data-type='similarity']").val());
+			$('#defineNew select#personalizationSelectComboBoxId2').removeAttr('data-updatefuzz-url');
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('data-updatesimilarity-url',urlUpdateSimilarity + params);
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('data-fromupdate', true);
+			$("#defineNew select#personalizationSelectComboBoxId2 option[data-type='similarity']").trigger('change');
+			$('#defineNew select#personalizationSelectComboBoxId2').attr('disabled','disabled');
+			$('div.tab button.tablinks').eq(1).click();
+		}
+		//for fuzzy update
+		//loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlEdit + params);
+		//for similarity update
+		//loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdate + params);
 	}
 	else {
 		var container = getContainer(PersonalizationFunctionUnderModificationDivId);
@@ -661,7 +790,9 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl, callback) {
 			}
 	
 			fuzzificationFunction.fuzzificationPoints[i].modified = false;
-			loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, callback);
+			loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
+				$("#auxAndInvisibleSection").dialog("close");
+			});
 		}
 		else {
 			fuzzificationSaveStatusDiv.innerHTML = "No changes to save.";
@@ -670,6 +801,46 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl, callback) {
 	else {
 		fuzzificationSaveStatusDiv.innerHTML = "Impossible to save fuzzification modifications.";
 	}
+}
+
+function updateFuzzification(fuzzificationSaveStatusDivId, saveUrl, predNecessary, predDefined, creteriaFormat, values, callback) {
+	var fuzzificationSaveStatusDiv = getContainer(fuzzificationSaveStatusDivId);
+	fuzzificationSaveStatusDiv.innerHTML = loadingImageHtml(false);
+	
+	
+	//fuzzificationFunction.fuzzificationPoints[0].modified = true;
+
+	//if (fuzzificationFunction.fuzzificationPoints[0].modified) {
+		//fuzzificationFunction.fuzzificationPoints[0].modified = false;
+		saveUrl +=
+		"&" + '<%=KConstants.Fuzzifications.predDefined%>' + "=" + predDefined + "(" + predNecessary.split("(")[1] +
+		"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + predNecessary;
+		if(creteriaFormat == "increasingFormat") {
+			saveUrl += "&fpx[0]=" + values.xValue;
+			saveUrl += "&fpy[0]=" + values.tValue;
+			saveUrl += "&fpx[1]=" + values.yPoint;
+			saveUrl += "&fpy[1]=" + values.ytValue;
+		} else if(creteriaFormat == "decreasingFormat") {
+			saveUrl += "&fpx[0]=" + values.xValue;
+			saveUrl += "&fpy[0]=" + values.tValue;
+			saveUrl += "&fpx[1]=" + values.yPoint;
+			saveUrl += "&fpy[1]=" + values.ytValue;
+		} else if(creteriaFormat == "mediumFormat") {
+			saveUrl += "&fpx[0]=" + values.xValue;
+			saveUrl += "&fpy[0]=" + values.tValue;
+			saveUrl += "&fpx[1]=" + values.yPoint;
+			saveUrl += "&fpy[1]=" + values.ytValue;
+			saveUrl += "&fpx[2]=" + values.zValue;
+			saveUrl += "&fpy[2]=" + values.ztValue;
+			saveUrl += "&fpx[3]=" + values.wPoint;
+			saveUrl += "&fpy[3]=" + values.wtValue;
+		}
+		console.info(saveUrl);
+		loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, callback);
+	//}
+	//else {
+	//	fuzzificationSaveStatusDiv.innerHTML = "No changes to save.";
+	//}
 }
 
 
@@ -724,15 +895,35 @@ function checkIfSimilarityExist(fuzzificationSaveStatusDivId, saveUrl, value1, v
 		"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
 		loadAjaxIn(null, saveUrl, function(res) {
 			var simalarityValue = res.replace(/\s/g, '').split("<!--END-->")[0];
-			if(simalarityValue != "") {
+			if(simalarityValue != "" && simalarityValue == "opposit") {
+				$("#defaultValue").val(0.5);
+				$("#defaultValueResult").val(0.5);
+				$("span#similarityMsg").html(getSimilarityState(0.5));
+				$("span#similarityMsg").removeAttr("class");
+				$("span#similarityMsg").addClass(getSimilarityStyle(0.5));
+				$("#fuzzificationSimilarityValue div.personalizationDivFuzzificationFunctionValuesTableRow:nth-child(3) input").attr("disabled","disabled");
+				$("#fuzzificationSimilarityValue #fuzzificationSaveStatus").html("Similarity already exist!");
+				$("#fuzzificationSimilarityValue input[value='Save modifications']").attr("disabled","disabled");
+				similarityExist = true;
+			} else if(simalarityValue != "" && simalarityValue != "opposit") {
 				$("#defaultValue").val(simalarityValue);
 				$("#defaultValueResult").val(simalarityValue);
 				$("span#similarityMsg").html(getSimilarityState(simalarityValue));
+				$("span#similarityMsg").removeAttr("class");
+				$("span#similarityMsg").addClass(getSimilarityStyle(simalarityValue));
+				$("#fuzzificationSimilarityValue div.personalizationDivFuzzificationFunctionValuesTableRow:nth-child(3) input").removeAttr("disabled");
+				$("#fuzzificationSimilarityValue #fuzzificationSaveStatus").html("");
+				$("#fuzzificationSimilarityValue input[value='Save modifications']").removeAttr("disabled");
 				similarityExist = true;
 			} else {
 				$("#defaultValue").val(0.5);
 				$("#defaultValueResult").val(0.5);
 				$("span#similarityMsg").html(getSimilarityState(0.5));
+				$("span#similarityMsg").removeAttr("class");
+				$("span#similarityMsg").addClass(getSimilarityStyle(0.5));
+				$("#fuzzificationSimilarityValue div.personalizationDivFuzzificationFunctionValuesTableRow:nth-child(3) input").removeAttr("disabled");
+				$("#fuzzificationSimilarityValue #fuzzificationSaveStatus").html("");
+				$("#fuzzificationSimilarityValue input[value='Save modifications']").removeAttr("disabled");
 			}
 		});
 	}
@@ -745,19 +936,27 @@ function saveSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, s
 	if(similarityExist) {
 		saveUrl = saveUrl + "&mode=" + '<%=KConstants.Request.modeUpdateSimilarity%>';
 	}
-	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
+	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
+		$("#auxAndInvisibleSection").dialog("close");
+	});
 }
 
-function updateSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity){
+function updateSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity, oldValue1, oldValue2){
 	saveUrl = saveUrl + "&" + '<%=KConstants.Request.value1Index%>' + "=" + value1 +
 	"&" + '<%=KConstants.Request.value2Index%>' + "=" + value2 +
+	"&" + '<%=KConstants.Request.oldValue1Index%>' + "=" + oldValue1 +
+	"&" + '<%=KConstants.Request.oldValue2Index%>' + "=" + oldValue2 +
 	"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
-	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
+	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
+		$("#auxAndInvisibleSection").dialog("close");
+	});
 }
 
 function saveModifier(fuzzificationSaveStatusDivId, saveUrl, modifier){
 	saveUrl = saveUrl + "&" + '<%=KConstants.Request.modifierValue%>' + "=" + modifier;
-	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl);
+	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
+		$("#auxAndInvisibleSection").dialog("close");
+	});
 }
 
 function selectedDatabaseChanged(fuzzificationSaveStatusId, comboBox, url){

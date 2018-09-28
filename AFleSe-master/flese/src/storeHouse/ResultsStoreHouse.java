@@ -26,6 +26,7 @@ public class ResultsStoreHouse {
 	private String[] fileContents = null;
 	private ProgramFileInfo programFileInfo = null;
 	private ProgramPartAnalysis[][] programPartAnalysis = null;
+	private ProgramPartAnalysis[][] programPartAnalysis2 = null;
 	private ArrayList<ProgramPartAnalysis> programPart = null;
 	private String[][] programPartData = null;
 	private ProgramIntrospection programIntrospection = null;
@@ -165,12 +166,30 @@ public class ResultsStoreHouse {
 			this.programPartAnalysis = programPartAnalysis;
 		}
 	}
-
+	
 	public ProgramPartAnalysis[][] getProgramPartAnalysis() {
 		if (programPartAnalysis == null) {
 			return new ProgramPartAnalysis[0][];
 		}
 		return programPartAnalysis;
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void setProgramPartAnalysis2(ProgramPartAnalysis[][] programPartAnalysis2) {
+		this.programPartAnalysis2 = null;
+		if (programPartAnalysis2 != null) {
+			this.programPartAnalysis2 = programPartAnalysis2;
+		}
+	}
+	
+	public ProgramPartAnalysis[][] getProgramPartAnalysis2() {
+		if (programPartAnalysis2 == null) {
+			return new ProgramPartAnalysis[0][];
+		}
+		return programPartAnalysis2;
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -22,9 +22,13 @@
 	String urlEditFuzzification = KUrls.Fuzzifications.Edit.getUrl(true);
 	String urlNewFuzzification = KUrls.Fuzzifications.New.getUrl(true);
 	String urlDefineSimilarity = KUrls.Fuzzifications.NewSimilarity.getUrl(true);
-	String urlUpdateSimilarity = KUrls.Fuzzifications.EditSimilarity.getUrl(true);
+	String urlEditSimilarity = KUrls.Fuzzifications.EditSimilarity.getUrl(true);
 	String urlAddModifier = KUrls.Fuzzifications.AddModifier.getUrl(true);
-
+	String urlUpdateFuzz = KUrls.Fuzzifications.UpdateFuzz.getUrl(true);
+	String urlUpdateSimilarity = KUrls.Fuzzifications.UpdateSimilarity.getUrl(true);
+	String urlRemoveFuzzy = KUrls.Fuzzifications.RemoveFuzzy.getUrl(true);
+	String urlRemoveSimilarity = KUrls.Fuzzifications.RemoveSimilarity.getUrl(true);
+	
 	String modeSimilarity = "update";
 	
 	String textMode = "";
@@ -44,8 +48,9 @@
 </style>
 
 <div class="tab">
-  <button id="defaultOpen" class="tablinks" onclick="showDiv(event, 'modifyExisting')">Modify the existing criterion</button>
-  <button class="tablinks" onclick="showDiv(event, 'defineNew')">Defining New</button>
+  <button id="defaultOpen" class="tablinks" onclick="showDiv(1, 'modifyExisting')" data-index="1">Modify the existing criterion</button>
+  <button class="tablinks" onclick="showDiv(2, 'defineNew')" data-index="2">Defining New</button>
+  <button class="tablinks" onclick="showDiv(3, 'removeCriteria')" data-index="3">Remove the existing criterion</button>
 </div>
 
 <div id="modifyExisting" class="tabcontent">
@@ -61,37 +66,43 @@
 						<div class='personalizationDivSelectFuzzificationTableCell'>
 							<select name="personalizationSelectComboBoxId1"
 								id="personalizationSelectComboBoxId1"
-								onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"1"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlUpdateSimilarity%>');">
+								onchange="modificationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"1"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlEditSimilarity%>', '<%=urlUpdateFuzz%>', '<%=urlUpdateSimilarity%>');">
+								<%-- onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"1"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlEditSimilarity%>', '<%=urlUpdateFuzz%>');"> --%>
 								<%=JspsUtils.comboBoxDefaultValue()%>
 								<%
 									for (int i = 0; i < fuzzifications.length; i++) {
 											if ((fuzzifications[i] != null) && (fuzzifications[i].length > 0)) {
 												ProgramPartAnalysis fuzzification = fuzzifications[i][0];
-												String desc = JspsUtils.getFromFuzzificationNameOf(fuzzification,
+												/* String desc = JspsUtils.getFromFuzzificationNameOf(fuzzification,
 														KConstants.Fuzzifications.database, true)
 														+ " is "
 														+ JspsUtils.getFromFuzzificationNameOf(fuzzification,
 																KConstants.Fuzzifications.predDefined, true)
 														+ " from the value it has for " + JspsUtils.getFromFuzzificationNameOf(fuzzification,
-																KConstants.Fuzzifications.predNecessary, true);
+																KConstants.Fuzzifications.predNecessary, true); */
+												
+												String desc = fuzzification.getPredDefined();
+																
 												String id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 														+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&"
 														+ KConstants.Fuzzifications.predDefined + "=" + fuzzification.getPredDefined() + "&"
 														+ KConstants.Fuzzifications.predNecessary + "=" + fuzzification.getPredNecessary() + "&"
 														+ KConstants.Request.mode + "=" + mode;
 								%>
-								<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>'><%=desc%></option>
+								<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>' data-type="fuzzy"><%=desc%></option>
 								<%
 									}
 										}
 	
 										for (int i = 0; i < similarityFunctions.size(); i++) {
 											if (similarityFunctions.get(i) != null) {
-												String desc = "For " + similarityFunctions.get(i).getDatabaseName() + " "
+												/* String desc = "For " + similarityFunctions.get(i).getDatabaseName() + " "
 														+ similarityFunctions.get(i).getTableName() + ", "
 														+ similarityFunctions.get(i).getColumnValue1() + " is similar to "
-														+ similarityFunctions.get(i).getColumnValue2();
+														+ similarityFunctions.get(i).getColumnValue2(); */
 	
+												String desc = "Similarity " + similarityFunctions.get(i).getTableName() + "(" + similarityFunctions.get(i).getDatabaseName() + ")";
+														
 												String id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 														+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&"
 														+ KConstants.Request.databaseIndex + "=" + similarityFunctions.get(i).getDatabaseName()
@@ -103,7 +114,7 @@
 														+ similarityFunctions.get(i).getSimilarityValue() + "&" + KConstants.Request.mode + "="
 														+ modeSimilarity + "&"+ "update";
 								%>
-								<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>'><%=desc%></option>
+								<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>' data-type="similarity"><%=desc%></option>
 								<%
 									}
 										}
@@ -143,19 +154,19 @@
 								onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"2"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>');">
 								<%=JspsUtils.comboBoxDefaultValue()%>
 	
-								<option id='<%=id%>' title='New fuzzification' value='<%=id%>'>Fuzzy search criterion</option>
+								<option id='<%=id%>' title='New fuzzification' value='<%=id%>' data-type="fuzzy">Fuzzy search criterion</option>
 	
 								<%
 									id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "define";
 								%>
-								<option id='<%=id%>' title='Define Similarity' value='<%=id%>'>
+								<option id='<%=id%>' title='Define Similarity' value='<%=id%>' data-type="similarity">
 									Similarity relation</option>
 								<%
 									id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "add";
 								%>
-								<option id='<%=id%>' title='Add Modifier' value='<%=id%>'>Define
+								<option id='<%=id%>' title='Add Modifier' value='<%=id%>' data-type="modifier">Define
 									The Modifiers</option>
 							</select>
 						</div>
@@ -171,6 +182,97 @@
 		</div>
 	</div>
 	<br>
+</div>
+
+<div id="removeCriteria" class="tabcontent">
+	<br>
+	<div class='personalizationDivMainTable3'>
+		<div class='personalizationDivMainTableRow3'>
+			<div class='personalizationDivMainTableCell1'>
+				<div class='personalizationDivSelectFuzzificationTable3'>
+					
+					<div class='personalizationDivSelectFuzzificationTableRow'>
+						<div class='personalizationDivSelectFuzzificationTableCell'>
+							Remove the existing criterion &nbsp;</div>
+						<div class='personalizationDivSelectFuzzificationTableCell'>
+							<select name="personalizationSelectComboBoxId3"
+								id="personalizationSelectComboBoxId3"
+								onchange="removeExistingCriteria(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"1"%>', '<%=urlRemoveFuzzy%>', '<%=urlRemoveSimilarity%>');">
+								<%-- onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"1"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlEditSimilarity%>', '<%=urlUpdateFuzz%>');"> --%>
+								<%=JspsUtils.comboBoxDefaultValue()%>
+								<%
+									for (int i = 0; i < fuzzifications.length; i++) {
+											if ((fuzzifications[i] != null) && (fuzzifications[i].length > 0)) {
+												ProgramPartAnalysis fuzzification = fuzzifications[i][0];
+												/* String desc = JspsUtils.getFromFuzzificationNameOf(fuzzification,
+														KConstants.Fuzzifications.database, true)
+														+ " is "
+														+ JspsUtils.getFromFuzzificationNameOf(fuzzification,
+																KConstants.Fuzzifications.predDefined, true)
+														+ " from the value it has for " + JspsUtils.getFromFuzzificationNameOf(fuzzification,
+																KConstants.Fuzzifications.predNecessary, true); */
+												
+												String desc = fuzzification.getPredDefined();
+																
+												String idToRemove = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
+														+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&"
+														+ KConstants.Fuzzifications.predDefined + "=" + fuzzification.getPredDefined() + "&"
+														+ KConstants.Fuzzifications.predNecessary + "=" + fuzzification.getPredNecessary() + "&"
+														+ KConstants.Request.mode + "=" + mode;
+								%>
+								<option id='<%=desc%>' title='<%=desc%>' value='<%=idToRemove%>' data-type="fuzzy"><%=desc%></option>
+								<%
+									}
+										}
+	
+										for (int i = 0; i < similarityFunctions.size(); i++) {
+											if (similarityFunctions.get(i) != null) {
+												/* String desc = "For " + similarityFunctions.get(i).getDatabaseName() + " "
+														+ similarityFunctions.get(i).getTableName() + ", "
+														+ similarityFunctions.get(i).getColumnValue1() + " is similar to "
+														+ similarityFunctions.get(i).getColumnValue2(); */
+	
+												String desc = "Similarity " + similarityFunctions.get(i).getTableName() + "(" + similarityFunctions.get(i).getDatabaseName() + ")";
+														
+												String idToRemove = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
+														+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&"
+														+ KConstants.Request.databaseIndex + "=" + similarityFunctions.get(i).getDatabaseName()
+														+ "&" + KConstants.Request.columnIndex + "=" + similarityFunctions.get(i).getTableName()
+														+ "&" + KConstants.Request.value1Index + "="
+														+ similarityFunctions.get(i).getColumnValue1() + "&" + KConstants.Request.value2Index
+														+ "=" + similarityFunctions.get(i).getColumnValue2() + "&"
+														+ KConstants.Request.similarityValue + "="
+														+ similarityFunctions.get(i).getSimilarityValue() + "&" + KConstants.Request.mode + "="
+														+ modeSimilarity + "&"+ "update";
+								%>
+								<option id='<%=desc%>' title='<%=desc%>' value='<%=idToRemove%>' data-type="similarity"><%=desc%></option>
+								<%
+									}
+										}
+										String idToRemove = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
+												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "new";
+								%>
+	
+							</select>
+						</div>
+					</div>
+	
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+
+	<div id="dialog-confirm" class="hiddenDefault"
+		title="Confirmation" style="padding: 25px 0 3px 15px !important;">
+		<p style="text-align: left;">
+			<span class="ui-icon ui-icon-alert"
+				style="float: left; margin: 12px 12px 0 0;"></span>
+				<!-- The criterion <b id="criterionName"></b> will be permanently deleted and cannot be recovered. Are you sure? -->
+				Do you want to remove the criteria ?
+		</p>
+	</div>
+
 </div>
 
 <%
@@ -206,6 +308,11 @@
 	
 	// Get the element with id="defaultOpen" and click on it
 	document.getElementById("defaultOpen").click();
+	 
+	 if($("#removeCriteria select#personalizationSelectComboBoxId3 option").length == 1) {
+		 $("div.tab button.tablinks[data-index='3']").hide();
+		 $("#removeCriteria").hide();
+	 }
 </script>
 
 

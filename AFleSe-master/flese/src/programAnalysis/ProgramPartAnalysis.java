@@ -2,6 +2,7 @@ package programAnalysis;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -516,10 +517,11 @@ public class ProgramPartAnalysis {
 		
 		//Determine function format (increasing/decreasing)
 //		if(linked.size() == 2)
-			Set<String> keyValuesSet = linked.keySet();
-			String[] keyValues = keyValuesSet.toArray(new String[keyValuesSet.size()]);
+//			Set<String> keyValuesSet = linked.keySet();
+//			String[] keyValues = keyValuesSet.toArray(new String[keyValuesSet.size()]);
+			List<String> l = new ArrayList<String>(linked.values());
 			if(linked.size() == 2)
-				if(Double.valueOf(keyValues[0]) < Double.valueOf(keyValues[1]))
+				if(Double.valueOf(l.get(0)) < Double.valueOf(l.get(1)))
 					functionFormat = "increasing";
 				else 
 					functionFormat = "decreasing";

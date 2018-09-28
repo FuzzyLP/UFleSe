@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -488,6 +489,67 @@ public class ProgramAnalysis {
 		}
 		return 0;
 	}
+	
+	public void removeFuzzy(LocalUserInfo localUserInfo, String predDefined, String predNecessary, String mode,
+			String[][] functionDefinition) throws Exception {
+
+		LOG.info("removing the fuzzification " + predDefined + " depending on " + predNecessary);
+
+		// Security issues ("" strings).
+		if ("".equals(predDefined))
+			throw new Exception("predDefined cannot be empty string.");
+		if ("".equals(predNecessary))
+			throw new Exception("predNecessary cannot be empty string.");
+
+		// If I'm not the owner I can change only my fuzzification.
+		// If I'm the owner I can change mine and the default one, but no other
+		// one.
+//		String predOwner = localUserInfo.getLocalUserName();
+//		if ((localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner()))
+//				&& (KConstants.Request.modeAdvanced.equals(mode))) {
+//			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+//		}
+//
+//		if ((KConstants.Request.modeEditingDefault.equals(mode))) {
+//			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+//		}
+
+		ProgramPartAnalysis programPart = null;
+
+		if (programFileInfo.existsFile(false)) {
+			programFileInfo.remove();
+		}
+		File file = programFileInfo.createFile(true);
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+
+//		String databaseName = "";
+//		String[] temp = predDefined.split("\\(");
+//		databaseName = temp[1].replaceAll("\\)", "");
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+			if ((programPart.isFunction()) && (programPart.getPredDefined().equals(predDefined))
+					&& (programPart.getPredNecessary().equals(predNecessary))) {
+				//DONT WRITE THIS FUZZY
+//				System.out.println(programPart);
+			}
+			//If the fuzzy to remove is default, remove it also
+//			else if ((programPart.isDefault()) && (programPart.getPredDefined().equals(predDefined))
+//					&& (programPart.getPredNecessary().equals(predNecessary))) {
+//				//DONT WRITE THIS FUZZY
+//				System.out.println(programPart);
+//			} 
+			else {
+				writeProgramPart(programPart, bw);
+			}
+
+		}
+
+		bw.close();
+
+	}
 
 	private void writeProgramParts(ArrayList<ProgramPartAnalysis> programParts, BufferedWriter bw) throws IOException {
 		for (int i = 0; i < programParts.size(); i++) {
@@ -857,16 +919,17 @@ public class ProgramAnalysis {
 		return resultData;
 	}
 	
-	public SimilarityFunction getParsedSimilarity(LocalUserInfo localUserInfo, String databaseName, String columnName, String value1,
+	public Map<String, SimilarityFunction> getParsedSimilarity(LocalUserInfo localUserInfo, String databaseName, String columnName, String value1,
 			String value2) throws Exception {
 		LOG.info("Checking the simiarity for " + databaseName + " depending on " + columnName + " if exist");
 
+		Map<String, SimilarityFunction> res = new HashMap<String, SimilarityFunction>();
 		if ("".equals(databaseName))
 			throw new Exception("Database cannot be empty string.");
 		if ("".equals(columnName))
 			throw new Exception("Column cannot be empty string.");
 		
-		SimilarityFunction parsedSimilarity = null;
+//		SimilarityFunction parsedSimilarity = null;
 		ProgramPartAnalysis programPart = null;
 
 		for (int i = 0; i < programParts.size(); i++) {
@@ -878,21 +941,86 @@ public class ProgramAnalysis {
 				if (similarity != null && similarity.getDatabaseName() != null) {
 					if (similarity.getDatabaseName().equals(databaseName)
 							&& similarity.getTableName().equals(columnName)
-							&& ((similarity.getColumnValue1().equals(value1)
-									&& similarity.getColumnValue2().equals(value2))
-									|| (similarity.getColumnValue2().equals(value1)
-											&& similarity.getColumnValue1().equals(value2)))) {
-						parsedSimilarity = similarity;
+							&& (similarity.getColumnValue1().equals(value1)
+									&& similarity.getColumnValue2().equals(value2))) {
+//						parsedSimilarity = similarity;
+						res.put("exist", similarity);
+					} else if (similarity.getDatabaseName().equals(databaseName)
+							&& similarity.getTableName().equals(columnName)
+							&& (similarity.getColumnValue2().equals(value1)
+											&& similarity.getColumnValue1().equals(value2))) {
+						res.put("opposit", null);
 					}
 				}
 			}
 		}
+		return res;
+	}
+	
+	public void removeSimilarity(LocalUserInfo localUserInfo, String predDefined, String predNecessary, String databaseName, String columnName, String value1,
+			String value2) throws Exception {
+		LOG.info("Removing the simiarity for " + databaseName + " depending on " + columnName);
 
-		return parsedSimilarity;
+		if ("".equals(databaseName))
+			throw new Exception("Database cannot be empty string.");
+		if ("".equals(columnName))
+			throw new Exception("Column cannot be empty string.");
+		
+		// If I'm not the owner I can change only my fuzzification.
+		// If I'm the owner I can change mine and the default one, but no other
+		// one.
+//		String predOwner = localUserInfo.getLocalUserName();
+//		if ((localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner()))
+//				&& (KConstants.Request.modeAdvanced.equals(mode))) {
+//			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+//		}
+//
+//		if ((KConstants.Request.modeEditingDefault.equals(mode))) {
+//			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+//		}
+
+		ProgramPartAnalysis programPart = null;
+
+		if (programFileInfo.existsFile(false)) {
+			programFileInfo.remove();
+		}
+		File file = programFileInfo.createFile(true);
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+			if (programPart.getHead() != null
+					&& programPart.getHead().startsWith(KConstants.Fuzzifications.similarityFunction)) {
+				SimilarityFunction similarity = parseSimilarity(programPart.getHead());
+				if (similarity != null && similarity.getDatabaseName() != null) {
+					if (similarity.getDatabaseName().equals(databaseName)
+							&& similarity.getTableName().equals(columnName)
+							&& ((similarity.getColumnValue1().equals(value1)
+									&& similarity.getColumnValue2().equals(value2))
+									|| (similarity.getColumnValue2().equals(value1)
+											&& similarity.getColumnValue1().equals(value2)))) {
+						//DONT WRITE THIS SIMILARITY: similarity
+//						System.out.println(programPart);
+//						System.out.println(similarity);
+					} else {
+						writeProgramPart(programPart, bw);
+					}
+				}
+			}
+			else {
+				writeProgramPart(programPart, bw);
+			}
+
+		}
+
+		bw.close();
+		
 	}
 
 	public int updateProgramFile(LocalUserInfo localUserInfo, String databaseName, String columnName, String value1,
-			String value2, String mode, String similartyValue) throws Exception {
+			String value2, String mode, String similartyValue, String oldValue1, String oldValue2) throws Exception {
 		LOG.info("saving the simiarity for " + databaseName + " depending on " + columnName + " in mode " + mode);
 
 		if ("".equals(databaseName))
@@ -927,6 +1055,7 @@ public class ProgramAnalysis {
 
 		boolean occurrence = false;
 		boolean toUpdate = false;
+		boolean updateExiting = false;
 
 		for (int i = 0; i < programParts.size(); i++) {
 			programPart = programParts.get(i);
@@ -943,9 +1072,19 @@ public class ProgramAnalysis {
 											&& parsedSimilarity.getColumnValue1().equals(value2)))) {
 						if(KConstants.Request.modeUpdateSimilarity.equals(mode)) {
 							toUpdate = true;
-						} else if (!KConstants.Request.modeUpdate.equals(mode)) {
+						} else if (!KConstants.Request.modeUpdate.equals(mode) && !KConstants.Request.modeUpdateExitingSimilarity.equals(mode)) {
 							occurrence = true;
 							writeProgramPart(programPart, bw);
+						}
+					} else if(parsedSimilarity.getDatabaseName().equals(databaseName)
+							&& parsedSimilarity.getTableName().equals(columnName)
+							&& ((parsedSimilarity.getColumnValue1().equals(oldValue1)
+									&& parsedSimilarity.getColumnValue2().equals(oldValue2))
+									|| (parsedSimilarity.getColumnValue2().equals(oldValue1)
+											&& parsedSimilarity.getColumnValue1().equals(oldValue2)))) {
+						if(KConstants.Request.modeUpdateExitingSimilarity.equals(mode)) {
+							updateExiting = true;
+							//for now we have not used this variable 'updateExiting', maybe we can use it in the future
 						}
 					} else {
 						writeProgramPart(programPart, bw);
@@ -963,8 +1102,8 @@ public class ProgramAnalysis {
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 					value1, value2, similartyValue, predOwner), bw);
 
-			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
-					value2, value1, similartyValue, predOwner), bw); // counterpart
+//			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+//					value2, value1, similartyValue, predOwner), bw); // counterpart
 																		// with
 																		// same
 																		// similarity
