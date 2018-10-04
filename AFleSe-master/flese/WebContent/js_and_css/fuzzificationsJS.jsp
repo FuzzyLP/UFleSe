@@ -375,46 +375,21 @@ function drawChart(divIdentifier, width, height) {
 		for(var i=1;i<newSeries[0]["data"].length-2;i++) {
 			xAxisLAbelPoint.push(newSeries[0]["data"][i][0]);
 		}
-//		$(document).ready(function() {
-			  // charts[i] = 
-		      chart = new Highcharts.Chart({
-		         chart: {
-	    	        renderTo: divIdentifier,
-	        	    type: 'line', //,
-	        	    width: width,
-	        	    height: height
-/*					style: { margin: '0 auto' } */
-		         },
-		         title: { text: fuzzificationFunction.msgTop },
-		         xAxis: {
-					title: { text: fuzzificationFunction.msgBottom },
-					min: newMinValue, //minValue
-					max: maxValue,
-					/* labels: {
-			            format: '{value} V'
-			        } */
-			        labels: {
-			            formatter: function () {
-			            	if($.inArray(this.value, xAxisLAbelPoint) != -1) {
-		            			return this.value + "<br> V" + ($.inArray(this.value, xAxisLAbelPoint) + 1);
-		            		} else {
-		            			return this.value;
-		            		}
-			            }
-			        }
-		            // categories: ['Apples', 'Bananas', 'Oranges']
-		         },
-		         yAxis: {
-					title: { text: 'Truth value' },
-					min: 0,
-					max: 1
-		         	// categories: [0, 0.25, 0.5, 0.75, 1]
-	    	     },
-/*	    	     navigator: { height: 30, width: 40 }, center: [60, 45], size: 50, */
-	        	 series: newSeries
-		         		/*	[{ name: 'Jane', data: [1, 0, 4] }, { name: 'John', data: [5, 7, 3] }] */
-		      });
-//		   });
+		chart = newHighCHarts(newMinValue,maxValue,fuzzificationFunction,width,height,divIdentifier,xAxisLAbelPoint,newSeries,null);
+		console.warn(chart.xAxis[0].tickPositions);
+		var isMatched = true;
+		$.each(xAxisLAbelPoint, function(i, val) {
+			if($.inArray(val, chart.xAxis[0].tickPositions) == -1) {
+				isMatched = false;
+				chart.xAxis[0].tickPositions.push(val);
+			}
+		});
+		if(!isMatched) {
+		  	customTickPositions = chart.xAxis[0].tickPositions.sort(function(a, b){return a-b});
+		  	chart = null;
+		  	console.warn(customTickPositions);
+		  	chart = newHighCHarts(newMinValue,maxValue,fuzzificationFunction,width,height,divIdentifier,xAxisLAbelPoint,newSeries,customTickPositions);
+		}
 	}
 }
 
@@ -422,7 +397,46 @@ function drawChart(divIdentifier, width, height) {
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
-/* ----------------------------------------------------------------------------------------------------------------------------*/
+function newHighCHarts(newMinValue,maxValue,fuzzificationFunction,width,height,divIdentifier,xAxisLAbelPoint,newSeries,customTickPositions) {
+	var xAxis = {
+			title: { text: fuzzificationFunction.msgBottom },
+			min: newMinValue, //minValue
+			max: maxValue,
+	        labels: {
+	            formatter: function () {
+	            	if($.inArray(this.value, xAxisLAbelPoint) != -1) {
+	           			return this.value + "<br> V" + ($.inArray(this.value, xAxisLAbelPoint) + 1);
+	           		} else {
+	           			return this.value;
+	           		}
+	            }
+	        }
+        };
+	if(customTickPositions) {
+		xAxis["tickPositions"] = customTickPositions;
+	}
+	return new Highcharts.Chart({
+        chart: {
+	        renderTo: divIdentifier,
+   	    type: 'line', //,
+   	    width: width,
+   	    height: height
+/*		style: { margin: '0 auto' } */
+        },
+        title: { text: fuzzificationFunction.msgTop },
+        xAxis: xAxis,
+        yAxis: {
+			title: { text: 'Truth value' },
+			min: 0,
+			max: 1
+	     },
+/*	    	     navigator: { height: 30, width: 40 }, center: [60, 45], size: 50, */
+   	 	series: newSeries
+     });
+}
+
+/* 
+ *----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 

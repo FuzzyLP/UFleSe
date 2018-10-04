@@ -224,7 +224,7 @@
 											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> at all?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'xPoint'></input>
+											<input type ='number' id = 'xPoint'> V1 </input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='tValue' value="0" style="display: none !important;"></input>
@@ -236,7 +236,7 @@
 											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'yPoint'></input>
+											<input type ='number' id = 'yPoint'> V2 </input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
@@ -252,7 +252,7 @@
 											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'xPoint'></input>
+											<input type ='number' id = 'xPoint'>V1</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='tValue' value="1" style="display: none !important;"></input>
@@ -264,7 +264,7 @@
 											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'yPoint'></input>
+											<input type ='number' id = 'yPoint'>V2</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="0" style="display: none !important;"></input>
@@ -281,7 +281,7 @@
 											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> at all?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'xPoint'></input>
+											<input type ='number' id = 'xPoint'>V1</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='tValue' value="0" style="display: none !important;"></input>
@@ -293,7 +293,7 @@
 											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'yPoint'></input>
+											<input type ='number' id = 'yPoint'>V2</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ytValue' value="1" style="display: none !important;"></input>
@@ -305,7 +305,7 @@
 											What is the MAXIMUM value of <b class="predNecessaryTarget"></b> that is COMPLETLY <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'zPoint'></input>
+											<input type ='number' id = 'zPoint'>V3</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='ztValue' value="1" style="display: none !important;"></input>
@@ -317,7 +317,7 @@
 											What is the MINIMUM value of <b class="predNecessaryTarget"></b> that is NOT <b class="predDefinedTarget"></b> ?
 										</div>
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
-											<input type ='number' id = 'wPoint'></input>
+											<input type ='number' id = 'wPoint'>V4</input>
 										</div>&nbsp;&nbsp;
 										<div class="personalizationDivFuzzificationFunctionValuesTableCell">
 											<input type ='number' min='0' max='1' id='wtValue' value="0" style="display: none !important;"></input>
