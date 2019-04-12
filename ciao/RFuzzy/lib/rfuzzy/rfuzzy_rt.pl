@@ -21,10 +21,14 @@
 	assertLocalUserNameAux/1,
 	add_preffix_to_name/3,
 	rfuzzy_var_truth_value/3
-		     ],[hiord]).
+		     ],[hiord, datafacts]).
+
+:- use_package(clpr).
+
+:- use_module(engine(basic_props),[list/1,string/1]).
+:- use_module(library(streams)).
 
 :- use_module(library(write),[write/1]).
-:- use_package(clpr).
 :- use_module(library(terms),[copy_args/3]).
 
 :- data localUserName/1.

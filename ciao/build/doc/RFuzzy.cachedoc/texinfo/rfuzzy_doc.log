@@ -1,4 +1,4 @@
-This is TeXk, Version 3.14159265 (TeX Live 2015/Debian) (preloaded format=tex 2018.7.18)  27 SEP 2018 18:11
+This is TeXk, Version 3.14159265 (TeX Live 2015/Debian) (preloaded format=tex 2018.10.25)  12 APR 2019 12:32
  file:line:error style messages enabled.
 **\nonstopmode\input rfuzzy_doc.texic
 (./rfuzzy_doc.texic (./texinfo.tex Loading texinfo package [Version 2.257]:
@@ -172,20 +172,20 @@ Missing character: There is no ^^b1 in font cmr10!
 Missing character: There is no ^^c3 in font cmr10!
 Missing character: There is no ^^a1 in font cmr10!
 ) (./rfuzzy_docliindex.texic
-(Library/Module Index) [3] [4]) (./rfuzzy_docpdindex.texic
-(Predicate/Method Index) [5] [6]) (./rfuzzy_docprindex.texic (Property Index)
-[7] [8]) (./rfuzzy_docteindex.texic (Regular Type Index) [9] [10])
+(Library/Module Index) [3] [4]) (./rfuzzy_docpdindex.texic (Predicate Index)
+[5] [6]) (./rfuzzy_docprindex.texic (Property Index) [7] [8])
+(./rfuzzy_docteindex.texic (Regular Type Index) [9] [10])
 (./rfuzzy_docdeindex.texic (Declaration Index) [11] [12])
 (./rfuzzy_doccoindex.texic (Concept Index) [13] [14])
 (./rfuzzy_docauindex.texic (Author Index) [15] [16]) (./rfuzzy_docglindex.texic
 (Global Index) [17] [18] (./rfuzzy_doc.gls)) [19] [20] ) 
 Here is how much of TeX's memory you used:
  1230 strings out of 497973
- 13498 string characters out of 6220704
- 32943 words of memory out of 5000000
+ 13477 string characters out of 6220703
+ 34936 words of memory out of 5000000
  2071 multiletter control sequences out of 15000+600000
  30088 words of font info for 104 fonts, out of 8000000 for 9000
  19 hyphenation exceptions out of 8191
  15i,5n,10p,387b,345s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on rfuzzy_doc.dvi (23 pages, 19340 bytes).
+Output written on rfuzzy_doc.dvi (23 pages, 18884 bytes).

@@ -1,5 +1,6 @@
-:- module(rfuzzy_tr,[rfuzzy_trans_sentence/3, rfuzzy_trans_clause/3],[]).
+:- module(rfuzzy_tr,[rfuzzy_trans_sentence/3, rfuzzy_trans_clause/3],[datafacts]).
 
+:- use_module(engine(basic_props), [list/1]).
 :- use_module(library(aggregates), [findall/3]).
 :- use_module(library(terms),[copy_args/3]).
 :- use_module(library(rfuzzy/rfuzzy_rt)).

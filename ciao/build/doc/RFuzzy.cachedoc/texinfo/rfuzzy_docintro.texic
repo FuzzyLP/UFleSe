@@ -6,13 +6,27 @@
 This package implements an extension of Prolog to deal with uncertainty. Consult the following papers for detailed information about the semantics:
 
 @itemize @bullet{} 
-@item [MHPCS10] 
-@item [VAS10] 
-@item [ASV10] 
-@item [SMHP09] 
-@item [MHPS09] 
-@item [PSM09] 
-@item [PMS08] 
+@item [
+@glindex MunozHernandez2010
+MHPCS10] 
+@item [
+@glindex jisbd:2010:vpcafdsmh
+VAS10] 
+@item [
+@glindex hardandsoft:2010:afdvpcsmh
+ASV10] 
+@item [
+@glindex DBLP:conf/eusflat/StrassMC09
+SMHP09] 
+@item [
+@glindex DBLP:conf/iwann/Munoz-HernandezCS09
+MHPS09] 
+@item [
+@glindex 5156427
+PSM09] 
+@item [
+@glindex victor:susana:2008:wlpe
+PMS08] 
 @end itemize 
 
 @section Usage and interface
@@ -25,7 +39,7 @@ This package implements an extension of Prolog to deal with uncertainty. Consult
 or
 
 @code{:- module(...,...,[rfuzzy]).}
-@item @b{Imports:}
+@item @b{Implicit imports:}
 
 @itemize @minus
 @item @i{Internal (engine) modules:}
@@ -36,42 +50,30 @@ or
 @code{arithmetic}, 
 @glindex atomic_basic
 @code{atomic_basic}, 
-@glindex basic_props
-@code{basic_props}, 
 @glindex basiccontrol
 @code{basiccontrol}, 
-@glindex data_facts
-@code{data_facts}, 
 @glindex exceptions
 @code{exceptions}, 
-@glindex io_aux
-@code{io_aux}, 
-@glindex io_basic
-@code{io_basic}, 
-@glindex prolog_flags
-@code{prolog_flags}, 
-@glindex streams_basic
-@code{streams_basic}, 
-@glindex system_info
-@code{system_info}, 
 @glindex term_compare
 @code{term_compare}, 
 @glindex term_typing
 @code{term_typing}, 
-@glindex hiord_rt
-@code{hiord_rt}, 
 @glindex debugger_support
-@code{debugger_support}.
+@code{debugger_support}, 
+@glindex basic_props
+@code{basic_props}.
 @item @i{Packages:}
 
 @glindex prelude
 @code{prelude}, 
-@glindex nonpure
-@code{nonpure}, 
+@glindex initial
+@code{initial}, 
 @glindex condcomp
 @code{condcomp}, 
 @glindex assertions
 @code{assertions}, 
+@glindex assertions/assertions_basic
+@code{assertions/assertions_basic}, 
 @glindex regtypes
 @code{regtypes}.
 @end itemize

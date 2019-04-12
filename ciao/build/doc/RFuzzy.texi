@@ -55,7 +55,7 @@
 Indexes
 
 * Library/Module Index::
-* Predicate/Method Index::
+* Predicate Index::
 * Property Index::
 * Regular Type Index::
 * Declaration Index::

@@ -1,11 +1,11 @@
 This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: RFuzzy.cachedoc/rfuzzy_doc_tmp.aux
-The style file: /home/halimdeedar/.ciaoroot/master/lpdoc/lib/docstring.bst
-Database file #1: /home/halimdeedar/Documents/GitHubnew/FleseV2/AFleSe-master/ciao/RFuzzy/doc/bibliography.bib.bib
+The style file: /home/halimdeedar/.ciaoroot/master/lpdoc/etc/docstring.bst
+Database file #1: /home/halimdeedar/Documents/Githubapril/UFleSe/ciao/RFuzzy/doc/bibliography.bib.bib
 You've used 7 entries,
             2534 wiz_defined-function locations,
-            611 strings with 7604 characters,
+            611 strings with 7591 characters,
 and the built_in function-call counts, 3639 in all, are:
 = -- 350
 > -- 211

@@ -47,6 +47,7 @@
 @vskip 0pt plus 1filll
  Copyright @copyright{} 1996-2002 Jes@'us Correas Fern@'andez/The CLIP Group.
 
+
 This document may be freely read, stored, reproduced, disseminated, translated or quoted by any means and on any medium provided the following conditions are met:
 
 @enumerate  
@@ -80,6 +81,7 @@ Any incompatibility of the above clauses with legal, contractual or judiciary de
 @ifinfo
 
  Copyright @copyright{} 1996-2002 Jes@'us Correas Fern@'andez/The CLIP Group.
+
 
 This document may be freely read, stored, reproduced, disseminated, translated or quoted by any means and on any medium provided the following conditions are met:
 
@@ -129,7 +131,7 @@ In this document we present an interface between Ciao Prolog and Java to take ad
 Indexes
 
 * Library/Module Index::
-* Predicate/Method Index::
+* Predicate Index::
 * Property Index::
 * Regular Type Index::
 * Declaration Index::

@@ -4,7 +4,7 @@
 	 prolog_server/2,
 	 shell_s/0
 	],
-	[assertions,regtypes,isomodes]).
+	[assertions,regtypes,isomodes,datafacts]).
 
 :- doc(title,"Java to Prolog interface").
 
@@ -45,6 +45,7 @@ using the built-in predicates dealing with code loading.
 
 :- use_module(library(concurrency)).
 :- use_module(library(system)).
+:- use_module(engine(stream_basic)).
 :- use_module(library(read), [read/2]).
 :- use_module(library(compiler), [use_module/1]).
 :- use_module(library(javall/javasock), 

@@ -1,10 +1,13 @@
 :- package(rfuzzy).
 
+:- use_package(hiord).
+
 :- use_module(library(rfuzzy/rfuzzy_rt)). 
 :- reexport(library(rfuzzy/rfuzzy_rt)).
 
 :- use_module(library(aggregates), [findall/3]).
 :- use_module(library(terms),[copy_args/3]).
+:- use_module(engine(basic_props), [list/1]).
 :- include(library(rfuzzy/rfuzzy_ops)).
 
 :- load_compilation_module(library(rfuzzy/rfuzzy_tr)).

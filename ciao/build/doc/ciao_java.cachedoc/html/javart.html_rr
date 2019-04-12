@@ -34,20 +34,6 @@ idx(use,code,localnum_label("22"),"java_event/1").
 idx(use,code,localnum_label("23"),"prolog_goal/1").
 idx(use,code,localnum_label("24"),"java_field/1").
 idx(use,code,localnum_label("25"),"java_method/1").
-idx(use,code,localnum_label("26"),"javasock").
-idx(use,code,localnum_label("27"),"concurrency").
-idx(use,code,localnum_label("28"),"iso_char").
-idx(use,code,localnum_label("29"),"lists").
-idx(use,code,localnum_label("30"),"read").
-idx(use,code,localnum_label("31"),"write").
-idx(use,code,localnum_label("32"),"process").
-idx(use,code,localnum_label("33"),"system").
-idx(use,code,localnum_label("34"),"prelude").
-idx(use,code,localnum_label("35"),"nonpure").
-idx(use,code,localnum_label("36"),"condcomp").
-idx(use,code,localnum_label("37"),"assertions").
-idx(use,code,localnum_label("38"),"regtypes").
-idx(use,code,localnum_label("39"),"isomodes").
 sect([level(2)],local_label("Documentation on exports"),string_esc("Documentation on exports")).
 idx(def,pred,local_label("java_start/0"),"java_start/0").
 idx(def,pred,local_label("java_start/1"),"java_start/1").
@@ -70,3 +56,21 @@ idx(def,pred,local_label("java_get_value/2"),"java_get_value/2").
 idx(def,pred,local_label("java_set_value/2"),"java_set_value/2").
 idx(def,pred,local_label("java_add_listener/3"),"java_add_listener/3").
 idx(def,pred,local_label("java_remove_listener/3"),"java_remove_listener/3").
+sect([level(2)],local_label("Documentation on imports"),string_esc("Documentation on imports")).
+idx(use,code,localnum_label("69"),"javasock").
+idx(use,code,localnum_label("70"),"datafacts_rt").
+idx(use,code,localnum_label("71"),"concurrency").
+idx(use,code,localnum_label("72"),"iso_char").
+idx(use,code,localnum_label("73"),"lists").
+idx(use,code,localnum_label("74"),"read").
+idx(use,code,localnum_label("75"),"write").
+idx(use,code,localnum_label("76"),"process").
+idx(use,code,localnum_label("77"),"system").
+idx(use,code,localnum_label("78"),"prelude").
+idx(use,code,localnum_label("79"),"initial").
+idx(use,code,localnum_label("80"),"condcomp").
+idx(use,code,localnum_label("81"),"assertions").
+idx(use,code,localnum_label("82"),"assertions/assertions_basic").
+idx(use,code,localnum_label("83"),"regtypes").
+idx(use,code,localnum_label("84"),"isomodes").
+idx(use,code,localnum_label("85"),"datafacts").

@@ -132,7 +132,7 @@
 		<a style="text-decoration:none"
 			href="<%=KUrls.Auth.SignOut.getUrl(false) %>">APPLICATION</a>
 			
-<div id="title">FleSe: Flexible Searches in Databases</div>
+<div id="title">UFleSe: Usability/Your Flexible Searches in Databases</div>
 
 
 </header>
@@ -195,15 +195,13 @@
 	<h2><center>Developers</center></h2>
 	<p align="justify">
 		This application is being developed by <a
-			href="http://babel.ls.fi.upm.es/~vpablos/">Ph.D. student Victor
-			Pablos Ceruelo</a> under the supervision of <a
+			href="http://babel.ls.fi.upm.es/~vpablos/">Ph.D. student Mohammad Halim Deedar</a> under the supervision of <a
 			href="http://babel.ls.fi.upm.es/~susana/">Dr. Susana Muñoz
-			Hernandez</a>, as part of her research in the <a
-			href="http://babel.ls.fi.upm.es/">Babel Research Group</a>.
+			Hernandez</a>
 	</p>
 
 	
-	<h2><center>Support</center></h2>
+<!--	<h2><center>Support</center></h2>
 	<p align="justify">This work is partially supported by
 		research projects DESAFIOS10 (TIN2009-14599-C03-00) funded by
 		Ministerio Ciencia e Innovación of Spain, PROMETIDOS (P2009/TIC-1465)
@@ -213,7 +211,7 @@
 		too by the Universidad Politécnica de Madrid entities Departamento de
 		Lenguajes y Sistemas Informáticos e Ingeniería de Software and
 		Facultad de Informática.</p>
-</div>
+</div> -->
 
 	<br />
 <div class="footer">

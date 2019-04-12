@@ -1,5 +1,5 @@
 \initial {J}
-\entry {\code {java_constructor/1}}{11}
+\entry {\code {java_constructor/1}}{10}
 \entry {\code {java_event/1}}{11}
 \entry {\code {java_field/1}}{11}
 \entry {\code {java_method/1}}{12}

@@ -20,7 +20,7 @@
 :- doc(copyright,"
 Copyright @copyright{} 1996-2002 Jes@'{u}s Correas Fern@'{a}ndez/The CLIP Group.
 
-@include{DocCopyright.lpdoc}
+@include{FreeDocLicense.lpdoc}
 ").
 
 :- doc(summary,"@include{javall/JavallSumm.lpdoc}").
@@ -89,6 +89,6 @@ mind that the goal is to reach a distributed environment, so each side do
 the things it is best designed for. 
 
 ").
-:- push_prolog_flag(unused_pred_warnings, no).
+
 main.
-:- pop_prolog_flag(unused_pred_warnings).
+

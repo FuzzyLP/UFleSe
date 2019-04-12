@@ -49,10 +49,10 @@ l.79 ...doc/texinfo/ip2jbn-events-pl-fire_autofig}
 )
 
 Overfull \vbox (45.55159pt too high) has occurred while \output is active
-[8] (./javall_doc.tmp) [9] (./javall_doc.tmp) (./javall_doc.tmp)
+[8] (./javall_doc.tmp) (./javall_doc.tmp) [9] (./javall_doc.tmp)
 (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
 (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [10] (./javall_doc.tmp
-) (./javall_doc.tmp) [11] (./javall_doc.tmp) (./javall_doc.tmp)
+) (./javall_doc.tmp) (./javall_doc.tmp) [11] (./javall_doc.tmp)
 (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
 (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
 (./javall_doc.tmp) [12] (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp
@@ -63,17 +63,18 @@ Overfull \vbox (45.55159pt too high) has occurred while \output is active
 (./javall_doc.tmp) [14]) (./jtopl.texic Chapter 4 [15] [16] [17]
 (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [18])
 (./javasock.texic Chapter 5 [19] [20] (./javall_doc.tmp) (./javall_doc.tmp)
-(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) [21] (./javall_doc.tmp
+(./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
+[21] (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp
 ) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp) (./javall_doc.tmp)
-(./javall_doc.tmp) (./javall_doc.tmp) [22] (./javall_doc.tmp) (./javall_doc.tmp
-)) (./javall_docrefs.texic (References) [23] [24]) (./javall_docliindex.texic
-(Library/Module Index) [25] [26]) (./javall_docpdindex.texic
-(Predicate/Method Index) [27] [28]) (./javall_docprindex.texic
-(Property Index) [29] [30]) (./javall_docteindex.texic (Regular Type Index)
-[31] [32]) (./javall_docdeindex.texic (Declaration Index) [33] [34])
+[22]) (./javall_docrefs.texic (References) [23] [24])
+(./javall_docliindex.texic (Library/Module Index) [25] [26])
+(./javall_docpdindex.texic (Predicate Index) [27] [28])
+(./javall_docprindex.texic (Property Index) [29] [30])
+(./javall_docteindex.texic (Regular Type Index) [31] [32])
+(./javall_docdeindex.texic (Declaration Index) [33] [34])
 (./javall_doccoindex.texic (Concept Index) [35] [36])
 (./javall_docauindex.texic (Author Index) [37] [38]) (./javall_docglindex.texic
 (Global Index) [39] [40]) [41] [42] )
 (see the transcript file for additional information)
-Output written on javall_doc.dvi (45 pages, 63112 bytes).
+Output written on javall_doc.dvi (45 pages, 62216 bytes).
 Transcript written on javall_doc.log.

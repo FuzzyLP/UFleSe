@@ -2,18 +2,18 @@
 @node Java to Prolog interface, Low-level Prolog to Java socket connection, Prolog to Java interface, Top
 @comment node-name, next, previous, up
 @chapter Java to Prolog interface
-@liindex jtopl
 @glindex jtopl
+@liindex jtopl
 
 @b{Author(s):} 
-@auindex Jesus Correas
 @glindex Jesus Correas
+@auindex Jesus Correas
 Jes@'us Correas.
 
 
  
-@coindex Java to Prolog interface
-@glindex Java to Prolog interface 
+@glindex Java to Prolog interface
+@coindex Java to Prolog interface 
 This module defines the Prolog side of the Java to Prolog interface. This side of the interface only has one public predicate: a server that listens at the socket connection with Java, and executes the commands received from the Java side.
 
 In order to evaluate the goals received from the Java side, this module can work in two ways: executing them in the same engine, or starting a thread for each goal. The easiest way is to launch them in the same engine, but the goals must be evaluated sequentially: once a goal provides the first solution, all the subsequent goals must be finished before this goal can backtrack to provide another solution. The Prolog side of this interface works as a top-level, and the goals partially evaluated are not independent.
@@ -51,40 +51,6 @@ A Prolog server starts by calling the @code{prolog_server/0} predicate, or by ca
 @glindex running_queries/2
 @code{running_queries/2}.
 @end itemize
-@item @b{Imports:}
-
-@itemize @minus
-@item @i{Application modules:}
-
-@glindex javasock
-@code{javasock}.
-@item @i{System library modules:}
-
-@glindex concurrency
-@code{concurrency}, 
-@glindex system
-@code{system}, 
-@glindex read
-@code{read}, 
-@glindex compiler
-@code{compiler}, 
-@glindex read_from_string
-@code{read_from_string}.
-@item @i{Packages:}
-
-@glindex prelude
-@code{prelude}, 
-@glindex nonpure
-@code{nonpure}, 
-@glindex condcomp
-@code{condcomp}, 
-@glindex assertions
-@code{assertions}, 
-@glindex regtypes
-@code{regtypes}, 
-@glindex isomodes
-@code{isomodes}.
-@end itemize
 @end itemize
 @end cartouche
 @section Documentation on exports
@@ -92,8 +58,8 @@ A Prolog server starts by calling the @code{prolog_server/0} predicate, or by ca
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_server/0 (pred)}}}
 @temp
 @end iftex
-@pdindex prolog_server/0
 @glindex prolog_server/0
+@pdindex prolog_server/0
 @deffn PREDICATE prolog_server/0:
 
 @b{Usage:} 
@@ -102,8 +68,8 @@ Prolog server entry point. Reads from the standard input the node name and port 
 
 However, from the low-level communication point of view, this Prolog server actually works as a client of the Java side. This means that Java side waits at the given port to a Prolog server trying to create a socket; Prolog side connects to that port, and then waits for Java requests (acting as a 'logical' server). To use this Prolog server as a real server waiting for connections at a given port, use @code{prolog_server/1}.
 
-@coindex Prolog server
-@glindex Prolog server 
+@glindex Prolog server
+@coindex Prolog server 
 @itemize @minus
 @end itemize
 @end deffn
@@ -113,8 +79,8 @@ However, from the low-level communication point of view, this Prolog server actu
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_server/1 (pred)}}}
 @temp
 @end iftex
-@pdindex prolog_server/1
 @glindex prolog_server/1
+@pdindex prolog_server/1
 @deffn PREDICATE prolog_server/1:
 
 @b{Usage:} 
@@ -122,8 +88,8 @@ However, from the low-level communication point of view, this Prolog server actu
 Waits for incoming Java connections to act as a Prolog goal server for Java requests.This is the only @code{prolog_server/*} predicate that works as a true server: given a port number, waits for a connection from Java and then serves Java requests. When a termination request is received, finishes the connection to Java and waits next Java connection request. This behaviour is different with respect to previous versions of this library. To work as before, use @code{prolog_server/2}.
 
 Although it currently does not support simultaneous Java connections, some work is being done in that direction. 
-@coindex Prolog server
-@glindex Prolog server 
+@glindex Prolog server
+@coindex Prolog server 
 @itemize @minus
 @item @i{Call and exit should be compatible with:}
 
@@ -131,7 +97,7 @@ Although it currently does not support simultaneous Java connections, some work 
 @iftex
 @hfill
 @end iftex
- (basic_props:atm/1)
+ (@code{basic_props:atm/1})
 @end itemize
 @end deffn
 @sp 1
@@ -140,8 +106,8 @@ Although it currently does not support simultaneous Java connections, some work 
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_server/2 (pred)}}}
 @temp
 @end iftex
-@pdindex prolog_server/2
 @glindex prolog_server/2
+@pdindex prolog_server/2
 @deffn PREDICATE prolog_server/2:
 
 @b{Usage:} 
@@ -149,8 +115,8 @@ Although it currently does not support simultaneous Java connections, some work 
 Prolog server entry point. Given a network @code{node} and a @code{port} number, starts the prolog server trying to connect to Java side at that @code{node:port} address, and then waits for Java requests. This predicate acts as a server: it includes an endless read-process loop until the @code{prolog_halt} command is received.
 
 However, from the low-level communication point of view, this Prolog server actually works as a client of the Java side. This means that Java side waits at the given port to a Prolog server trying to create a socket; Prolog side connects to that port, and then waits for Java requests (acting as a 'logical' server). To use this Prolog server as a real server waiting for connections at a given port, use @code{prolog_server/1}. 
-@coindex Prolog server
-@glindex Prolog server 
+@glindex Prolog server
+@coindex Prolog server 
 @itemize @minus
 @item @i{Call and exit should be compatible with:}
 
@@ -158,13 +124,13 @@ However, from the low-level communication point of view, this Prolog server actu
 @iftex
 @hfill
 @end iftex
- (basic_props:atm/1)
+ (@code{basic_props:atm/1})
 
 @code{Arg2} is an atom.
 @iftex
 @hfill
 @end iftex
- (basic_props:atm/1)
+ (@code{basic_props:atm/1})
 @end itemize
 @end deffn
 @sp 1
@@ -173,8 +139,8 @@ However, from the low-level communication point of view, this Prolog server actu
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{shell_s/0 (pred)}}}
 @temp
 @end iftex
-@pdindex shell_s/0
 @glindex shell_s/0
+@pdindex shell_s/0
 @deffn PREDICATE shell_s/0:
 
 @b{Usage:} 
@@ -189,8 +155,8 @@ Command execution loop. This predicate is called when the connection to Java is 
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{query_solutions/2 (pred)}}}
 @temp
 @end iftex
-@pdindex query_solutions/2
 @glindex query_solutions/2
+@pdindex query_solutions/2
 @deffn PREDICATE query_solutions/2:
 No further documentation available for this predicate.
 The predicate is of type @i{concurrent}.
@@ -202,8 +168,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{query_requests/2 (pred)}}}
 @temp
 @end iftex
-@pdindex query_requests/2
 @glindex query_requests/2
+@pdindex query_requests/2
 @deffn PREDICATE query_requests/2:
 No further documentation available for this predicate.
 The predicate is of type @i{concurrent}.
@@ -215,8 +181,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{running_queries/2 (pred)}}}
 @temp
 @end iftex
-@pdindex running_queries/2
 @glindex running_queries/2
+@pdindex running_queries/2
 @deffn PREDICATE running_queries/2:
 No further documentation available for this predicate.
 The predicate is of type @i{concurrent}.
@@ -224,3 +190,43 @@ The predicate is of type @i{concurrent}.
 @end deffn
 @sp 1
 
+@section Documentation on imports
+This module has the following direct dependencies:
+@itemize @minus
+@item @i{Application modules:}
+
+@glindex javasock
+@code{javasock}.
+@item @i{System library modules:}
+
+@glindex datafacts_rt
+@code{datafacts_rt}, 
+@glindex concurrency
+@code{concurrency}, 
+@glindex system
+@code{system}, 
+@glindex read
+@code{read}, 
+@glindex compiler
+@code{compiler}, 
+@glindex read_from_string
+@code{read_from_string}.
+@item @i{Packages:}
+
+@glindex prelude
+@code{prelude}, 
+@glindex initial
+@code{initial}, 
+@glindex condcomp
+@code{condcomp}, 
+@glindex assertions
+@code{assertions}, 
+@glindex assertions/assertions_basic
+@code{assertions/assertions_basic}, 
+@glindex regtypes
+@code{regtypes}, 
+@glindex isomodes
+@code{isomodes}, 
+@glindex datafacts
+@code{datafacts}.
+@end itemize

@@ -5,7 +5,7 @@
 \initial {J}
 \entry {\code {java_add_listener/3}}{13}
 \entry {\code {java_connect/2}}{10}
-\entry {\code {java_create_object/2}}{12}
+\entry {\code {java_create_object/2}}{11}
 \entry {\code {java_debug/1}}{23}
 \entry {\code {java_debug_redo/1}}{23}
 \entry {\code {java_delete_object/1}}{12}
@@ -18,7 +18,7 @@
 \entry {\code {java_set_value/2}}{13}
 \entry {\code {java_start/0}}{9}
 \entry {\code {java_start/1}}{9}
-\entry {\code {java_start/2}}{10}
+\entry {\code {java_start/2}}{9}
 \entry {\code {java_stop/0}}{10}
 \entry {\code {java_use_module/1}}{11}
 \entry {\code {join_socket_interface/0}}{22}
@@ -26,15 +26,15 @@
 \entry {\code {prolog_query/2}}{22}
 \entry {\code {prolog_response/2}}{22}
 \entry {\code {prolog_server/0}}{17}
-\entry {\code {prolog_server/1}}{18}
+\entry {\code {prolog_server/1}}{17}
 \entry {\code {prolog_server/2}}{18}
 \initial {Q}
 \entry {\code {query_requests/2}}{18}
 \entry {\code {query_solutions/2}}{18}
 \initial {R}
-\entry {\code {running_queries/2}}{19}
+\entry {\code {running_queries/2}}{18}
 \initial {S}
 \entry {\code {shell_s/0}}{18}
 \entry {\code {start_socket_interface/2}}{21}
 \entry {\code {start_threads/0}}{23}
-\entry {\code {stop_socket_interface/0}}{22}
+\entry {\code {stop_socket_interface/0}}{21}

@@ -5,10 +5,10 @@
 :- use_module(library(javall/javart)).
 :- use_module(library(system)).
 :- use_module(library(process), [process_call/3]).
-:- use_module(library(strings)).
 :- use_module(library(terms)).
 :- use_module(library(lists)).
 :- use_module(library(bundle/bundle_paths), [bundle_path/3]).
+:- use_module(engine(stream_basic), [absolute_file_name/2]).
 
 %% Before any test, current directory must be set to
 %% this directory.

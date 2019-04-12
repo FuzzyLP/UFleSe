@@ -96,7 +96,7 @@ processing.
 Indexes
 
 * Library/Module Index::
-* Predicate/Method Index::
+* Predicate Index::
 * Property Index::
 * Regular Type Index::
 * Declaration Index::
@@ -361,19 +361,6 @@ Usage and interface
           'machine_name/1', 'java_constructor/1', 'java_object/1',
           'java_event/1', 'prolog_goal/1', 'java_field/1',
           'java_method/1'.
-   * Imports:
-
-        - Application modules:
-
-          'javasock'.
-        - System library modules:
-
-          'concurrency', 'iso_char', 'lists', 'read', 'write',
-          'process', 'system'.
-        - Packages:
-
-          'prelude', 'nonpure', 'condcomp', 'assertions', 'regtypes',
-          'isomodes'.
 
 Documentation on exports
 ========================
@@ -395,11 +382,11 @@ Documentation on exports
         - Call and exit should be compatible with:
 
           'Classpath' is a string (a list of character codes).
-          (basic_props:string/1)
+          ('basic_props:string/1')
         - The following properties should hold at call time:
 
           'Classpath' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
  -- PREDICATE: java_start/2:
 
@@ -411,17 +398,17 @@ Documentation on exports
         - Call and exit should be compatible with:
 
           'Machine_name' is the network name of a machine.
-          (javart:machine_name/1)
+          ('javart:machine_name/1')
 
           'Classpath' is a string (a list of character codes).
-          (basic_props:string/1)
+          ('basic_props:string/1')
         - The following properties should hold at call time:
 
           'Machine_name' is currently a term which is not a free
-          variable.  (term_typing:nonvar/1)
+          variable.  ('term_typing:nonvar/1')
 
           'Classpath' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
  -- PREDICATE: java_stop/0:
 
@@ -442,16 +429,16 @@ Documentation on exports
         - Call and exit should be compatible with:
 
           'Machine_name' is the network name of a machine.
-          (javart:machine_name/1)
+          ('javart:machine_name/1')
 
-          'Port_number' is an integer.  (basic_props:int/1)
+          'Port_number' is an integer.  ('basic_props:int/1')
         - The following properties should hold at call time:
 
           'Machine_name' is currently a term which is not a free
-          variable.  (term_typing:nonvar/1)
+          variable.  ('term_typing:nonvar/1')
 
           'Port_number' is currently a term which is not a free
-          variable.  (term_typing:nonvar/1)
+          variable.  ('term_typing:nonvar/1')
 
  -- PREDICATE: java_disconnect/0:
 
@@ -517,11 +504,11 @@ Documentation on exports
      Loads a module and makes it available from Java.
         - Call and exit should be compatible with:
 
-          'Module' is any term.  (basic_props:term/1)
+          'Module' is any term.  ('basic_props:term/1')
         - The following properties should hold at call time:
 
           'Module' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
  -- PREDICATE: java_create_object/2:
 
@@ -535,23 +522,23 @@ Documentation on exports
 
           'Arg1' is a java constructor (structure with functor as
           constructor full name, and arguments as constructor
-          arguments).  (javart:java_constructor/1)
+          arguments).  ('javart:java_constructor/1')
 
           'Arg2' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java constructor (structure with functor as
           constructor full name, and arguments as constructor
-          arguments).  (javart:java_constructor/1)
+          arguments).  ('javart:java_constructor/1')
 
-          'Arg2' is a free variable.  (term_typing:var/1)
+          'Arg2' is a free variable.  ('term_typing:var/1')
         - The following properties should hold upon exit:
 
           'Arg2' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
  -- PREDICATE: java_delete_object/1:
 
@@ -563,12 +550,12 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
  -- PREDICATE: java_invoke_method/2:
 
@@ -580,22 +567,22 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java method (structure with functor as method
           name, and arguments as method ones, plus a result argument.
           This result argument is unified with the atom 'Yes' if the
-          java method returns void).  (javart:java_method/1)
+          java method returns void).  ('javart:java_method/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java method (structure with functor as method
           name, and arguments as method ones, plus a result argument.
           This result argument is unified with the atom 'Yes' if the
-          java method returns void).  (javart:java_method/1)
+          java method returns void).  ('javart:java_method/1')
 
  -- REGTYPE: java_method/1:
 
@@ -618,20 +605,20 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java field (structure on which the functor name is
           the field name, and the single argument is the field value).
-          (javart:java_field/1)
+          ('javart:java_field/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java field (structure on which the functor name is
           the field name, and the single argument is the field value).
-          (javart:java_field/1)
+          ('javart:java_field/1')
 
  -- PREDICATE: java_set_value/2:
 
@@ -645,20 +632,20 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java field (structure on which the functor name is
           the field name, and the single argument is the field value).
-          (javart:java_field/1)
+          ('javart:java_field/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java field (structure on which the functor name is
           the field name, and the single argument is the field value).
-          (javart:java_field/1)
+          ('javart:java_field/1')
 
  -- PREDICATE: java_add_listener/3:
 
@@ -671,11 +658,11 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java event represented as an atom with the full
           event constructor name (e.g.,
-          'java.awt.event.ActionListener').  (javart:java_event/1)
+          'java.awt.event.ActionListener').  ('javart:java_event/1')
 
           'Arg3' is a prolog predicate.  Prolog term that represents the
           goal that must be invoked when the event raises on the object.
@@ -685,16 +672,16 @@ Documentation on exports
           The arguments that represent java objects must be instantiated
           to already created objects.  The variables will be kept
           uninstantiated when the event raises and the predicate is
-          called.  (javart:prolog_goal/1)
+          called.  ('javart:prolog_goal/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java event represented as an atom with the full
           event constructor name (e.g.,
-          'java.awt.event.ActionListener').  (javart:java_event/1)
+          'java.awt.event.ActionListener').  ('javart:java_event/1')
 
           'Arg3' is a prolog predicate.  Prolog term that represents the
           goal that must be invoked when the event raises on the object.
@@ -704,7 +691,7 @@ Documentation on exports
           The arguments that represent java objects must be instantiated
           to already created objects.  The variables will be kept
           uninstantiated when the event raises and the predicate is
-          called.  (javart:prolog_goal/1)
+          called.  ('javart:prolog_goal/1')
 
      Meta-predicate with arguments: 'java_add_listener(?,?,goal)'.
 
@@ -719,11 +706,11 @@ Documentation on exports
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java event represented as an atom with the full
           event constructor name (e.g.,
-          'java.awt.event.ActionListener').  (javart:java_event/1)
+          'java.awt.event.ActionListener').  ('javart:java_event/1')
 
           'Arg3' is a prolog predicate.  Prolog term that represents the
           goal that must be invoked when the event raises on the object.
@@ -733,16 +720,16 @@ Documentation on exports
           The arguments that represent java objects must be instantiated
           to already created objects.  The variables will be kept
           uninstantiated when the event raises and the predicate is
-          called.  (javart:prolog_goal/1)
+          called.  ('javart:prolog_goal/1')
         - The following properties should hold at call time:
 
           'Arg1' is a java object (a structure with functor
           '$java_object', and argument an integer given by the java
-          side).  (javart:java_object/1)
+          side).  ('javart:java_object/1')
 
           'Arg2' is a java event represented as an atom with the full
           event constructor name (e.g.,
-          'java.awt.event.ActionListener').  (javart:java_event/1)
+          'java.awt.event.ActionListener').  ('javart:java_event/1')
 
           'Arg3' is a prolog predicate.  Prolog term that represents the
           goal that must be invoked when the event raises on the object.
@@ -752,7 +739,23 @@ Documentation on exports
           The arguments that represent java objects must be instantiated
           to already created objects.  The variables will be kept
           uninstantiated when the event raises and the predicate is
-          called.  (javart:prolog_goal/1)
+          called.  ('javart:prolog_goal/1')
+
+Documentation on imports
+========================
+
+This module has the following direct dependencies:
+   - Application modules:
+
+     'javasock'.
+   - System library modules:
+
+     'datafacts_rt', 'concurrency', 'iso_char', 'lists', 'read',
+     'write', 'process', 'system'.
+   - Packages:
+
+     'prelude', 'initial', 'condcomp', 'assertions',
+     'assertions/assertions_basic', 'regtypes', 'isomodes', 'datafacts'.
 
 
 File: ciao_java.info.tmp,  Node: Java to Prolog interface,  Next: Low-level Prolog to Java socket connection,  Prev: Prolog to Java interface,  Up: Top
@@ -804,19 +807,6 @@ Usage and interface
           'prolog_server/0', 'prolog_server/1', 'prolog_server/2',
           'shell_s/0', 'query_solutions/2', 'query_requests/2',
           'running_queries/2'.
-   * Imports:
-
-        - Application modules:
-
-          'javasock'.
-        - System library modules:
-
-          'concurrency', 'system', 'read', 'compiler',
-          'read_from_string'.
-        - Packages:
-
-          'prelude', 'nonpure', 'condcomp', 'assertions', 'regtypes',
-          'isomodes'.
 
 Documentation on exports
 ========================
@@ -857,7 +847,7 @@ Documentation on exports
      connections, some work is being done in that direction.
         - Call and exit should be compatible with:
 
-          'Arg1' is an atom.  (basic_props:atm/1)
+          'Arg1' is an atom.  ('basic_props:atm/1')
 
  -- PREDICATE: prolog_server/2:
 
@@ -878,9 +868,9 @@ Documentation on exports
      a given port, use 'prolog_server/1'.
         - Call and exit should be compatible with:
 
-          'Arg1' is an atom.  (basic_props:atm/1)
+          'Arg1' is an atom.  ('basic_props:atm/1')
 
-          'Arg2' is an atom.  (basic_props:atm/1)
+          'Arg2' is an atom.  ('basic_props:atm/1')
 
  -- PREDICATE: shell_s/0:
 
@@ -906,6 +896,22 @@ Documentation on exports
      No further documentation available for this predicate.  The
      predicate is of type concurrent.
 
+
+Documentation on imports
+========================
+
+This module has the following direct dependencies:
+   - Application modules:
+
+     'javasock'.
+   - System library modules:
+
+     'datafacts_rt', 'concurrency', 'system', 'read', 'compiler',
+     'read_from_string'.
+   - Packages:
+
+     'prelude', 'initial', 'condcomp', 'assertions',
+     'assertions/assertions_basic', 'regtypes', 'isomodes', 'datafacts'.
 
 
 File: ciao_java.info.tmp,  Node: Low-level Prolog to Java socket connection,  Next: References,  Prev: Java to Prolog interface,  Up: Top
@@ -936,18 +942,6 @@ Usage and interface
           'java_query/2', 'java_response/2', 'prolog_query/2',
           'prolog_response/2', 'is_connected_to_java/0', 'java_debug/1',
           'java_debug_redo/1', 'start_threads/0'.
-   * Imports:
-
-        - Application modules:
-
-          'jtopl'.
-        - System library modules:
-
-          'sockets', 'format', 'concurrency', 'sockets_io'.
-        - Packages:
-
-          'prelude', 'nonpure', 'condcomp', 'assertions', 'regtypes',
-          'isomodes'.
 
 Documentation on exports
 ========================
@@ -961,11 +955,11 @@ Documentation on exports
      starts the threads needed to handle the connection.
         - Call and exit should be compatible with:
 
-          'Port' is an integer.  (basic_props:int/1)
+          'Port' is an integer.  ('basic_props:int/1')
         - The following properties should hold at call time:
 
           'Port' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
  -- PREDICATE: start_socket_interface/2:
 
@@ -976,16 +970,16 @@ Documentation on exports
      handle the connection.
         - Call and exit should be compatible with:
 
-          'Address' is any term.  (basic_props:term/1)
+          'Address' is any term.  ('basic_props:term/1')
 
-          'Stream' is an open stream.  (streams_basic:stream/1)
+          'Stream' is an open stream.  ('stream_basic:stream/1')
         - The following properties should hold at call time:
 
           'Address' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
           'Stream' is currently a term which is not a free variable.
-          (term_typing:nonvar/1)
+          ('term_typing:nonvar/1')
 
  -- PREDICATE: stop_socket_interface/0:
 
@@ -1009,9 +1003,9 @@ Documentation on exports
      to send to Java.
         - Call and exit should be compatible with:
 
-          'ThreadId' is an atom.  (basic_props:atm/1)
+          'ThreadId' is an atom.  ('basic_props:atm/1')
 
-          'Query' is any term.  (basic_props:term/1)
+          'Query' is any term.  ('basic_props:term/1')
 
      The predicate is of type concurrent.
 
@@ -1025,9 +1019,9 @@ Documentation on exports
      argument corresponds to the response itself.
         - Call and exit should be compatible with:
 
-          'Id' is an atom.  (basic_props:atm/1)
+          'Id' is an atom.  ('basic_props:atm/1')
 
-          'Response' is any term.  (basic_props:term/1)
+          'Response' is any term.  ('basic_props:term/1')
 
      The predicate is of type concurrent.
 
@@ -1040,9 +1034,9 @@ Documentation on exports
      Prolog side from Java side.
         - Call and exit should be compatible with:
 
-          'Id' is an integer.  (basic_props:int/1)
+          'Id' is an integer.  ('basic_props:int/1')
 
-          'Query' is any term.  (basic_props:term/1)
+          'Query' is any term.  ('basic_props:term/1')
 
      The predicate is of type concurrent.
 
@@ -1055,9 +1049,9 @@ Documentation on exports
      requested to Prolog side from Java side.
         - Call and exit should be compatible with:
 
-          'Id' is an integer.  (basic_props:int/1)
+          'Id' is an integer.  ('basic_props:int/1')
 
-          'Response' is any term.  (basic_props:term/1)
+          'Response' is any term.  ('basic_props:term/1')
 
      The predicate is of type concurrent.
 
@@ -1082,6 +1076,21 @@ Documentation on exports
      predicate is declared public for internal purposes, and it is not
      intended to be used by a user program.
 
+Documentation on imports
+========================
+
+This module has the following direct dependencies:
+   - Application modules:
+
+     'jtopl'.
+   - System library modules:
+
+     'datafacts_rt', 'sockets', 'format', 'concurrency', 'sockets_io'.
+   - Packages:
+
+     'prelude', 'initial', 'condcomp', 'assertions',
+     'assertions/assertions_basic', 'regtypes', 'isomodes', 'datafacts'.
+
 
 File: ciao_java.info.tmp,  Node: References,  Next: Library/Module Index,  Prev: Low-level Prolog to Java socket connection,  Up: Top
 
@@ -1091,7 +1100,7 @@ References
 (this section is empty)
 
 
-File: ciao_java.info.tmp,  Node: Library/Module Index,  Next: Predicate/Method Index,  Prev: References,  Up: Top
+File: ciao_java.info.tmp,  Node: Library/Module Index,  Next: Predicate Index,  Prev: References,  Up: Top
 
 Library/Module Index
 ********************
@@ -1107,83 +1116,83 @@ Library/Module Index
                                                                 (line 6)
 
 
-File: ciao_java.info.tmp,  Node: Predicate/Method Index,  Next: Property Index,  Prev: Library/Module Index,  Up: Top
+File: ciao_java.info.tmp,  Node: Predicate Index,  Next: Property Index,  Prev: Library/Module Index,  Up: Top
 
-Predicate/Method Index
-**********************
+Predicate Index
+***************
 
  [index ]
 * Menu:
 
 * bind_socket_interface/1:               Low-level Prolog to Java socket connection.
-                                                              (line  45)
+                                                              (line  33)
 * is_connected_to_java/0:                Low-level Prolog to Java socket connection.
-                                                              (line 155)
-* java_add_listener/3:                   Prolog to Java interface.
-                                                              (line 486)
-* java_connect/2:                        Prolog to Java interface.
-                                                              (line 257)
-* java_create_object/2:                  Prolog to Java interface.
-                                                              (line 349)
-* java_debug/1:                          Low-level Prolog to Java socket connection.
-                                                              (line 161)
-* java_debug_redo/1:                     Low-level Prolog to Java socket connection.
-                                                              (line 164)
-* java_delete_object/1:                  Prolog to Java interface.
-                                                              (line 379)
-* java_disconnect/0:                     Prolog to Java interface.
-                                                              (line 279)
-* java_get_value/2:                      Prolog to Java interface.
-                                                              (line 432)
-* java_invoke_method/2:                  Prolog to Java interface.
-                                                              (line 396)
-* java_query/2:                          Low-level Prolog to Java socket connection.
-                                                              (line  93)
-* java_remove_listener/3:                Prolog to Java interface.
-                                                              (line 535)
-* java_response/2:                       Low-level Prolog to Java socket connection.
-                                                              (line 109)
-* java_set_value/2:                      Prolog to Java interface.
-                                                              (line 459)
-* java_start/0:                          Prolog to Java interface.
-                                                              (line 204)
-* java_start/1:                          Prolog to Java interface.
-                                                              (line 211)
-* java_start/2:                          Prolog to Java interface.
-                                                              (line 227)
-* java_stop/0:                           Prolog to Java interface.
-                                                              (line 249)
-* java_use_module/1:                     Prolog to Java interface.
-                                                              (line 336)
-* join_socket_interface/0:               Low-level Prolog to Java socket connection.
-                                                              (line  87)
-* prolog_query/2:                        Low-level Prolog to Java socket connection.
-                                                              (line 125)
-* prolog_response/2:                     Low-level Prolog to Java socket connection.
-                                                              (line 140)
-* prolog_server/0:                       Java to Prolog interface.
-                                                              (line  67)
-* prolog_server/1:                       Java to Prolog interface.
-                                                              (line  86)
-* prolog_server/2:                       Java to Prolog interface.
-                                                              (line 105)
-* query_requests/2:                      Java to Prolog interface.
                                                               (line 143)
-* query_solutions/2:                     Java to Prolog interface.
-                                                              (line 138)
-* running_queries/2:                     Java to Prolog interface.
-                                                              (line 148)
-* shell_s/0:                             Java to Prolog interface.
+* java_add_listener/3:                   Prolog to Java interface.
+                                                              (line 473)
+* java_connect/2:                        Prolog to Java interface.
+                                                              (line 244)
+* java_create_object/2:                  Prolog to Java interface.
+                                                              (line 336)
+* java_debug/1:                          Low-level Prolog to Java socket connection.
+                                                              (line 149)
+* java_debug_redo/1:                     Low-level Prolog to Java socket connection.
+                                                              (line 152)
+* java_delete_object/1:                  Prolog to Java interface.
+                                                              (line 366)
+* java_disconnect/0:                     Prolog to Java interface.
+                                                              (line 266)
+* java_get_value/2:                      Prolog to Java interface.
+                                                              (line 419)
+* java_invoke_method/2:                  Prolog to Java interface.
+                                                              (line 383)
+* java_query/2:                          Low-level Prolog to Java socket connection.
+                                                              (line  81)
+* java_remove_listener/3:                Prolog to Java interface.
+                                                              (line 522)
+* java_response/2:                       Low-level Prolog to Java socket connection.
+                                                              (line  97)
+* java_set_value/2:                      Prolog to Java interface.
+                                                              (line 446)
+* java_start/0:                          Prolog to Java interface.
+                                                              (line 191)
+* java_start/1:                          Prolog to Java interface.
+                                                              (line 198)
+* java_start/2:                          Prolog to Java interface.
+                                                              (line 214)
+* java_stop/0:                           Prolog to Java interface.
+                                                              (line 236)
+* java_use_module/1:                     Prolog to Java interface.
+                                                              (line 323)
+* join_socket_interface/0:               Low-level Prolog to Java socket connection.
+                                                              (line  75)
+* prolog_query/2:                        Low-level Prolog to Java socket connection.
+                                                              (line 113)
+* prolog_response/2:                     Low-level Prolog to Java socket connection.
                                                               (line 128)
+* prolog_server/0:                       Java to Prolog interface.
+                                                              (line  54)
+* prolog_server/1:                       Java to Prolog interface.
+                                                              (line  73)
+* prolog_server/2:                       Java to Prolog interface.
+                                                              (line  92)
+* query_requests/2:                      Java to Prolog interface.
+                                                              (line 130)
+* query_solutions/2:                     Java to Prolog interface.
+                                                              (line 125)
+* running_queries/2:                     Java to Prolog interface.
+                                                              (line 135)
+* shell_s/0:                             Java to Prolog interface.
+                                                              (line 115)
 * start_socket_interface/2:              Low-level Prolog to Java socket connection.
-                                                              (line  60)
+                                                              (line  48)
 * start_threads/0:                       Low-level Prolog to Java socket connection.
-                                                              (line 167)
+                                                              (line 155)
 * stop_socket_interface/0:               Low-level Prolog to Java socket connection.
-                                                              (line  80)
+                                                              (line  68)
 
 
-File: ciao_java.info.tmp,  Node: Property Index,  Next: Regular Type Index,  Prev: Predicate/Method Index,  Up: Top
+File: ciao_java.info.tmp,  Node: Property Index,  Next: Regular Type Index,  Prev: Predicate Index,  Up: Top
 
 Property Index
 **************
@@ -1198,19 +1207,19 @@ Regular Type Index
 * Menu:
 
 * java_constructor/1:                    Prolog to Java interface.
-                                                              (line 295)
+                                                              (line 282)
 * java_event/1:                          Prolog to Java interface.
-                                                              (line 309)
+                                                              (line 296)
 * java_field/1:                          Prolog to Java interface.
-                                                              (line 329)
-* java_method/1:                         Prolog to Java interface.
-                                                              (line 423)
-* java_object/1:                         Prolog to Java interface.
-                                                              (line 302)
-* machine_name/1:                        Prolog to Java interface.
-                                                              (line 289)
-* prolog_goal/1:                         Prolog to Java interface.
                                                               (line 316)
+* java_method/1:                         Prolog to Java interface.
+                                                              (line 410)
+* java_object/1:                         Prolog to Java interface.
+                                                              (line 289)
+* machine_name/1:                        Prolog to Java interface.
+                                                              (line 276)
+* prolog_goal/1:                         Prolog to Java interface.
+                                                              (line 303)
 
 
 File: ciao_java.info.tmp,  Node: Declaration Index,  Next: Concept Index,  Prev: Regular Type Index,  Up: Top
@@ -1236,11 +1245,11 @@ Concept Index
                                                               (line   8)
 * Platform independence:                 Introduction.        (line   6)
 * Prolog server:                         Java to Prolog interface.
-                                                              (line  85)
+                                                              (line  72)
 * Prolog server <1>:                     Java to Prolog interface.
-                                                              (line 100)
+                                                              (line  87)
 * Prolog server <2>:                     Java to Prolog interface.
-                                                              (line 121)
+                                                              (line 108)
 * Prolog to Java Interface Structure:    Prolog to Java interface.
                                                               (line  21)
 * Prolog to Java Interface Structure. Java side: Prolog to Java interface.
@@ -1273,51 +1282,75 @@ Global Index
 ************
 
 This is a global index containing pointers to places where concepts,
-predicates, modes, properties, types, applications, etc., are referred
-to in the text of the document.
+predicates, modes, properties, types, applications, authors, etc., are
+referred to in the text of the document.
 
  [index ]
 * Menu:
 
 * assertions:                            Prolog to Java interface.
-                                                              (line 198)
+                                                              (line 580)
 * assertions <1>:                        Java to Prolog interface.
-                                                              (line  61)
+                                                              (line 153)
 * assertions <2>:                        Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 175)
+* assertions/assertions_basic:           Prolog to Java interface.
+                                                              (line 580)
+* assertions/assertions_basic <1>:       Java to Prolog interface.
+                                                              (line 153)
+* assertions/assertions_basic <2>:       Low-level Prolog to Java socket connection.
+                                                              (line 175)
 * bind_socket_interface/1:               Low-level Prolog to Java socket connection.
                                                               (line  24)
 * bind_socket_interface/1 <1>:           Low-level Prolog to Java socket connection.
-                                                              (line  45)
+                                                              (line  33)
 * compiler:                              Java to Prolog interface.
-                                                              (line  57)
+                                                              (line 149)
 * concurrency:                           Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 576)
 * concurrency <1>:                       Java to Prolog interface.
-                                                              (line  57)
+                                                              (line 149)
 * concurrency <2>:                       Low-level Prolog to Java socket connection.
-                                                              (line  36)
+                                                              (line 172)
 * condcomp:                              Prolog to Java interface.
-                                                              (line 198)
+                                                              (line 580)
 * condcomp <1>:                          Java to Prolog interface.
-                                                              (line  61)
+                                                              (line 153)
 * condcomp <2>:                          Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 175)
+* datafacts:                             Prolog to Java interface.
+                                                              (line 581)
+* datafacts <1>:                         Java to Prolog interface.
+                                                              (line 154)
+* datafacts <2>:                         Low-level Prolog to Java socket connection.
+                                                              (line 176)
+* datafacts_rt:                          Prolog to Java interface.
+                                                              (line 576)
+* datafacts_rt <1>:                      Java to Prolog interface.
+                                                              (line 149)
+* datafacts_rt <2>:                      Low-level Prolog to Java socket connection.
+                                                              (line 172)
 * Distributed Programming Model:         Introduction.        (line  39)
 * format:                                Low-level Prolog to Java socket connection.
-                                                              (line  36)
+                                                              (line 172)
+* initial:                               Prolog to Java interface.
+                                                              (line 580)
+* initial <1>:                           Java to Prolog interface.
+                                                              (line 153)
+* initial <2>:                           Low-level Prolog to Java socket connection.
+                                                              (line 175)
 * isomodes:                              Prolog to Java interface.
-                                                              (line 198)
+                                                              (line 581)
 * isomodes <1>:                          Java to Prolog interface.
-                                                              (line  61)
+                                                              (line 154)
 * isomodes <2>:                          Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 176)
 * iso_char:                              Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 576)
 * is_connected_to_java/0:                Low-level Prolog to Java socket connection.
                                                               (line  27)
 * is_connected_to_java/0 <1>:            Low-level Prolog to Java socket connection.
-                                                              (line 155)
+                                                              (line 143)
 * Java event handling from Prolog:       Prolog to Java interface.
                                                               (line 114)
 * Java exception handling from Prolog:   Prolog to Java interface.
@@ -1329,103 +1362,103 @@ to in the text of the document.
 * javart <1>:                            Low-level Prolog to Java socket connection.
                                                               (line  11)
 * javasock:                              Prolog to Java interface.
-                                                              (line 191)
+                                                              (line 573)
 * javasock <1>:                          Java to Prolog interface.
-                                                              (line  54)
+                                                              (line 146)
 * javasock <2>:                          Low-level Prolog to Java socket connection.
                                                               (line   6)
 * java_add_listener/3:                   Prolog to Java interface.
                                                               (line 180)
 * java_add_listener/3 <1>:               Prolog to Java interface.
-                                                              (line 486)
+                                                              (line 473)
 * java_connect/2:                        Prolog to Java interface.
                                                               (line 177)
 * java_connect/2 <1>:                    Prolog to Java interface.
-                                                              (line 257)
+                                                              (line 244)
 * java_constructor/1:                    Prolog to Java interface.
                                                               (line 184)
 * java_constructor/1 <1>:                Prolog to Java interface.
-                                                              (line 295)
+                                                              (line 282)
 * java_create_object/2:                  Prolog to Java interface.
                                                               (line 177)
 * java_create_object/2 <1>:              Prolog to Java interface.
-                                                              (line 349)
+                                                              (line 336)
 * java_debug/1:                          Low-level Prolog to Java socket connection.
                                                               (line  27)
 * java_debug/1 <1>:                      Low-level Prolog to Java socket connection.
-                                                              (line 161)
+                                                              (line 149)
 * java_debug_redo/1:                     Low-level Prolog to Java socket connection.
                                                               (line  28)
 * java_debug_redo/1 <1>:                 Low-level Prolog to Java socket connection.
-                                                              (line 164)
+                                                              (line 152)
 * java_delete_object/1:                  Prolog to Java interface.
                                                               (line 178)
 * java_delete_object/1 <1>:              Prolog to Java interface.
-                                                              (line 379)
+                                                              (line 366)
 * java_disconnect/0:                     Prolog to Java interface.
                                                               (line 177)
 * java_disconnect/0 <1>:                 Prolog to Java interface.
-                                                              (line 279)
+                                                              (line 266)
 * java_event/1:                          Prolog to Java interface.
                                                               (line 184)
 * java_event/1 <1>:                      Prolog to Java interface.
-                                                              (line 309)
+                                                              (line 296)
 * java_field/1:                          Prolog to Java interface.
                                                               (line 185)
 * java_field/1 <1>:                      Prolog to Java interface.
-                                                              (line 329)
+                                                              (line 316)
 * java_get_value/2:                      Prolog to Java interface.
                                                               (line 179)
 * java_get_value/2 <1>:                  Prolog to Java interface.
-                                                              (line 432)
+                                                              (line 419)
 * java_invoke_method/2:                  Prolog to Java interface.
                                                               (line 178)
 * java_invoke_method/2 <1>:              Prolog to Java interface.
-                                                              (line 396)
+                                                              (line 383)
 * java_method/1:                         Prolog to Java interface.
                                                               (line 185)
 * java_method/1 <1>:                     Prolog to Java interface.
-                                                              (line 423)
+                                                              (line 410)
 * java_object/1:                         Prolog to Java interface.
                                                               (line 184)
 * java_object/1 <1>:                     Prolog to Java interface.
-                                                              (line 302)
+                                                              (line 289)
 * java_query/2:                          Low-level Prolog to Java socket connection.
                                                               (line  25)
 * java_query/2 <1>:                      Low-level Prolog to Java socket connection.
-                                                              (line  93)
+                                                              (line  81)
 * java_remove_listener/3:                Prolog to Java interface.
                                                               (line 180)
 * java_remove_listener/3 <1>:            Prolog to Java interface.
-                                                              (line 535)
+                                                              (line 522)
 * java_response/2:                       Low-level Prolog to Java socket connection.
                                                               (line  26)
 * java_response/2 <1>:                   Low-level Prolog to Java socket connection.
-                                                              (line 109)
+                                                              (line  97)
 * java_set_value/2:                      Prolog to Java interface.
                                                               (line 179)
 * java_set_value/2 <1>:                  Prolog to Java interface.
-                                                              (line 459)
+                                                              (line 446)
 * java_start/0:                          Prolog to Java interface.
                                                               (line 176)
 * java_start/0 <1>:                      Prolog to Java interface.
-                                                              (line 204)
+                                                              (line 191)
 * java_start/1:                          Prolog to Java interface.
                                                               (line 176)
 * java_start/1 <1>:                      Prolog to Java interface.
-                                                              (line 211)
+                                                              (line 198)
 * java_start/2:                          Prolog to Java interface.
                                                               (line 176)
 * java_start/2 <1>:                      Prolog to Java interface.
-                                                              (line 227)
+                                                              (line 214)
 * java_stop/0:                           Prolog to Java interface.
                                                               (line 176)
 * java_stop/0 <1>:                       Prolog to Java interface.
-                                                              (line 249)
+                                                              (line 236)
 * java_use_module/1:                     Prolog to Java interface.
                                                               (line 177)
 * java_use_module/1 <1>:                 Prolog to Java interface.
-                                                              (line 336)
+                                                              (line 323)
 * Jesus Correas:                         Prolog to Java interface.
                                                               (line   6)
 * Jesus Correas <1>:                     Java to Prolog interface.
@@ -1435,40 +1468,34 @@ to in the text of the document.
 * join_socket_interface/0:               Low-level Prolog to Java socket connection.
                                                               (line  25)
 * join_socket_interface/0 <1>:           Low-level Prolog to Java socket connection.
-                                                              (line  87)
+                                                              (line  75)
 * jtopl:                                 Java to Prolog interface.
                                                               (line   6)
 * jtopl <1>:                             Low-level Prolog to Java socket connection.
                                                               (line  12)
 * jtopl <2>:                             Low-level Prolog to Java socket connection.
-                                                              (line  33)
+                                                              (line 169)
 * lists:                                 Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 576)
 * machine_name/1:                        Prolog to Java interface.
                                                               (line 184)
 * machine_name/1 <1>:                    Prolog to Java interface.
-                                                              (line 289)
-* nonpure:                               Prolog to Java interface.
-                                                              (line 198)
-* nonpure <1>:                           Java to Prolog interface.
-                                                              (line  61)
-* nonpure <2>:                           Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 276)
 * Platform independence:                 Introduction.        (line   6)
 * prelude:                               Prolog to Java interface.
-                                                              (line 198)
+                                                              (line 580)
 * prelude <1>:                           Java to Prolog interface.
-                                                              (line  61)
+                                                              (line 153)
 * prelude <2>:                           Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 175)
 * process:                               Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 577)
 * Prolog server:                         Java to Prolog interface.
-                                                              (line  85)
+                                                              (line  72)
 * Prolog server <1>:                     Java to Prolog interface.
-                                                              (line 100)
+                                                              (line  87)
 * Prolog server <2>:                     Java to Prolog interface.
-                                                              (line 121)
+                                                              (line 108)
 * Prolog to Java Interface Structure:    Prolog to Java interface.
                                                               (line  21)
 * Prolog to Java Interface Structure. Java side: Prolog to Java interface.
@@ -1478,96 +1505,96 @@ to in the text of the document.
 * prolog_goal/1:                         Prolog to Java interface.
                                                               (line 185)
 * prolog_goal/1 <1>:                     Prolog to Java interface.
-                                                              (line 316)
+                                                              (line 303)
 * prolog_query/2:                        Low-level Prolog to Java socket connection.
                                                               (line  26)
 * prolog_query/2 <1>:                    Low-level Prolog to Java socket connection.
-                                                              (line 125)
+                                                              (line 113)
 * prolog_response/2:                     Low-level Prolog to Java socket connection.
                                                               (line  26)
 * prolog_response/2 <1>:                 Low-level Prolog to Java socket connection.
-                                                              (line 140)
+                                                              (line 128)
 * prolog_server/0:                       Java to Prolog interface.
                                                               (line  47)
 * prolog_server/0 <1>:                   Java to Prolog interface.
-                                                              (line  67)
+                                                              (line  54)
 * prolog_server/1:                       Java to Prolog interface.
                                                               (line  47)
 * prolog_server/1 <1>:                   Java to Prolog interface.
-                                                              (line  86)
+                                                              (line  73)
 * prolog_server/2:                       Java to Prolog interface.
                                                               (line  47)
 * prolog_server/2 <1>:                   Java to Prolog interface.
-                                                              (line 105)
+                                                              (line  92)
 * query_requests/2:                      Java to Prolog interface.
                                                               (line  48)
 * query_requests/2 <1>:                  Java to Prolog interface.
-                                                              (line 143)
+                                                              (line 130)
 * query_solutions/2:                     Java to Prolog interface.
                                                               (line  48)
 * query_solutions/2 <1>:                 Java to Prolog interface.
-                                                              (line 138)
+                                                              (line 125)
 * read:                                  Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 576)
 * read <1>:                              Java to Prolog interface.
-                                                              (line  57)
+                                                              (line 149)
 * read_from_string:                      Java to Prolog interface.
-                                                              (line  57)
+                                                              (line 149)
 * regtypes:                              Prolog to Java interface.
-                                                              (line 198)
+                                                              (line 581)
 * regtypes <1>:                          Java to Prolog interface.
-                                                              (line  61)
+                                                              (line 154)
 * regtypes <2>:                          Low-level Prolog to Java socket connection.
-                                                              (line  39)
+                                                              (line 176)
 * running_queries/2:                     Java to Prolog interface.
                                                               (line  48)
 * running_queries/2 <1>:                 Java to Prolog interface.
-                                                              (line 148)
+                                                              (line 135)
 * shell_s/0:                             Java to Prolog interface.
                                                               (line  47)
 * shell_s/0 <1>:                         Java to Prolog interface.
-                                                              (line 128)
+                                                              (line 115)
 * Socket implementation:                 Low-level Prolog to Java socket connection.
                                                               (line   8)
 * sockets:                               Low-level Prolog to Java socket connection.
-                                                              (line  36)
+                                                              (line 172)
 * sockets_io:                            Low-level Prolog to Java socket connection.
-                                                              (line  36)
+                                                              (line 172)
 * start_socket_interface/2:              Low-level Prolog to Java socket connection.
                                                               (line  24)
 * start_socket_interface/2 <1>:          Low-level Prolog to Java socket connection.
-                                                              (line  60)
+                                                              (line  48)
 * start_threads/0:                       Low-level Prolog to Java socket connection.
                                                               (line  28)
 * start_threads/0 <1>:                   Low-level Prolog to Java socket connection.
-                                                              (line 167)
+                                                              (line 155)
 * stop_socket_interface/0:               Low-level Prolog to Java socket connection.
                                                               (line  24)
 * stop_socket_interface/0 <1>:           Low-level Prolog to Java socket connection.
-                                                              (line  80)
+                                                              (line  68)
 * system:                                Prolog to Java interface.
-                                                              (line 195)
+                                                              (line 577)
 * system <1>:                            Java to Prolog interface.
-                                                              (line  57)
+                                                              (line 149)
 * write:                                 Prolog to Java interface.
-                                                              (line 194)
+                                                              (line 576)
 
 
 
 Tag Table:
 Node: Top3195
-Node: Introduction4353
-Node: Prolog to Java interface8178
-Node: Java to Prolog interface32017
-Node: Low-level Prolog to Java socket connection37813
-Node: References42972
-Node: Library/Module Index43157
-Node: Predicate/Method Index43777
-Node: Property Index48803
-Node: Regular Type Index48953
-Node: Declaration Index50108
-Node: Concept Index50258
-Node: Author Index51998
-Node: Global Index52587
+Node: Introduction4346
+Node: Prolog to Java interface8171
+Node: Java to Prolog interface32204
+Node: Low-level Prolog to Java socket connection38114
+Node: References43413
+Node: Library/Module Index43598
+Node: Predicate Index44211
+Node: Property Index49216
+Node: Regular Type Index49359
+Node: Declaration Index50514
+Node: Concept Index50664
+Node: Author Index52404
+Node: Global Index52993
 
 End Tag Table

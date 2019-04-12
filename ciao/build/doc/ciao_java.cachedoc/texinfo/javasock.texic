@@ -2,18 +2,18 @@
 @node Low-level Prolog to Java socket connection, References, Java to Prolog interface, Top
 @comment node-name, next, previous, up
 @chapter Low-level Prolog to Java socket connection
-@liindex javasock
 @glindex javasock
+@liindex javasock
 
 @b{Author(s):} 
-@auindex Jesus Correas
 @glindex Jesus Correas
+@auindex Jesus Correas
 Jes@'us Correas.
 
 
 
-@coindex Socket implementation
-@glindex Socket implementation 
+@glindex Socket implementation
+@coindex Socket implementation 
 This module defines a low-level socket interface, to be used by javart and jtopl. Includes all the code related directly to the handling of sockets. This library should not be used by any user program, because is a very low-level connection to Java. Use 
 @glindex javart
 @code{javart} (Prolog to Java interface) or 
@@ -57,38 +57,6 @@ This module defines a low-level socket interface, to be used by javart and jtopl
 @glindex start_threads/0
 @code{start_threads/0}.
 @end itemize
-@item @b{Imports:}
-
-@itemize @minus
-@item @i{Application modules:}
-
-@glindex jtopl
-@code{jtopl}.
-@item @i{System library modules:}
-
-@glindex sockets
-@code{sockets}, 
-@glindex format
-@code{format}, 
-@glindex concurrency
-@code{concurrency}, 
-@glindex sockets_io
-@code{sockets_io}.
-@item @i{Packages:}
-
-@glindex prelude
-@code{prelude}, 
-@glindex nonpure
-@code{nonpure}, 
-@glindex condcomp
-@code{condcomp}, 
-@glindex assertions
-@code{assertions}, 
-@glindex regtypes
-@code{regtypes}, 
-@glindex isomodes
-@code{isomodes}.
-@end itemize
 @end itemize
 @end cartouche
 @section Documentation on exports
@@ -96,8 +64,8 @@ This module defines a low-level socket interface, to be used by javart and jtopl
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{bind_socket_interface/1 (pred)}}}
 @temp
 @end iftex
-@pdindex bind_socket_interface/1
 @glindex bind_socket_interface/1
+@pdindex bind_socket_interface/1
 @deffn PREDICATE bind_socket_interface/1:
 
 @b{Usage:} @code{bind_socket_interface(Port)}
@@ -110,14 +78,14 @@ Given an port number, waits for a connection request from the Java side, creates
 @iftex
 @hfill
 @end iftex
- (basic_props:int/1)
+ (@code{basic_props:int/1})
 @item @i{The following properties should hold at call time:}
 
 @code{Port} is currently a term which is not a free variable.
 @iftex
 @hfill
 @end iftex
- (term_typing:nonvar/1)
+ (@code{term_typing:nonvar/1})
 @end itemize
 @end deffn
 @sp 1
@@ -126,8 +94,8 @@ Given an port number, waits for a connection request from the Java side, creates
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{start_socket_interface/2 (pred)}}}
 @temp
 @end iftex
-@pdindex start_socket_interface/2
 @glindex start_socket_interface/2
+@pdindex start_socket_interface/2
 @deffn PREDICATE start_socket_interface/2:
 
 @b{Usage:} @code{start_socket_interface(Address,Stream)}
@@ -140,26 +108,26 @@ Given an address in format 'node:port', creates the sockets to connect to the ja
 @iftex
 @hfill
 @end iftex
- (basic_props:term/1)
+ (@code{basic_props:term/1})
 
 @code{Stream} is an open stream.
 @iftex
 @hfill
 @end iftex
- (streams_basic:stream/1)
+ (@code{stream_basic:stream/1})
 @item @i{The following properties should hold at call time:}
 
 @code{Address} is currently a term which is not a free variable.
 @iftex
 @hfill
 @end iftex
- (term_typing:nonvar/1)
+ (@code{term_typing:nonvar/1})
 
 @code{Stream} is currently a term which is not a free variable.
 @iftex
 @hfill
 @end iftex
- (term_typing:nonvar/1)
+ (@code{term_typing:nonvar/1})
 @end itemize
 @end deffn
 @sp 1
@@ -168,8 +136,8 @@ Given an address in format 'node:port', creates the sockets to connect to the ja
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{stop_socket_interface/0 (pred)}}}
 @temp
 @end iftex
-@pdindex stop_socket_interface/0
 @glindex stop_socket_interface/0
+@pdindex stop_socket_interface/0
 @deffn PREDICATE stop_socket_interface/0:
 
 @b{Usage:} 
@@ -184,8 +152,8 @@ Closes the sockets to disconnect from the java process, and waits until the thre
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{join_socket_interface/0 (pred)}}}
 @temp
 @end iftex
-@pdindex join_socket_interface/0
 @glindex join_socket_interface/0
+@pdindex join_socket_interface/0
 @deffn PREDICATE join_socket_interface/0:
 
 @b{Usage:} 
@@ -200,8 +168,8 @@ Waits until the threads that handle the connection terminate.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_query/2 (pred)}}}
 @temp
 @end iftex
-@pdindex java_query/2
 @glindex java_query/2
+@pdindex java_query/2
 @deffn PREDICATE java_query/2:
 
 @b{Usage:} @code{java_query(ThreadId,Query)}
@@ -214,13 +182,13 @@ Data predicate containing the queries to be sent to Java. First argument is the 
 @iftex
 @hfill
 @end iftex
- (basic_props:atm/1)
+ (@code{basic_props:atm/1})
 
 @code{Query} is any term.
 @iftex
 @hfill
 @end iftex
- (basic_props:term/1)
+ (@code{basic_props:term/1})
 @end itemize
 
 The predicate is of type @i{concurrent}.
@@ -232,8 +200,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_response/2 (pred)}}}
 @temp
 @end iftex
-@pdindex java_response/2
 @glindex java_response/2
+@pdindex java_response/2
 @deffn PREDICATE java_response/2:
 
 @b{Usage:} @code{java_response(Id,Response)}
@@ -246,13 +214,13 @@ Data predicate that stores the responses to requests received from Java. First a
 @iftex
 @hfill
 @end iftex
- (basic_props:atm/1)
+ (@code{basic_props:atm/1})
 
 @code{Response} is any term.
 @iftex
 @hfill
 @end iftex
- (basic_props:term/1)
+ (@code{basic_props:term/1})
 @end itemize
 
 The predicate is of type @i{concurrent}.
@@ -264,8 +232,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_query/2 (pred)}}}
 @temp
 @end iftex
-@pdindex prolog_query/2
 @glindex prolog_query/2
+@pdindex prolog_query/2
 @deffn PREDICATE prolog_query/2:
 
 @b{Usage:} @code{prolog_query(Id,Query)}
@@ -278,13 +246,13 @@ Data predicate that keeps a queue of the queries requested to Prolog side from J
 @iftex
 @hfill
 @end iftex
- (basic_props:int/1)
+ (@code{basic_props:int/1})
 
 @code{Query} is any term.
 @iftex
 @hfill
 @end iftex
- (basic_props:term/1)
+ (@code{basic_props:term/1})
 @end itemize
 
 The predicate is of type @i{concurrent}.
@@ -296,8 +264,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{prolog_response/2 (pred)}}}
 @temp
 @end iftex
-@pdindex prolog_response/2
 @glindex prolog_response/2
+@pdindex prolog_response/2
 @deffn PREDICATE prolog_response/2:
 
 @b{Usage:} @code{prolog_response(Id,Response)}
@@ -310,13 +278,13 @@ Data predicate that keeps a queue of the responses to queries requested to Prolo
 @iftex
 @hfill
 @end iftex
- (basic_props:int/1)
+ (@code{basic_props:int/1})
 
 @code{Response} is any term.
 @iftex
 @hfill
 @end iftex
- (basic_props:term/1)
+ (@code{basic_props:term/1})
 @end itemize
 
 The predicate is of type @i{concurrent}.
@@ -328,8 +296,8 @@ The predicate is of type @i{concurrent}.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{is_connected_to_java/0 (pred)}}}
 @temp
 @end iftex
-@pdindex is_connected_to_java/0
 @glindex is_connected_to_java/0
+@pdindex is_connected_to_java/0
 @deffn PREDICATE is_connected_to_java/0:
 
 @b{Usage:} 
@@ -344,8 +312,8 @@ Checks if the connection to Java is established.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_debug/1 (pred)}}}
 @temp
 @end iftex
-@pdindex java_debug/1
 @glindex java_debug/1
+@pdindex java_debug/1
 @deffn PREDICATE java_debug/1:
 No further documentation available for this predicate.
 @end deffn
@@ -355,8 +323,8 @@ No further documentation available for this predicate.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{java_debug_redo/1 (pred)}}}
 @temp
 @end iftex
-@pdindex java_debug_redo/1
 @glindex java_debug_redo/1
+@pdindex java_debug_redo/1
 @deffn PREDICATE java_debug_redo/1:
 No further documentation available for this predicate.
 @end deffn
@@ -366,8 +334,8 @@ No further documentation available for this predicate.
 @edef@temp{@noexpand@writetocentry{@realbackslash unnumbsubsubsecentry{start_threads/0 (pred)}}}
 @temp
 @end iftex
-@pdindex start_threads/0
 @glindex start_threads/0
+@pdindex start_threads/0
 @deffn PREDICATE start_threads/0:
 
 @b{Usage:} 
@@ -378,3 +346,41 @@ Starts the threads that will handle the connection to Java. This predicate is de
 @end deffn
 @sp 1
 
+@section Documentation on imports
+This module has the following direct dependencies:
+@itemize @minus
+@item @i{Application modules:}
+
+@glindex jtopl
+@code{jtopl}.
+@item @i{System library modules:}
+
+@glindex datafacts_rt
+@code{datafacts_rt}, 
+@glindex sockets
+@code{sockets}, 
+@glindex format
+@code{format}, 
+@glindex concurrency
+@code{concurrency}, 
+@glindex sockets_io
+@code{sockets_io}.
+@item @i{Packages:}
+
+@glindex prelude
+@code{prelude}, 
+@glindex initial
+@code{initial}, 
+@glindex condcomp
+@code{condcomp}, 
+@glindex assertions
+@code{assertions}, 
+@glindex assertions/assertions_basic
+@code{assertions/assertions_basic}, 
+@glindex regtypes
+@code{regtypes}, 
+@glindex isomodes
+@code{isomodes}, 
+@glindex datafacts
+@code{datafacts}.
+@end itemize

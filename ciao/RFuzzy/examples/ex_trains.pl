@@ -3,6 +3,8 @@
 % Activate/Deactivate debug.
 :- activate_rfuzzy_debug.
 
+:- use_module(library(streams)).
+
 % Do not use this to define valid natural numbers.
 %speed(0). % Units are kilometres per hour
 %speed(X) :-

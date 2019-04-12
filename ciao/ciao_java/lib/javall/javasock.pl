@@ -12,7 +12,7 @@
 	java_debug_redo/1,
 	start_threads/0
 	],
-	[assertions,regtypes,isomodes]).
+	[assertions,regtypes,isomodes, datafacts]).
 
 :- doc(title,"Low-level Prolog to Java socket connection").
 
@@ -29,6 +29,8 @@ to Prolog interface) libraries instead.
 
 ").
 
+:- use_module(engine(stream_basic)).
+:- use_module(engine(io_basic)).
 :- use_module(library(sockets)).
 :- use_module(library(format)). 
 :- use_module(library(concurrency)). 

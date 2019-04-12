@@ -88,7 +88,6 @@ film('Before Sunrise', 1995, 101, romantic_drama, english, 'Richard Linklater', 
 film('Before Midnight', 2013, 109, romantic_drama, english, 'Richard Linklater', 'Sony Pictures Classics', null).
 film('Quien mato a Bambi?', 2013, 89, comedy, spanish, 'Santi Amodeo', 'Sony Pictures', 12).
 film('Not Suitable for Children', 2012, 96, romantic_comedy, english, 'Peter Templeman', 'Icon Film Distribution', null).
-film('Alien vs Predator', 2004, 115, science_fiction, english, 'Paul W.S. Anderson', '20th Century Fox', 12).
 film('Despicable Me', 2010, 95, comedy, english, 'Pierre Coffin and Chris Renaud', 'Universal Pictures', 0).
 film('Despicable Me 2', 2013, 98, comedy, english, 'Pierre Coffin and Chris Renaud', 'Universal Pictures', 0).
 film('Wall-E', 2008, 98, romantic_comedy, english, 'Andrew Stanton', 'Walt Disney Studios Motion Pictures', 0).

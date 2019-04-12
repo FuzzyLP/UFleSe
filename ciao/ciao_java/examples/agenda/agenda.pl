@@ -11,10 +11,11 @@
             persdb,
             assertions,
             isomodes,
-	    regexp
+	    regexp,
+	    dynamic,
+	    hiord
         ]).
 
-:- use_module(library(dynamic)).
 :- use_module(library(aggregates)).
 :- use_module(library(terms), [atom_concat/2]).
 :- use_module(library(javall/javart)).
@@ -120,6 +121,7 @@ make_filter(case_ins, Pred, LPredsAux, LPreds):- %!,
 make_filter(reg_exp, Pred, LPredsAux, LPreds):-
 	filter_regmatch(Pred, LPredsAux, LPreds).
 
+:- use_module(engine(runtime_control), [push_prolog_flag/2, pop_prolog_flag/1]).
 
 :- doc(doinclude, filter_cimatch/3).
 :- pred filter_cimatch(+Pred, +LPredsIn, -LPredsOut) # "Performs a
@@ -130,7 +132,7 @@ candidates for match @var{LPredsIn}, and obtains a list
 
 filter_cimatch(_, [], []).
 filter_cimatch(Pred, [PredAux1|PAs], [PredAux1|Ps]):-
-	push_prolog_flag(case_insensitive,on),
+	push_prolog_flag(case_insensitive,on), % TODO: find a better solution!
 	match_term(Pred, PredAux1), %!,
 	pop_prolog_flag(case_insensitive),
 	filter_cimatch(Pred, PAs, Ps).
