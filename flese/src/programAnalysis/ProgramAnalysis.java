@@ -490,6 +490,296 @@ public class ProgramAnalysis {
 		return 0;
 	}
 	
+	public int updateProgramFileSynAnt(LocalUserInfo localUserInfo, String predDefined, String predNecessary, String mode,
+			String synAnt) throws Exception {
+
+		LOG.info("saving the synonym/antonym " + predDefined + " depending on " + predNecessary + " in mode " + mode);
+
+		// Security issues ("" strings).
+		if ("".equals(predDefined))
+			throw new Exception("predDefined cannot be empty string.");
+		if ("".equals(predNecessary))
+			throw new Exception("predNecessary cannot be empty string.");
+		if ("".equals(mode)) {
+			mode = KConstants.Request.modeBasic;
+		}
+
+		// If I'm not the owner I can change only my syn/ant.
+		// If I'm the owner I can change mine and the default one, but no other
+		// one.
+		String predOwner = localUserInfo.getLocalUserName();
+		if ((localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner()))
+				&& (KConstants.Request.modeAdvanced.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		if ((KConstants.Request.modeEditingDefault.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		ProgramPartAnalysis programPart = null;
+
+		if (programFileInfo.existsFile(false)) {
+			programFileInfo.remove();
+		}
+		File file = programFileInfo.createFile(true);
+
+		ArrayList<ProgramPartAnalysis> programPartsAffected = new ArrayList<ProgramPartAnalysis>();
+		boolean foundSynAnt = false;
+		boolean copiedBackSynAnt = false;
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+
+		String databaseName = "";
+		String[] temp = predDefined.split("\\(");
+		databaseName = temp[1].replaceAll("\\)", "");
+
+		boolean madeChanges = false;
+		
+		for(int i = 0; i < programParts.size(); i++) {
+			ProgramPartAnalysis programP = programParts.get(i);
+			if (StringUtils.equals(mode, KConstants.Request.modeCreate) && (programP.isSynAnt())
+					&& (programP.getPredDefined().equals(predDefined))
+					&& (programP.getPredNecessary().equals(predNecessary))
+					&& StringUtils.equals(programP.getOnly_for_user(), localUserInfo.getLocalUserName())) {
+				programParts.remove(i);
+			}
+		}
+		
+//		String indexOfFunc = null;
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+			// LOG.info("analyzing the program line: " + programPart.getLine());
+
+			if (!copiedBackSynAnt) {
+				if ((programPart.isSynAnt()) && (programPart.getPredDefined().equals(predDefined))
+						&& (programPart.getPredNecessary().equals(predNecessary))) {
+					foundSynAnt = true;
+					programPartsAffected.add(programPart);
+					if(StringUtils.equals(mode, KConstants.Request.modeCreate)) {
+						mode = KConstants.Request.modeBasic;
+					}
+				} else {
+					if (foundSynAnt) {
+						if (StringUtils.equals(mode, KConstants.Request.modeAdvanced)) {
+							programPartsAffected = updateAffectedProgramPartsSynAnt(programPartsAffected, predDefined,
+									predNecessary, predOwner);
+						}
+						writeProgramParts(programPartsAffected, bw);
+						copiedBackSynAnt = true;
+					}
+					// else if (i < (programParts.size() - 2)) {
+					// ProgramPartAnalysis tempProgramPart = programParts.get(i
+					// + 1);
+					// if (tempProgramPart.getHead() != null &&
+					// tempProgramPart.getHead().contains("define_database")
+					// && !tempProgramPart.getHead().contains(databaseName)) {
+					// writeProgramParts(updateAffectedProgramParts(new
+					// ArrayList<ProgramPartAnalysis>(),
+					// predDefined, predNecessary, predOwner,
+					// functionDefinition), bw);
+					// madeChanges = true;
+					// }
+					// }
+				}
+			}
+
+			if ((!foundSynAnt) || (foundSynAnt && copiedBackSynAnt)) {
+				writeProgramPart(programPart, bw);
+			}
+			
+//			if(programPart.isFunction()) {
+//				indexOfFunc = programPart.getPredDefined();
+//			}
+			
+		}
+
+		if (StringUtils.equals(mode, KConstants.Request.modeBasic) && !madeChanges)
+			writeProgramParts(updateAffectedProgramPartsSynAnt(new ArrayList<ProgramPartAnalysis>(), predDefined,
+					predNecessary, predOwner), bw);
+		
+		bw.close();
+
+		//add the new defined syn/ant criteria
+		if (StringUtils.equals(mode, KConstants.Request.modeCreate) && !madeChanges) {
+			Path path = Paths.get(programFileInfo.getProgramFileFullPath());
+			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+			ProgramPartAnalysis newProgramPart = createNewProgramPartSynAnt(predDefined,
+					predNecessary,synAnt);
+//			String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0)." + "\n";  
+			String extraLine = "";
+//			String extraLine = predDefined + " :~ synonym_of(" + predNecessary + ",prod,1).";
+			String[] programPartLines = newProgramPart.getLines();
+			if (programPartLines != null) {
+				for (int i = 0; i < programPartLines.length; i++) {
+					extraLine += programPartLines[i] + "\n";
+				}
+			}
+//			int newLinePosition = lines.indexOf(indexOfFunc + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0).");
+//			lines.add(newLinePosition, extraLine);
+			lines.add(extraLine);
+			Files.write(path, lines, StandardCharsets.UTF_8);
+		}
+		
+		if (copiedBackSynAnt) {
+			this.programParts = null;
+			this.programFunctionsOrdered = null;
+			CacheStoreHouseCleaner.clean(programFileInfo);
+			return 0;
+		}
+		return 0;
+	}
+	
+	public int updateProgramFileFuzzRule(LocalUserInfo localUserInfo, Map<String, Object> fuzzRuleDetails, String predNecessary, String mode) throws Exception {
+
+		LOG.info("saving the fuzzy rule " + fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName) + " depending on " + predNecessary  + " in mode " + mode);
+
+		// Security issues ("" strings).
+		if ("".equals(predNecessary))
+			throw new Exception("predNecessary cannot be empty string.");
+		if ("".equals(fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName)))
+			throw new Exception("fuzzy rule name cannot be empty string.");
+		if ("".equals(fuzzRuleDetails.get(KConstants.Fuzzifications.agregatorOperator)))
+			throw new Exception("agregator operator cannot be empty string.");
+		if ("".equals(fuzzRuleDetails.get(KConstants.Fuzzifications.predicates)))
+			throw new Exception("predicates cannot be empty list.");
+		if ("".equals(mode)) {
+			mode = KConstants.Request.modeBasic;
+		}
+
+		// If I'm not the owner I can change only my fuzzy rule.
+		// If I'm the owner I can change mine and the default one, but no other
+		// one.
+		String predOwner = localUserInfo.getLocalUserName();
+		if ((localUserInfo.getLocalUserName().equals(programFileInfo.getFileOwner()))
+				&& (KConstants.Request.modeAdvanced.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		if ((KConstants.Request.modeEditingDefault.equals(mode))) {
+			predOwner = KConstants.Fuzzifications.DEFAULT_DEFINITION;
+		}
+
+		ProgramPartAnalysis programPart = null;
+
+		if (programFileInfo.existsFile(false)) {
+			programFileInfo.remove();
+		}
+		File file = programFileInfo.createFile(true);
+
+		ArrayList<ProgramPartAnalysis> programPartsAffected = new ArrayList<ProgramPartAnalysis>();
+		boolean foundFuzzyRule = false;
+		boolean copiedBackFuzzyRule = false;
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+
+//		String databaseName = "";
+//		String[] temp = predDefined.split("\\(");
+//		databaseName = temp[1].replaceAll("\\)", "");
+
+		boolean madeChanges = false;
+		
+		String predDefined = fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName) + "(" + predNecessary + ")";
+		
+		for(int i = 0; i < programParts.size(); i++) {
+			ProgramPartAnalysis programP = programParts.get(i);
+			if (StringUtils.equals(mode, KConstants.Request.modeCreate) && (programP.isFuzzRule())
+					&& (programP.getPredDefined().equals(predDefined))
+					&& (programP.getPredNecessary().equals(predNecessary))
+					/**&& StringUtils.equals(programP.getOnly_for_user(), localUserInfo.getLocalUserName())*/) {
+				programParts.remove(i);
+			}
+		}
+		
+//		String indexOfFunc = null;
+
+		for (int i = 0; i < programParts.size(); i++) {
+			programPart = programParts.get(i);
+			// LOG.info("analyzing the program line: " + programPart.getLine());
+
+			if (!copiedBackFuzzyRule) {
+				if ((programPart.isFuzzRule()) && (programPart.getPredDefined().equals(predDefined))
+						&& (programPart.getPredNecessary().equals(predNecessary))
+						) {
+					foundFuzzyRule = true;
+					programPartsAffected.add(programPart);
+//					if(StringUtils.equals(mode, KConstants.Request.modeCreate)) {
+//						mode = KConstants.Request.modeBasic;
+//					}
+				} else {
+					if (foundFuzzyRule) {
+						if (StringUtils.equals(mode, KConstants.Request.modeAdvanced)) {
+							programPartsAffected = updateAffectedProgramPartsFuzzyRule(programPartsAffected, fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName).toString(),
+									predNecessary, predOwner);
+						}
+						writeProgramParts(programPartsAffected, bw);
+						copiedBackFuzzyRule = true;
+					}
+					// else if (i < (programParts.size() - 2)) {
+					// ProgramPartAnalysis tempProgramPart = programParts.get(i
+					// + 1);
+					// if (tempProgramPart.getHead() != null &&
+					// tempProgramPart.getHead().contains("define_database")
+					// && !tempProgramPart.getHead().contains(databaseName)) {
+					// writeProgramParts(updateAffectedProgramParts(new
+					// ArrayList<ProgramPartAnalysis>(),
+					// predDefined, predNecessary, predOwner,
+					// functionDefinition), bw);
+					// madeChanges = true;
+					// }
+					// }
+				}
+			}
+
+			if ((!foundFuzzyRule) || (foundFuzzyRule && copiedBackFuzzyRule)) {
+				writeProgramPart(programPart, bw);
+			}
+			
+//			if(programPart.isFunction()) {
+//				indexOfFunc = programPart.getPredDefined();
+//			}
+			
+		}
+
+		if (StringUtils.equals(mode, KConstants.Request.modeBasic) && !madeChanges)
+			writeProgramParts(updateAffectedProgramPartsFuzzyRule(new ArrayList<ProgramPartAnalysis>(), fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName).toString(),
+					predNecessary, predOwner), bw);
+		
+		bw.close();
+
+		//add the new defined fuzzy rule criteria
+		if (StringUtils.equals(mode, KConstants.Request.modeCreate) && !madeChanges) {
+			Path path = Paths.get(programFileInfo.getProgramFileFullPath());
+			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+			ProgramPartAnalysis newProgramPart = createNewProgramPartFuzzyRule(fuzzRuleDetails,
+					predNecessary);
+//			String extraLine = newProgramPart.getPredDefined() + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0)." + "\n";  
+			String extraLine = "";
+//			String extraLine = predDefined + " :~ synonym_of(" + predNecessary + ",prod,1).";
+			String[] programPartLines = newProgramPart.getLines();
+			if (programPartLines != null) {
+				for (int i = 0; i < programPartLines.length; i++) {
+					extraLine += programPartLines[i] + "\n";
+				}
+			}
+//			int newLinePosition = lines.indexOf(indexOfFunc + " :~ " + KConstants.ProgramAnalysis.markerForDefaultsTo + "(0).");
+//			lines.add(newLinePosition, extraLine);
+			lines.add(extraLine);
+			Files.write(path, lines, StandardCharsets.UTF_8);
+		}
+		
+		if (copiedBackFuzzyRule) {
+			this.programParts = null;
+			this.programFunctionsOrdered = null;
+			CacheStoreHouseCleaner.clean(programFileInfo);
+			return 0;
+		}
+		return 0;
+	}
+	
 	public void removeFuzzy(LocalUserInfo localUserInfo, String predDefined, String predNecessary, String mode,
 			String[][] functionDefinition) throws Exception {
 
@@ -590,6 +880,56 @@ public class ProgramAnalysis {
 		}
 		return programPartsAffected;
 	}
+	
+	private ArrayList<ProgramPartAnalysis> updateAffectedProgramPartsSynAnt(
+			ArrayList<ProgramPartAnalysis> programPartsAffected, String predDefined, String predNecessary,
+			String predOwner) throws ProgramAnalysisException {
+		boolean updated = false;
+		int j = 0;
+
+		for (j = 0; j < programPartsAffected.size(); j++) {
+			if (programPartsAffected.get(j).getPredOwner().equals(predOwner)) {
+//				programPartsAffected.get(j).updateDefaultFunction(defaultValue);
+				updated = true;
+			}
+		}
+
+		if (!updated) {
+			ProgramPartAnalysis newProgramPart = new ProgramPartAnalysis();
+			newProgramPart.setPredDefined(predDefined);
+			newProgramPart.setPredNecessary(predNecessary);
+			newProgramPart.setPredOwner(predOwner);
+//			newProgramPart.updateDefaultFunction(defaultValue);
+
+			programPartsAffected.add(newProgramPart);
+		}
+		return programPartsAffected;
+	}
+	
+	private ArrayList<ProgramPartAnalysis> updateAffectedProgramPartsFuzzyRule(
+			ArrayList<ProgramPartAnalysis> programPartsAffected, String predDefined, String predNecessary,
+			String predOwner) throws ProgramAnalysisException {
+		boolean updated = false;
+		int j = 0;
+
+		for (j = 0; j < programPartsAffected.size(); j++) {
+			if (programPartsAffected.get(j).getPredOwner().equals(predOwner)) {
+//				programPartsAffected.get(j).updateDefaultFunction(defaultValue);
+				updated = true;
+			}
+		}
+
+		if (!updated) {
+			ProgramPartAnalysis newProgramPart = new ProgramPartAnalysis();
+			newProgramPart.setPredDefined(predDefined);
+			newProgramPart.setPredNecessary(predNecessary);
+			newProgramPart.setPredOwner(predOwner);
+//			newProgramPart.updateDefaultFunction(defaultValue);
+
+			programPartsAffected.add(newProgramPart);
+		}
+		return programPartsAffected;
+	}
 
 	private ArrayList<ProgramPartAnalysis> updateAffectedProgramParts(
 			ArrayList<ProgramPartAnalysis> programPartsAffected, String predDefined, String predNecessary,
@@ -625,7 +965,28 @@ public class ProgramAnalysis {
 		newProgramPart.updateFunction(functionDefinition);
 		return newProgramPart;
 	}
-
+	
+	private ProgramPartAnalysis createNewProgramPartSynAnt(
+			String predDefined, String predNecessary, String synAnt) throws ProgramAnalysisException {
+		ProgramPartAnalysis newProgramPart = new ProgramPartAnalysis();
+		newProgramPart.setPredDefined(predDefined);
+		newProgramPart.setPredNecessary(predNecessary);
+		newProgramPart.setLinesSynAnt(synAnt);
+		return newProgramPart;
+	}
+	
+	private ProgramPartAnalysis createNewProgramPartFuzzyRule(
+			Map<String, Object> fuzzRuleDetails, String predNecessary) throws ProgramAnalysisException {
+		ProgramPartAnalysis newProgramPart = new ProgramPartAnalysis();
+		newProgramPart.setPredDefined(fuzzRuleDetails.get(KConstants.Fuzzifications.fuzzyRuleName).toString());
+		newProgramPart.setPredNecessary(predNecessary);
+		newProgramPart.setRuleAggregator(fuzzRuleDetails.get(KConstants.Fuzzifications.agregatorOperator).toString());
+		newProgramPart.setRuleBody(fuzzRuleDetails.get(KConstants.Fuzzifications.predicates).toString());
+		if(fuzzRuleDetails.get(KConstants.Fuzzifications.credibilityOperator) != "")
+			newProgramPart.setWithCredibility(fuzzRuleDetails.get(KConstants.Fuzzifications.credibilityOperator) + ", " + fuzzRuleDetails.get(KConstants.Fuzzifications.credibilityValue));
+		newProgramPart.setLinesFuzzyRule();
+		return newProgramPart;
+	}
 	
 	public String[][] getFunctionDefinition(RequestStoreHouse requestStoreHouse) {
 		int counter = 0;

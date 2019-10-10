@@ -28,6 +28,8 @@
 	String urlUpdateSimilarity = KUrls.Fuzzifications.UpdateSimilarity.getUrl(true);
 	String urlRemoveFuzzy = KUrls.Fuzzifications.RemoveFuzzy.getUrl(true);
 	String urlRemoveSimilarity = KUrls.Fuzzifications.RemoveSimilarity.getUrl(true);
+	String urlDefineSynAnt = KUrls.Fuzzifications.DefineSynAnt.getUrl(true);
+	String urlDefineFuzzyRule = KUrls.Fuzzifications.DefineFuzzyRule.getUrl(true);
 	
 	String modeSimilarity = "update";
 	
@@ -154,7 +156,7 @@
 						<div class='personalizationDivSelectFuzzificationTableCell'>
 							<select name="personalizationSelectComboBoxId2"
 								id="personalizationSelectComboBoxId2"
-								onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"2"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>');">
+								onchange="personalizationFunctionChanged(this, '<%=KConstants.JspsDivsIds.personalizationFunctionUnderModificationDivId+"2"%>', '<%=urlEditFuzzification%>', '<%=urlNewFuzzification%>', '<%=urlDefineSimilarity%>', '<%=urlAddModifier%>', '<%=urlDefineSynAnt%>', '<%=urlDefineFuzzyRule%>');">
 								<%=JspsUtils.comboBoxDefaultValue()%>
 	
 								<option id='<%=id%>' title='New fuzzification' value='<%=id%>' data-type="fuzzy">Fuzzy search criterion</option>
@@ -169,8 +171,17 @@
 									id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
 												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "add";
 								%>
-								<option id='<%=id%>' title='Add Modifier' value='<%=id%>' data-type="modifier">Define
-									The Modifiers</option>
+								
+								<%
+									id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
+												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "fuzzyRule";
+								%>
+								<option id='<%=id%>' title='Fuzzy rule' value='<%=id%>' data-type="fuzzyRule">Fuzzy rule</option>
+								<%
+									id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
+												+ KConstants.Request.fileNameParam + "=" + programFileInfo.getFileName() + "&" + "synAnt";
+								%>
+								<option id='<%=id%>' title='Synonyms and antonyms' value='<%=id%>' data-type="synonymsAntonyms">Synonyms and antonyms</option>
 							</select>
 						</div>
 					</div>

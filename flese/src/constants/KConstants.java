@@ -184,6 +184,15 @@ public class KConstants {
 		public static final String defaultFunction = "default_to";
 		public static final String similarityFunction = "define_similarity_between";
 		public static final String defaultValue = "default";
+		//Synonyms & antonyms
+		public static final String synonymName = "synonymName";
+		public static final String antonymName = "antonymName";
+		//Fuzzy rule
+		public static final String fuzzyRuleName = "fuzzyRuleName";
+		public static final String agregatorOperator = "agregatorOperator";
+		public static final String predicates = "predicates";
+		public static final String credibilityOperator = "credibilityOperator";
+		public static final String credibilityValue = "credibilityValue";
 	    }
 
 	public static class ProgramIntrospectionFields {
@@ -240,6 +249,9 @@ public class KConstants {
 		public static final String markerForRule = "rule";
 		public static final String markerForFunction = "function";
 		public static final String markerForValue = "value";
+		//Synonyms & antonyms
+		public static final String markerForSynonym = "synonym_of";
+		public static final String markerForAntonym = "antonym_of";
 	}
 	
 	public static class Ontologies {

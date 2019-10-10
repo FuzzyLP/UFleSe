@@ -489,7 +489,7 @@ function fuzzificationFunctionNameInColloquial(currentName, grade) {
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------------------------------*/
 
-function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderModificationDivId, urlEdit, urlNew, urlDefine, urlAdd, urlUpdate) {
+function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderModificationDivId, urlEdit, urlNew, urlDefine, urlAdd, urlSynAnt, urlFuzzyRule, urlUpdate) {
 	
 	var params = getComboBoxValue(comboBox);
 	if (params != "") {
@@ -515,6 +515,48 @@ function personalizationFunctionChanged(comboBox, PersonalizationFunctionUnderMo
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlAdd + params);
 		else if(params.split("&")[params.split("&").length-1] == "update")
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlUpdate + params);
+		else if(params.split("&")[params.split("&").length-1] == "fuzzyRule") {
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlFuzzyRule + params, function() {
+				//Predicates
+				var predicates = [];
+				$("#addFuzzyPredicate").click(function() {
+					$("#predNecessary").show();
+					$("#predNecessary").change(function() {
+						if($(this).val() !== "" && predicates.indexOf($(this).val()) == -1) {
+							predicates.push($(this).val());
+							var predId = Math.floor((Math.random() * 100) + 1);
+							var addedPredicate = "<div data-pred-rem='predRem"+predId+"' data-predicate='"+$(this).val()+"' class='predicateDiv'><span class='predicateSpan'>"+$(this).val()+"</span><img id='predRem"+predId+"' src='images/cross.png' width='20' data-predicate='"+$(this).val()+"' class='removePredicate' /><br></div>";
+							$("#fuzzyPredicates").append(addedPredicate);
+							$("#predRem"+predId).click(function() {
+								predicates.splice($.inArray($(this).attr("data-predicate"),predicates),1);
+								$("div[data-pred-rem='"+$(this).attr("id")+"']").remove();
+								if(predicates.length > 0) 
+									$("#fuzzyPredicates").show();
+								else
+									$("#fuzzyPredicates").hide();
+							});
+							$("#predNecessary").val("");
+							if(predicates.length > 0) 
+								$("#fuzzyPredicates").show();
+							else
+								$("#fuzzyPredicates").hide();
+						}
+					});
+				});
+				//Credibility
+				$("#addCredibility").click(function() {
+					$("#credibilityDetail").show();
+				});
+				$("#credibilityValue").on("change input", function() {
+					$("#credibilityValueTxt").val($(this).val());
+				});
+				$("#credibilityValueTxt").keyup(function() {
+					$("#credibilityValue").val($(this).val());
+				});
+			});
+		}
+		else if(params.split("&")[params.split("&").length-1] == "synAnt")
+			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlSynAnt + params);
 		else {
 			loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlEdit + params);
 		}
@@ -900,6 +942,39 @@ function saveNewFuzzification(fuzzificationSaveStatusId, saveUrl, predNecessary,
 	+ "&mode=create";
 	console.log(saveUrl);
 	saveFuzzification(fuzzificationSaveStatusId, saveUrl, callback);
+}
+
+function defineNewSynAnt(fuzzificationSaveStatusId, saveUrl, dbName, synonymName, antonymName, callback)
+{
+	var owner = saveUrl.split("&")[4].split("=")[1];
+	saveUrl = saveUrl +
+	"&" + '<%=KConstants.Fuzzifications.synonymName%>' + "=" + synonymName +
+	"&" + '<%=KConstants.Fuzzifications.antonymName%>' + "=" + antonymName +
+	"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + dbName + "&" + 
+	'<%=KConstants.Request.defaultParam%>' + "=" + 'false'
+	+ "&mode=create";
+	console.log(saveUrl);
+	loadAjaxIn(fuzzificationSaveStatusId, saveUrl, function() {
+		$("#auxAndInvisibleSection").dialog("close");
+	});
+}
+
+function defineNewFuzzyRule(fuzzificationSaveStatusId, saveUrl, dbName, fuzzyRuleName, agregatorOperator, predicates, credibilityOperator, credibilityValue, callback)
+{
+	var owner = saveUrl.split("&")[4].split("=")[1];
+	saveUrl = saveUrl +
+	"&" + '<%=KConstants.Fuzzifications.fuzzyRuleName%>' + "=" + fuzzyRuleName +
+	"&" + '<%=KConstants.Fuzzifications.agregatorOperator%>' + "=" + agregatorOperator +
+	"&" + '<%=KConstants.Fuzzifications.predicates%>' + "=" + predicates +
+	"&" + '<%=KConstants.Fuzzifications.credibilityOperator%>' + "=" + credibilityOperator +
+	"&" + '<%=KConstants.Fuzzifications.credibilityValue%>' + "=" + credibilityValue +
+	"&" + '<%=KConstants.Fuzzifications.predNecessary%>' + "=" + dbName + "&" +
+	'<%=KConstants.Request.defaultParam%>' + "=" + 'false'
+	+ "&mode=create";
+	console.log(saveUrl);
+	loadAjaxIn(fuzzificationSaveStatusId, saveUrl, function() {
+		$("#auxAndInvisibleSection").dialog("close");
+	});
 }
 
 function checkIfSimilarityExist(fuzzificationSaveStatusDivId, saveUrl, value1, value2, similarity) {

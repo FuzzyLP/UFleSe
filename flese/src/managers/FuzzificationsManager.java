@@ -1,6 +1,7 @@
 package managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -134,6 +135,44 @@ public class FuzzificationsManager extends AbstractManager {
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public void defineSynAnt() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+//		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFields();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		String mode = KConstants.Request.modeAdvanced;
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFuzzifications(localUserInfo, "", "",
+				mode);
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.DefineSynAntPage, ""));
+
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void defineFuzzyRule() throws Exception {
+		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+		ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+//		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFields();
+		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+		String mode = KConstants.Request.modeAdvanced;
+		ProgramPartAnalysis[][] programPartAnalysis = programAnalized.getProgramFuzzifications(localUserInfo, "", "",
+				mode);
+		resultsStoreHouse.setProgramFileInfo(programFileInfo);
+		resultsStoreHouse.setProgramPartAnalysis(programPartAnalysis);
+
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.DefineFuzzyRulePage, ""));
+
+	}
+
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public void edit() throws Exception {
 		ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
 		LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
@@ -211,6 +250,114 @@ public class FuzzificationsManager extends AbstractManager {
 
 			// getting the data
 			updateDefaults();
+
+			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SavePage, ""));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void define() {
+		try {
+			
+			String synonymName = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.synonymName);
+			String antonymName = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.antonymName);
+			
+			//Synonym
+			if(synonymName != "") {
+				ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+				LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+				ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+				String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+				String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+				
+				int result = -1;
+				
+				result = programAnalized.updateProgramFileSynAnt(localUserInfo, synonymName, predNecessary, mode,
+						KConstants.ProgramAnalysis.markerForSynonym);
+				
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+				+ " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+					+ " has been updated. ";
+				}
+				resultsStoreHouse.addResultMessage(msg);
+				// getting the data
+				//updateDefaults();
+			}
+			//Antonym
+			if(antonymName != "") {
+				ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+				LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+				ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+				String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+				String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+				
+				int result = -1;
+				
+				result = programAnalized.updateProgramFileSynAnt(localUserInfo, antonymName, predNecessary, mode,
+						KConstants.ProgramAnalysis.markerForAntonym);
+				
+				String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+				+ " has NOT been updated. ";
+				if (result == 0) {
+					msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+					+ " has been updated. ";
+				}
+				resultsStoreHouse.addResultMessage(msg);
+				// getting the data
+				//updateDefaults();
+			}
+
+			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SavePage, ""));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void defineFuzzRule() {
+		try {
+//			String fuzzyRuleName = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.fuzzyRuleName);
+//			String agregatorOperator = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.agregatorOperator);
+//			String predicates = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predicates);
+//			String credibilityOperator = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.credibilityOperator);
+//			String credibilityValue = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.credibilityValue);
+			
+			Map<String, Object> fuzzRuleDetails = new HashMap<String, Object>();
+			fuzzRuleDetails.put(KConstants.Fuzzifications.fuzzyRuleName,requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.fuzzyRuleName));
+			fuzzRuleDetails.put(KConstants.Fuzzifications.agregatorOperator,requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.agregatorOperator));
+			fuzzRuleDetails.put(KConstants.Fuzzifications.predicates,requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predicates));
+			fuzzRuleDetails.put(KConstants.Fuzzifications.credibilityOperator,requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.credibilityOperator));
+			fuzzRuleDetails.put(KConstants.Fuzzifications.credibilityValue,requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.credibilityValue));
+			
+			ProgramFileInfo programFileInfo = requestStoreHouse.getProgramFileInfo();
+			LocalUserInfo localUserInfo = requestStoreHouse.getSession().getLocalUserInfo();
+			ProgramAnalysis programAnalized = ProgramAnalysis.getProgramAnalysisClass(programFileInfo);
+			String predNecessary = requestStoreHouse.getRequestParameter(KConstants.Fuzzifications.predNecessary);
+			String mode = requestStoreHouse.getRequestParameter(KConstants.Request.mode);
+			
+			int result = -1;
+			
+			result = programAnalized.updateProgramFileFuzzRule(localUserInfo, fuzzRuleDetails, predNecessary, mode);
+			
+			String msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+			+ " has NOT been updated. ";
+			if (result == 0) {
+				msg = "Program file " + programFileInfo.getFileName() + " owned by " + programFileInfo.getFileOwner()
+				+ " has been updated. ";
+			}
+			resultsStoreHouse.addResultMessage(msg);
+			// getting the data
+			//updateDefaults();
 
 			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Fuzzifications.SavePage, ""));
 		} catch (Exception e) {

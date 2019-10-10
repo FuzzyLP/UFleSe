@@ -205,6 +205,15 @@ public class KUrls {
 		public static final UrlMap RemoveFuzzy = getUrlMap(manager, "removeFuzzy", ListPage, KUrls.Pages.Exception, "");
 		
 		public static final UrlMap RemoveSimilarity = getUrlMap(manager, "removeSimilarity", ListPage, KUrls.Pages.Exception, "");
+	
+		public static final UrlMap DefineSynAntPage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/defineSynAnt.jsp");
+		public static final UrlMap DefineSynAnt = getUrlMap(manager, "defineSynAnt", NewSimilarityPage, KUrls.Pages.Exception, "");
+		public static final UrlMap Define = getUrlMap(manager, "define", SavePage, KUrls.Pages.Exception, "");
+		
+		public static final UrlMap DefineFuzzyRulePage = getUrlMap(manager, "", null, null, "WEB-INF/fuzzifications/defineFuzzyRule.jsp");
+		public static final UrlMap DefineFuzzyRule = getUrlMap(manager, "defineFuzzyRule", NewSimilarityPage, KUrls.Pages.Exception, "");
+		public static final UrlMap DefineFuzzRule = getUrlMap(manager, "defineFuzzRule", SavePage, KUrls.Pages.Exception, "");
+		
 	}
 	
 	private static UrlMap getUrlMap(String manager, String op, UrlMap nextPage, UrlMap exceptionPage, String currentUrl) {
