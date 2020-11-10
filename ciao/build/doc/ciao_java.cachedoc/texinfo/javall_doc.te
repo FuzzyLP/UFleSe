@@ -1,7 +1,0 @@
-\entry{machine{\_}name/1}{10}{\code {machine_name/1}}
-\entry{java{\_}constructor/1}{10}{\code {java_constructor/1}}
-\entry{java{\_}object/1}{11}{\code {java_object/1}}
-\entry{java{\_}event/1}{11}{\code {java_event/1}}
-\entry{prolog{\_}goal/1}{11}{\code {prolog_goal/1}}
-\entry{java{\_}field/1}{11}{\code {java_field/1}}
-\entry{java{\_}method/1}{12}{\code {java_method/1}}

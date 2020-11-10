@@ -1,3 +1,0 @@
-bundle_flag(ciao_java,enabled,yes).
-bundle_flag(ciao_java,with_ant,no).
-bundle_flag(ciao_java,ant_cmd,'').

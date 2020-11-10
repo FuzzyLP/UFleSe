@@ -1,4 +1,4 @@
 #!/bin/sh
-export CIAOPATH=/home/halimdeedar/Documents/Githubapril/UFleSe/ciao
+export CIAOPATH=/home/othmane/git/UFleSe/ciao
 export GLOBALSTKSIZE=262143 # TODO: needed due to a bug in Ciao's concurrency (JFMC)
-exec "/home/halimdeedar/Documents/Githubapril/UFleSe/ciao/ciao_java/lib/javall/plserver" "$@"
+exec "/lib/javall/plserver" "$@"
