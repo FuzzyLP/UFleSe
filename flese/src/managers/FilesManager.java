@@ -120,7 +120,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 
@@ -172,7 +172,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -234,7 +234,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -281,7 +281,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -328,7 +328,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");

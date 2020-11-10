@@ -17,6 +17,17 @@
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
 	ProgramIntrospection programIntrospection = resultsStoreHouse.getCiaoPrologProgramIntrospection();	
+	
+	if(programIntrospection == null) {
+	%>
+		<div class='queryStartContainerTable'>
+			<div class='queryStartContainerTableRow'>
+				Some problem in this configuration file! please select another one.
+			</div>
+		</div>
+	<%
+	} else {
+	
 	PredicateInfo [] predicatesInfos = programIntrospection.getPredicatesInfosByMoreInfoKey(KConstants.MoreInfoTypes.database);
 	ProgramFileInfo programFileInfo = programIntrospection.getProgramFileInfo();
 	
@@ -90,3 +101,6 @@
 <script type="text/javascript">
 		selectedQueryStartTypeChanged("");		
 	</script>
+<%
+	}
+%>
