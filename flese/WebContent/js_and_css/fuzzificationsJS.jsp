@@ -578,7 +578,31 @@ function removeExistingCriteria(comboBox, PersonalizationFunctionUnderModificati
 		if (params != "") {
 			//$("b#criterionName").html('"'+$("#"+comboBox.id+" option:selected").html()+'"');
 			//$("b#criterionName").html('"'+getParamFromGivenUrl($("#"+comboBox.id).val(), "predDefined")+'"');
-			$("#dialog-confirm").dialog({
+			
+			$("#dialog-confirm").modal('show');
+			$("#dialog-confirm .modal-footer button.removeIt").click(function() {
+				$("#dialog-confirm").modal("hide");
+				var ne = "";
+       			if($("#"+comboBox.id).find(":selected").attr("data-type") == "fuzzy") {
+       				loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlRemoveFuzzy + $("#"+comboBox.id).val(), function() {
+       					$("b#criterionName").html("");
+       					//$("#dialog-confirm").dialog("hide");
+       					$(".modal:visible").modal("hide");
+       					//$("#dialog-confirm").modal("hide");
+       				});
+       			 } else if($("#"+comboBox.id).find(":selected").attr("data-type") == "similarity") {
+       				loadAjaxIn(PersonalizationFunctionUnderModificationDivId, urlRemoveSimilarity + $("#"+comboBox.id).val(), function() {
+       					$("b#criterionName").html("");
+       					$(".modal:visible").modal("hide");
+       					//$("#dialog-confirm").modal("hide");
+       				});
+       			 }
+			});
+			/* $("#dialog-confirm .modal-footer button.cancel").click(function() {
+				$("#dialog-confirm").modal("hide");
+			}); */
+			
+			/* $("#dialog-confirm").dialog({
 	            resizable: false,
 	            height: "auto",
 	            width: 600,
@@ -606,7 +630,7 @@ function removeExistingCriteria(comboBox, PersonalizationFunctionUnderModificati
 	                $(this).dialog("close");
 	              }
 	    		}
-	 		});
+	 		}); */
 		} else {
 			var container = getContainer(PersonalizationFunctionUnderModificationDivId);
 			container.innerHTML = "Please choose a valid fuzzification function.";
@@ -847,7 +871,8 @@ function saveFuzzification(fuzzificationSaveStatusDivId, saveUrl, callback) {
 	
 			fuzzificationFunction.fuzzificationPoints[i].modified = false;
 			loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
-				$("#auxAndInvisibleSection").dialog("close");
+				/* $("#auxAndInvisibleSection").dialog("close"); */
+				$(".modal:visible").modal("hide");
 			});
 		}
 		else {
@@ -955,7 +980,8 @@ function defineNewSynAnt(fuzzificationSaveStatusId, saveUrl, dbName, synonymName
 	+ "&mode=create";
 	console.log(saveUrl);
 	loadAjaxIn(fuzzificationSaveStatusId, saveUrl, function() {
-		$("#auxAndInvisibleSection").dialog("close");
+		/* $("#auxAndInvisibleSection").dialog("close"); */
+		$(".modal:visible").modal("hide");
 	});
 }
 
@@ -973,7 +999,8 @@ function defineNewFuzzyRule(fuzzificationSaveStatusId, saveUrl, dbName, fuzzyRul
 	+ "&mode=create";
 	console.log(saveUrl);
 	loadAjaxIn(fuzzificationSaveStatusId, saveUrl, function() {
-		$("#auxAndInvisibleSection").dialog("close");
+		/* $("#auxAndInvisibleSection").dialog("close"); */
+		$(".modal:visible").modal("hide");
 	});
 }
 
@@ -1026,7 +1053,8 @@ function saveSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2, s
 		saveUrl = saveUrl + "&mode=" + '<%=KConstants.Request.modeUpdateSimilarity%>';
 	}
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
-		$("#auxAndInvisibleSection").dialog("close");
+		/* $("#auxAndInvisibleSection").dialog("close"); */
+		$(".modal:visible").modal("hide");
 	});
 }
 
@@ -1037,14 +1065,16 @@ function updateSimilarity(fuzzificationSaveStatusDivId, saveUrl, value1, value2,
 	"&" + '<%=KConstants.Request.oldValue2Index%>' + "=" + oldValue2 +
 	"&" + '<%=KConstants.Request.similarityValue%>' + "=" + similarity.value ;
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
-		$("#auxAndInvisibleSection").dialog("close");
+		/* $("#auxAndInvisibleSection").dialog("close"); */
+		$(".modal:visible").modal("hide");
 	});
 }
 
 function saveModifier(fuzzificationSaveStatusDivId, saveUrl, modifier){
 	saveUrl = saveUrl + "&" + '<%=KConstants.Request.modifierValue%>' + "=" + modifier;
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
-		$("#auxAndInvisibleSection").dialog("close");
+		/* $("#auxAndInvisibleSection").dialog("close"); */
+		$(".modal:visible").modal("hide");
 	});
 }
 

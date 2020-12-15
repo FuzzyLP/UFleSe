@@ -2,6 +2,29 @@
 
 /* C S S   S T Y L E  */
 
+html, body, 
+html *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle *), 
+body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle *) {
+	font-size: 12pt !important;
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
+}
+.hidden {
+	display: none !important;
+}
+.custom-file-label::after {
+	content: "Upload your data files" !important;
+	width: 100% !important;
+	text-align: center !important;
+	border-left: none !important;
+}
+.custom-file-input {
+	cursor: pointer !important;
+}
+.input-group > .custom-file:not(:first-child) .custom-file-label {
+    border-top-left-radius: .25rem !important;
+    border-bottom-left-radius: .25rem !important;
+}
+
 /* definiciones globales */
 html {
 	font-family: "Helvetica Neue", /*"Helvetica",*/ 
@@ -49,7 +72,7 @@ p {
 
 /* Links definition */
 a,a:link,a:visited,a:hover {
-	color: #395BED;
+	/* color: #395BED; */
 	text-decoration: none;
 }
 
@@ -198,6 +221,12 @@ div {
 	font-size: 200%;
 	display: table-cell;
 	margin: 0;
+}
+.bodyHeadTitle {
+	text-align: left !important;
+}
+.bodyHeadTitle, .bodyHeadTitle span {
+	font-size: 30px !important;
 }
 
 #bodyHeadLogged {
@@ -1248,3 +1277,26 @@ img.removeRow {
 	border-radius: 10%;
 	color:white;
 }
+
+.resultRowNum, .resultRowNum:hover {
+    color: white;
+    font-weight: bold;
+}
+.nav-tabs .nav-link:not(.active) {
+    color: black !important;
+}
+
+.modal-dialog:not(.autoWidth) {
+	max-width: 50% !important;
+}
+
+/* .example-open .modal-backdrop {background-color:red !important;} */
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+.dropdown-menu {
+    margin-top: 0 !important;
+}
+

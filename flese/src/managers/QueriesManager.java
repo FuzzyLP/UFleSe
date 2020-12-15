@@ -1,11 +1,5 @@
 package managers;
 
-import auxiliar.NextStep;
-import constants.KConstants;
-import constants.KUrls;
-import conversors.QueryConversorException;
-import filesAndPaths.FilesAndPathsException;
-import filesAndPaths.ProgramFileInfo;
 import prologConnector.CiaoPrologConnectorException;
 import prologConnector.CiaoPrologNormalQuery;
 import prologConnector.CiaoPrologProgramIntrospectionQuery;
@@ -14,6 +8,12 @@ import prologConnector.CiaoPrologTestingQuery;
 import prologConnector.PlConnectionEnvelopeException;
 import prologConnector.ProgramIntrospection;
 import storeHouse.RequestStoreHouseException;
+import auxiliar.NextStep;
+import constants.KConstants;
+import constants.KUrls;
+import conversors.QueryConversorException;
+import filesAndPaths.FilesAndPathsException;
+import filesAndPaths.ProgramFileInfo;
 
 public class QueriesManager extends AbstractManager {
 
@@ -46,16 +46,11 @@ public class QueriesManager extends AbstractManager {
 	}
 
 	public void selectQueryStartType() throws Exception {
-		try {
-			CiaoPrologProgramIntrospectionQuery ciaoPrologProgramIntrospectionQuery = CiaoPrologProgramIntrospectionQuery
-					.getInstance(requestStoreHouse);
-			ProgramIntrospection programIntrospection = ciaoPrologProgramIntrospectionQuery.getProgramIntrospection();
-			resultsStoreHouse.setCiaoPrologProgramIntrospection(programIntrospection);
-			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Queries.SelectQueryStartTypePage, ""));
-		} catch(Exception e) {
-			e.printStackTrace();
-			setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Queries.SelectQueryStartTypePage, ""));
-		}
+		CiaoPrologProgramIntrospectionQuery ciaoPrologProgramIntrospectionQuery = CiaoPrologProgramIntrospectionQuery
+				.getInstance(requestStoreHouse);
+		ProgramIntrospection programIntrospection = ciaoPrologProgramIntrospectionQuery.getProgramIntrospection();
+		resultsStoreHouse.setCiaoPrologProgramIntrospection(programIntrospection);
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Queries.SelectQueryStartTypePage, ""));
 	}
 
 	public void selectQuery() throws Exception {

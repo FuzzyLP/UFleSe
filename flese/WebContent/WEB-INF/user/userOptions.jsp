@@ -86,11 +86,11 @@
 	<% } %>
 </div>
 
-<div id='<%=KConstants.JspsDivsIds.filesListDiv %>'
-	class='filesListTable'></div>
-
 <div id='<%=KConstants.JspsDivsIds.fileUploadDiv %>'>
 	</div>
+	
+<div id='<%=KConstants.JspsDivsIds.filesListDiv %>'
+	class=''></div> <!-- class='filesListTable' -->
 
 <div id='<%=KConstants.JspsDivsIds.ontologyStartDivId %>'
 	class='filesListTable'></div>

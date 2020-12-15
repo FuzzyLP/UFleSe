@@ -129,9 +129,9 @@
 			}
 		});
 		
-		$("#closeDialog").click(function() {
+		/* $("#closeDialog").click(function() {
 			$("#auxAndInvisibleSection").dialog("close");
-		});
+		}); */
 	});
 </script>
 <hr>
@@ -377,7 +377,8 @@
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<div class='personalizationDivSaveButtonAndMsgTableRow'>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
-										<INPUT id="saveModification" type='submit' value='Save modifications'>
+										<!-- <INPUT id="saveModification" type='submit' value='Save modifications'> -->
+										<button id="saveModification" type="button" class="btn btn-dark">Save modifications</button>
 									</div>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
 										&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -387,11 +388,11 @@
 								</div>
 							</div>
 						</div>
-						<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
+						<!-- <div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<INPUT id="closeDialog" type="button" value='Exit'>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="flese">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="EAR Libraries.libraryclasspath"/>
+    <path id="Plug-in Dependencies.libraryclasspath"/>
+    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/el-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ja.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-de.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/websocket-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ko.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jasper.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-util.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/ecj-4.4.2.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-tribes.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-fr.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ru.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-es.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat7-websocket.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-zh-CN.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-ant.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-dbcp.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-coyote.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jsp-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jasper-el.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-ha.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/annotations-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/servlet-api.jar"/>
+        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-jdbc.jar"/>
+    </path>
+    <path id="Web App Libraries.libraryclasspath">
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-codec.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections4-4.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-digester-1.8.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-fileupload.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang-2.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-maven-tools-0.5-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-maven-tools-0.5-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jettison-1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/json-20090211.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/openid4java-full-0.9.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.common-0.31.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.servicemix.bundles.xmlresolver-1.2_5.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/original-jena-jdbc-driver-bundle-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/servlet-api.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/xmlbeans-2.5.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/classes"/>
+    </path>
+    <path id="flese.classpath">
+        <pathelement location="build/classes"/>
+        <path refid="EAR Libraries.libraryclasspath"/>
+        <path refid="Plug-in Dependencies.libraryclasspath"/>
+        <path refid="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"/>
+        <path refid="Web App Libraries.libraryclasspath"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-codec.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections-3.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-digester-1.8.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-fileupload-1.2.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-fileupload.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang-2.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-core-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-fuseki-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-iri-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-core-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-bundle-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-mem-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-remote-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-test-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-jdbc-driver-tdb-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-maven-tools-0.5-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-maven-tools-0.5-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-sdb-1.4.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-security-2.11.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-spatial-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-test-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-tdb-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT-javadoc.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jettison-1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/json-20090211.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/openid4java-full-0.9.6.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.common-0.31.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/org.apache.servicemix.bundles.xmlresolver-1.2_5.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/original-jena-jdbc-driver-bundle-1.0.2-SNAPSHOT.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/servlet-api.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-tests.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT.jar"/>
+        <pathelement location="lib/commons-io-2.5.jar"/>
+        <pathelement location="lib/commons-lang3-3.3.2.jar"/>
+        <pathelement location="lib/jruby-complete-9.1.15.0.jar"/>
+        <pathelement location="lib/json-simple-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-collections4-4.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/xmlbeans-2.5.0.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="resources">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="resources"/>
+            <classpath refid="flese.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+</project>

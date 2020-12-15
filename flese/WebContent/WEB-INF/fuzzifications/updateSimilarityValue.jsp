@@ -124,9 +124,11 @@
 		<div class='personalizationDivSaveButtonAndMsgTable'>
 			<div class='personalizationDivSaveButtonAndMsgTableRow'>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
-					<INPUT type='submit' value='Save modifications'
-						<%-- onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)"> --%>
-						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1.value, value2.value, defaultValueResult, '<%=columnValue1%>', '<%=columnValue2%>')">
+					<%-- <INPUT type='submit' value='Save modifications'
+						<%-- onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)"> <== this line was commented before add button element bellow
+						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1.value, value2.value, defaultValueResult, '<%=columnValue1%>', '<%=columnValue2%>')"> --%>
+					<button type="button" class="btn btn-dark" 
+						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1.value, value2.value, defaultValueResult, '<%=columnValue1%>', '<%=columnValue2%>')">Save modifications</button>
 				</div>
 				<%-- <div class='personalizationDivSaveButtonAndMsgTableCell'>
 					<INPUT type='submit' value='Add Default Similarity'

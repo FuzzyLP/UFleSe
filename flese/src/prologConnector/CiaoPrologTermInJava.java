@@ -74,6 +74,8 @@ public class CiaoPrologTermInJava {
 			PLFloat prologFloat = (PLFloat) term;
 			double doubleValue = prologFloat.getValue();
 			DecimalFormat df = new DecimalFormat("#.##");
+			//Except -0.0 value (if value is -0.0 we change it to 0.0 by do a Double sum function)
+			doubleValue = Double.sum(doubleValue, 0.0);
 			singleAnswerTerm = df.format(doubleValue);
 		}
 		// For atom ???

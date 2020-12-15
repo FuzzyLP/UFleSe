@@ -199,9 +199,9 @@
 			}
 		});
 		
-		$("#closeDialog").click(function() {
+		/* $("#closeDialog").click(function() {
 			$("#auxAndInvisibleSection").dialog("close");
-		});
+		}); */
 		
 		//Fill values
 		var predNecessary = '<%= predNecessary %>';
@@ -428,7 +428,8 @@
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<div class='personalizationDivSaveButtonAndMsgTableRow'>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
-										<INPUT id="saveModification" type='submit' value='Save modifications'>
+										<!-- <INPUT id="saveModification" type='submit' value='Save modifications'> -->
+										<button id="saveModification" type="button" class="btn btn-dark">Save modifications</button>
 									</div>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
 										&nbsp;&nbsp;&nbsp;&nbsp;</div>

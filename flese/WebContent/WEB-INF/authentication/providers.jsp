@@ -3,6 +3,79 @@
 <%@page import="auxiliar.JspsUtils"%>
 <%@page import="constants.KUrls"%>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Sign-in</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.login-form {
+    width: 340px;
+    margin: 30px auto;
+  	font-size: 15px;
+}
+.login-form form {
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.login-form h2 {
+    margin: 0 0 15px;
+}
+.login-form .hint-text {
+    color: #777;
+    padding-bottom: 15px;
+    text-align: center;
+  	font-size: 13px; 
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.login-btn {        
+    font-size: 15px;
+    font-weight: bold;
+}
+.or-seperator {
+    margin: 20px 0 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+.or-seperator i {
+    padding: 0 10px;
+    background: #f7f7f7;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}
+.social-btn .btn {
+    margin: 10px 0;
+    font-size: 15px;
+    text-align: left; 
+    line-height: 24px;       
+}
+.social-btn .btn i {
+    float: left;
+    margin: 4px 15px  0 5px;
+    min-width: 15px;
+}
+.input-group-addon .fa{
+    font-size: 18px;
+}
+
+.sing-in-description {
+    text-align: center;
+    padding-bottom: 5px;
+    /* opacity: 0.6; */
+    color: gray;
+}
+</style>
+</head>
+
+<body>
 <%
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 %>
@@ -11,72 +84,47 @@
 <jsp:include page='../commonHtmlBody.jsp' />
 <% } %>
 
-<h3>
-	Sign-in to access the FleSe
-</h3>
+<div class="login-form">
+    <form action="/examples/actions/confirmation.php" method="post">
+        <h2 class="text-center">Sign-in</h2>
+        <h6 class="sing-in-description">to access the UFleSe</h6>
+        <div class="text-center social-btn">
+            <!-- <a href="#" class="btn btn-primary btn-block"><i class="fa fa-facebook"></i> Sign in with <b>Facebook</b></a> -->
+            <a id="twitterLink" href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=twitter" %>" class="btn btn-info btn-block"><i class="fa fa-twitter"></i> Sign in with <b>Twitter</b></a>
+			<a id="gmailLink" href="<%= KUrls.Auth.SignIn.getUrl(false)  + "&id=google" %>" class="btn btn-danger btn-block"><i class="fa fa-google"></i> Sign in with <b>Google</b></a>
+        </div>
+		<!-- <div class="or-seperator"><i>or</i></div>
+        <div class="form-group">
+        	<div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <span class="fa fa-user"></span>
+                    </span>                    
+                </div>
+                <input type="text" class="form-control" name="username" placeholder="Username" required="required">
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        <i class="fa fa-lock"></i>
+                    </span>                    
+                </div>
+                <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+            </div>
+        </div>        
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block login-btn">Sign in</button>
+        </div>
+        <div class="clearfix">
+            <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
+            <a href="#" class="float-right text-success">Forgot Password?</a>
+        </div> -->
+        
+    </form>
+    <!-- <div class="hint-text">Don't have an account? <a href="#" class="text-success">Register Now!</a></div> -->
+</div>
 
-<table class="providersIcons">
-	<tr class="providersIcons">
-		<!-- <td class="providersIcons"><a id="facebookLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=facebook" %>"> <img
-				src="images/facebook_icon.png" alt="Facebook" title="Facebook"
-				border="0" width="50"></img>
-		</a></td> -->
-		<td class="providersIcons"><a id="twitterLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=twitter" %>"> <img
-				src="images/twitter_icon.png" alt="Twitter" title="Twitter"
-				border="0" width="50"></img></a></td>
-		<td class="providersIcons"><a id="gmailLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false)  + "&id=google" %>"> <img
-				src="images/gmail_icon.png" alt="Gmail" title="Gmail" border="0"
-				width="50"></img></a></td>
-	</tr>
-	<!-- <tr class="providersIcons">
-		<td class="providersIcons"><a id="yahooLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=yahoo" %>"> <img
-				src="images/yahoomail_icon.png" alt="YahooMail" title="YahooMail"
-				border="0" width="50"></img></a></td>
-		<td class="providersIcons"><a id="hotmailLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=hotmail" %>"> <img
-				src="images/hotmail_icon.jpeg" alt="HotMail" title="HotMail"
-				border="0" width="50"></img></a></td>
-		<td class="providersIcons"><a id="linkedinLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=linkedin" %>"> <img
-				src="images/linkedin_icon.gif" alt="Linked In" title="Linked In"
-				border="0" width="50"></img></a></td>
-	</tr>  -->
-	<!-- <tr class="providersIcons">
-		<td class="providersIcons"><a id="foursquareLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=foursquare" %>">
-				<img src="images/foursquare_icon.jpeg" alt="FourSquare"
-				title="FourSquare" border="0" width="50"></img>
-		</a></td>
-		<td class="providersIcons"><a id="myspaceLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=myspace" %>"> <img
-				src="images/myspace_icon.jpeg" alt="MySpace" title="MySpace"
-				border="0" width="50"></img></a></td>
-		<td class="providersIcons"><a id="mendeleyLink"
-			href="<%= KUrls.Auth.SignIn.getUrl(false) + "&id=mendeley" %>"> <img
-				src="images/mendeley_icon.jpg" alt="Mendeley" title="Mendeley"
-				border="0" width="50"></img>
-		</a></td>  -->
-	</tr>
-	<!--  Yammer is a Private Social Network for Your Company					
-	<a href="SocialAuthServlet?id=yammer&op=signin"><img
-		src="images/yammer.jpg" alt="Yammer" title="Yammer" border="0"></img></a>
-	<br /> <br /> 
-	 -->
-</table>
-
-<br />
-<!--  <h3>or enter OpenID url:</h3> 
-<form action="SocialAuthServlet" onsubmit="return validate(this);">
-	<input type="text" value="" name="id" /> <input type="submit"
-		value="Submit" /> 
-</form> -->
-<br />
-<br />
-<br />
-<br />
-<br />
+</body>
 

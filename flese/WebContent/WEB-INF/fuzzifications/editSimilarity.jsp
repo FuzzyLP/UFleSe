@@ -62,8 +62,10 @@ setSlider();
 		<div class='personalizationDivSaveButtonAndMsgTable'>
 			<div class='personalizationDivSaveButtonAndMsgTableRow'>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
-					<INPUT type='submit' value='Save modifications'
-						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', '<%=columnValue1%>', '<%=columnValue2%>', defaultValueResult)">
+					<%-- <INPUT type='submit' value='Save modifications'
+						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', '<%=columnValue1%>', '<%=columnValue2%>', defaultValueResult)"> --%>
+					<button type="button" class="btn btn-dark" 
+						onclick="updateSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', '<%=columnValue1%>', '<%=columnValue2%>', defaultValueResult)">Save modifications</button>
 				</div>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
 					&nbsp;&nbsp;&nbsp;&nbsp;</div>

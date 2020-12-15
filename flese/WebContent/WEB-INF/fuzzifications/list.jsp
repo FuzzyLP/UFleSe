@@ -120,7 +120,7 @@
 												%>
 												<option id='<%=desc%>' title='<%=desc%>' value='<%=id%>' data-type="similarity"><%=label%></option>
 												<%
-												i += 2; //skip duplicated similarities
+												i += 3; //skip duplicated similarities
 											}
 										}
 										String id = "&" + KConstants.Request.fileOwnerParam + "=" + programFileInfo.getFileOwner() + "&"
@@ -277,14 +277,34 @@
 	</div>
 	<br>
 
-	<div id="dialog-confirm" class="hiddenDefault"
+	<!-- <div id="dialog-confirm" class="hiddenDefault"
 		title="Confirmation" style="padding: 25px 0 3px 15px !important;">
 		<p style="text-align: left;">
 			<span class="ui-icon ui-icon-alert"
 				style="float: left; margin: 12px 12px 0 0;"></span>
-				<!-- The criterion <b id="criterionName"></b> will be permanently deleted and cannot be recovered. Are you sure? -->
+				The criterion <b id="criterionName"></b> will be permanently deleted and cannot be recovered. Are you sure?
 				Do you want to remove the criteria ?
 		</p>
+	</div> -->
+	<!-- Modal confirmation -->
+	<div id="dialog-confirm" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog autoWidth" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Confirmation</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div id="<%=KConstants.JspsDivsIds.fileViewContentsDiv %>" class="modal-body">Do you want to remove the criteria ?</div>
+				<div class="modal-footer">
+					<button type="button" class="cancel btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class=" removeIt btn btn-dark">Remove it</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </div>

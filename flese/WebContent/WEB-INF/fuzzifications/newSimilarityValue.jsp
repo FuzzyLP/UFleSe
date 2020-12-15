@@ -108,8 +108,10 @@
 		<div class='personalizationDivSaveButtonAndMsgTable'>
 			<div class='personalizationDivSaveButtonAndMsgTableRow'>
 				<div class='personalizationDivSaveButtonAndMsgTableCell'>
-					<INPUT type='submit' value='Save modifications'
-						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)">
+					<%-- <INPUT type='submit' value='Save modifications'
+						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)"> --%>
+					<button type="button" class="btn btn-dark" 
+						onclick="saveSimilarity('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId%>', '<%=saveUrl%>', value1, value2, defaultValueResult)">Save modifications</button>
 				</div>
 				<%-- <div class='personalizationDivSaveButtonAndMsgTableCell'>
 					<INPUT type='submit' value='Add Default Similarity'

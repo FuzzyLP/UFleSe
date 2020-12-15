@@ -1,3 +1,5 @@
+var createdPLFileOpened = false;
+
 function Toggle() {
 	var x = document
 			.getElementById("personalizationDivFuzzificationDefaultValues");

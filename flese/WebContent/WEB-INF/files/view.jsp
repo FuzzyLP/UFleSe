@@ -83,7 +83,7 @@
 		</select>
 		<%
 			}
-
+		%><br><br><div class="clonnedBtn"></div><br><%
 					} else if (fileName.endsWith("json")) {
 						json = true;
 
@@ -113,6 +113,7 @@
 			</select>
 			<%
 				}
+			%><br><br><div class="clonnedBtn"></div><br><%
 							}
 
 						} else if (fileName.endsWith("sql")) {
@@ -145,6 +146,7 @@
 				</select>
 				<%
 					}
+				%><br><br><div class="clonnedBtn"></div><br><%
 								}
 
 							}
@@ -194,6 +196,7 @@
 					</select>
 					<%
 						}
+					%><br><br><div class="clonnedBtn"></div><br><%
 
 											}
 
@@ -268,7 +271,7 @@
 							</select>
 							<%
 								}
-
+							%><br><br><div class="clonnedBtn"></div><br><% 
 													}
 
 													Iterator cells = row.cellIterator();
@@ -316,8 +319,10 @@
 											+ fileOwner;
 					%>
 				</form>
-				<INPUT type='submit' value='Create Prolog file'
-					onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
+				<<%-- INPUT type='submit' value='Create Prolog file'
+					onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')"> --%>
+				<br><button id="saveModification" type="button" class="btn btn-dark createPrologBtn" 
+					onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">Create Prolog file</button>
 </div>
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
@@ -330,8 +335,10 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file'
-	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
+<%-- <INPUT type='submit' value='Create Prolog file'
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')"> --%>
+<br><button id="saveModification" type="button" class="btn btn-dark createPrologBtn" 
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">Create Prolog file</button>
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
 <%
@@ -343,8 +350,10 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file'
-	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
+<%-- <INPUT type='submit' value='Create Prolog file'
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')"> --%>
+<br><button id="saveModification" type="button" class="btn btn-dark createPrologBtn" 
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">Create Prolog file</button>
 
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
@@ -358,8 +367,10 @@
 %>
 
 </form>
-<INPUT type='submit' value='Create Prolog file'
-	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
+<%-- <INPUT type='submit' value='Create Prolog file'
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')"> --%>
+<br><button id="saveModification" type="button" class="btn btn-dark createPrologBtn" 
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">Create Prolog file</button>
 
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>
@@ -372,8 +383,10 @@
 						+ fileOwner;
 %>
 </form>
-<INPUT type='submit' value='Create Prolog file'
-	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">
+<%-- <INPUT type='submit' value='Create Prolog file'
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')"> --%>
+<br><button id="saveModification" type="button" class="btn btn-dark createPrologBtn" 
+	onclick="createPL('<%=KConstants.JspsDivsIds.convertToProlog%>', '<%=saveUrl%>')">Create Prolog file</button>
 
 <div class='personalizationDivSaveButtonAndMsgTableCell'
 	id='<%=KConstants.JspsDivsIds.convertToProlog%>'></div>

@@ -106,9 +106,9 @@
 			}
 		});
 		
-		$("#closeDialog").click(function() {
+		/* $("#closeDialog").click(function() {
 			$("#auxAndInvisibleSection").dialog("close");
-		});
+		}); */
 	});
 </script>
 <hr>

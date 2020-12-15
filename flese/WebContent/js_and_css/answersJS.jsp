@@ -173,6 +173,9 @@ function showAnswers(runQueryDivId, answers) {
 	tabsDiv.id = "tabs";
 	runQueryDiv.appendChild(tabsDiv);
 	var tabsDivList = document.createElement('ul');
+	tabsDivList.id = "resultTab";
+	tabsDivList.className = "nav nav-tabs";
+	tabsDivList.setAttribute("role", "tablist");
 	tabsDiv.appendChild(tabsDivList);
 	
 	var html = null;
@@ -189,7 +192,10 @@ function showAnswers(runQueryDivId, answers) {
 	for (i=0; i<answersIndexes.length; i++) {
 		// The first answer is information about the database fields.
 		if (answersIndexes[i].queryAnswersIndexes.length > 1) {
-			html += "<li><a href='#tabs-"+j+"'>"+answersIndexes[i].tableName+"</a></li>";
+			var activeNav = "", ariaSelected = "false";
+			if(i==0) { activeNav = "active bg-dark text-white"; ariaSelected = "true";}
+			html += "<li class='nav-item' role='presentation'><a class='nav-link "+activeNav+"' id='tabNav-"+j+"' data-toggle='tab' href='#tabs-"+j+"' role='tab'  aria-controls='tabs-"+j+"'"
+				+ " aria-selected='"+ariaSelected+"'>"+answersIndexes[i].tableName+"</a></li>";
 			j++;
 		}
 	}
@@ -197,40 +203,61 @@ function showAnswers(runQueryDivId, answers) {
 		
 	html = "";
 	j = 1;
+	tabContentDiv = document.createElement('div');
+	tabContentDiv.className = "tab-content";
+	tabsDiv.appendChild(tabContentDiv);
 	for (i=0; i<answersIndexes.length; i++) {
 		// The first answer is information about the database fields.
 		if (answersIndexes[i].queryAnswersIndexes.length > 1) {
-			tabDiv = document.createElement('div');
-			tabDiv.id = "tabs-" + j;
+			tabPaneDiv = document.createElement('div');
+			tabPaneDiv.id = "tabs-" + j;
+			if(i==0) tabPaneDiv.className = "tab-pane fade show active";
+			else tabPaneDiv.className = "tab-pane fade";
+			tabPaneDiv.setAttribute("role", "tabpanel");
+			tabPaneDiv.setAttribute("aria-labelledby", "tabs-" + j);
 			j++;
-			tabsDiv.appendChild(tabDiv);
-				
-			tabContentDiv = document.createElement('div');
-			tabContentDiv.className = "queryAnswersTable";
-			tabDiv.appendChild(tabContentDiv);
-				
+			tabContentDiv.appendChild(tabPaneDiv);
+
 			// Now insert each answer in a row, inside the table
+			table = document.createElement('table');
+			table.className = "table table-dark";
+			/* thead = document.createElement('thead');
+			table.appendChild(thead);
+			tr_head = document.createElement('tr');
+			thead.appendChild(tr_head);
+			th = document.createElement('th');
+			th.setAttribute("scope","col");
+			tr_head.appendChild(th); */
+			tbody = document.createElement('tbody');
+			table.appendChild(tbody);
 			var answersTitles = answers[0];
 			for (k=0; k<answersIndexes[i].queryAnswersIndexes.length; k++) {
-				row = document.createElement('div');
-				row.className = "queryAnswersTableRow";
-				tabContentDiv.appendChild(row);
-					
+				tr_body = document.createElement('tr');
+				tbody.appendChild(tr_body);
 				var answer = answers[answersIndexes[i].queryAnswersIndexes[k]];
 				for (var l=1; l<answer.length; l++) {
-					cell = document.createElement('div');
-					cell.className = "queryAnswersTableCell";
-					row.appendChild(cell);
-					
-					cell.innerHTML = showCellAnswer(k, l, answer.length, answersTitles, answer[l]);
-					
+					td = document.createElement('td');
+					tr_body.appendChild(td);
+					td.innerHTML = showCellAnswer(k, l, answer.length, answersTitles, answer[l]);
 				}
 			}
+			tabPaneDiv.appendChild(table);
 		}
 	}
 	
 	// Enable tabs
-	$( "#tabs" ).tabs();
+	//$( "#tabs" ).tabs();
+	
+	$('#resultTab a').on('click', function (e) {
+	  e.preventDefault();
+	  $(this).tab('show');
+	  $('#resultTab a.bg-dark').removeClass("bg-dark").removeClass("text-white");
+	  $(this).addClass("bg-dark text-white");
+	});
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+        e.target // active tab
+        e.relatedTarget // previous tab
+    });
 
 }
 
@@ -260,11 +287,11 @@ function showCellAnswer(currentRow, currentColumn, columnsLength, answersTitles,
 function buildIndexAnswer(currentRow, answer) {
 	// title='" + answer + "'
 	// alt='Database entry: " + answer + "'
-	return "<a href='#' onclick='return false;' title='Database entry: " + answer + "'> nº." + currentRow + "</a>";
+	return "<a href='#' class='resultRowNum' onclick='return false;' title='Database entry: " + answer + "'> nº." + currentRow + "</a>";
 }
 
 function buildUrlAnswer(answer) {
-	return "<a href='#' onclick='openUrlInNewTab(" + answer + ")' title='view " + answer + "'>view</a>";
+	return "<a href='#' class='resultRowNum' onclick='openUrlInNewTab(" + answer + ")' title='view " + answer + "'>view</a>";
 }
 
 

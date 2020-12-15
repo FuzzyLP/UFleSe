@@ -216,7 +216,27 @@ function openDialogWindow(containerId, title, width, height) {
 	if (nullOrUndefined(height))
 		height = "auto";
 	
-	$(container).dialog({
+	var dialog = $("#"+containerId).parents(".modal");
+	$(dialog).find(".modal-title").html(title);
+	$(dialog).modal('show');
+	$(dialog).on('shown.bs.modal', function () {
+	       $(this).find('.modal-body').css({
+	              width:'auto', //probably not needed
+	              height:'auto', //probably not needed 
+	              'max-width':'100%'
+	       });
+			$(".clonnedBtn").html("");
+	        $(".createPrologBtn:visible:eq(0)").clone().appendTo(".clonnedBtn");
+	}).on('show.bs.modal', function (e) {
+	    //$('body').addClass("example-open");
+	}).on('hidden.bs.modal', function (e) {
+	    //$('body').removeClass("example-open");
+		//$(dialog).find(".modal-body").html("");
+		//console.info($(this));
+		$(this).find(".modal-body").html("");
+	}).on('hide.bs.modal', function (e) {
+	});
+	/* $(container).dialog({
         // add a close listener to prevent adding multiple divs to the document
         close: function(event, ui) {
             // remove div with all data and events
@@ -228,7 +248,7 @@ function openDialogWindow(containerId, title, width, height) {
         height: height, // 800,
         width: width, // 800,
         title: title
-    });
+    }); */
     // $( "#" + fileViewContentsDivId ).dialog();
 }
 

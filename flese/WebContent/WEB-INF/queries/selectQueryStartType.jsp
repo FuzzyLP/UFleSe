@@ -17,17 +17,6 @@
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
 	ProgramIntrospection programIntrospection = resultsStoreHouse.getCiaoPrologProgramIntrospection();	
-	
-	if(programIntrospection == null) {
-	%>
-		<div class='queryStartContainerTable'>
-			<div class='queryStartContainerTableRow'>
-				Some problem in this configuration file! please select another one.
-			</div>
-		</div>
-	<%
-	} else {
-	
 	PredicateInfo [] predicatesInfos = programIntrospection.getPredicatesInfosByMoreInfoKey(KConstants.MoreInfoTypes.database);
 	ProgramFileInfo programFileInfo = programIntrospection.getProgramFileInfo();
 	
@@ -52,10 +41,12 @@
 <div id='<%=KConstants.JspsDivsIds.queryStartContainerId%>'
 	class='queryStartContainerTable'>
 	<div class='queryStartContainerTableRow'>
-		<div class='queryStartContainerTableCell1'>Your query: I'm
-			looking for a</div>
+		<div class='queryStartContainerTableCell1'>Your query:</div>
+	</div>
+	<div class='queryStartContainerTableRow'>
 		<div class='queryStartContainerTableCell2'
 			id='<%=KConstants.JspsDivsIds.chooseQueryStartTypeContainerId%>'>
+			I'm looking for a 
 			<select name="<%=KConstants.Request.databaseParam %>"
 				id="<%=KConstants.Request.databaseParam %>"
 				onchange="selectedQueryStartTypeChanged(this, '<%=url1 %>', '<%=url3 %>');">
@@ -101,6 +92,3 @@
 <script type="text/javascript">
 		selectedQueryStartTypeChanged("");		
 	</script>
-<%
-	}
-%>

@@ -51,7 +51,6 @@ function fileViewAction(fileViewContentsDivId, urlFileView, params, fileName) {
 	var containerId = fileViewContentsDivId;
 	
 	loadAjaxInDialog(containerId, urlFileView + params, 'Contents of data file ' + fileName);
-	
 	//prevent the browser to follow the link
 	return false;
 }
@@ -169,6 +168,10 @@ function createPL(convertToPrologDivId, saveUrl)
 						+ "&mode=";
 					saveModifier(convertToPrologDivId, newSaveUrl,
 							modifiers);
+					
+					<%-- var plFileName = getParamFromGivenUrl(saveUrl, "fileName").split(".")[0].toLowerCase() + ".pl";
+					fileViewAction(<%=KConstants.JspsDivsIds.fileViewContentsDiv%>, "Servlet?manager=Files&op=view&ajax=true", 
+							"&fileOwner="+getParamFromGivenUrl(saveUrl, "fileOwner")+"&fileName="+plFileName+"&mode=advanced", plFileName); --%>
 				});
 	}
 

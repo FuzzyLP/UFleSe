@@ -179,8 +179,10 @@
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<div class='personalizationDivSaveButtonAndMsgTableRow'>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
-										<INPUT type='submit' value='Save modifications'
-											onclick="saveFuzzification('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>', '<%=saveUrl %>')">
+										<<%-- INPUT type='submit' value='Save modifications'
+											onclick="saveFuzzification('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>', '<%=saveUrl %>')"> --%>
+										<button type="button" class="btn btn-dark" 
+											onclick="saveFuzzification('<%=KConstants.JspsDivsIds.fuzzificationSaveStatusDivId %>', '<%=saveUrl %>')">Save modifications</button>
 									</div>
 									<div class='personalizationDivSaveButtonAndMsgTableCell'>
 										&nbsp;&nbsp;&nbsp;&nbsp;</div>

@@ -121,8 +121,7 @@ public class OpenAuth_2_0_Provider_google extends AbstractAuthProvider implement
 
 		switch (authProviderId) {
 		case KCtes.Providers.google:
-//			clientId = "617924078403.apps.googleusercontent.com";
-			clientId = "919280284218-jr0n1f0r1n7s60d8fb014ac2cc9ml87n.apps.googleusercontent.com";
+			clientId = "617924078403.apps.googleusercontent.com";
 			break;
 		}
 		return clientId;
@@ -134,8 +133,7 @@ public class OpenAuth_2_0_Provider_google extends AbstractAuthProvider implement
 
 		switch (authProviderId) {
 		case KCtes.Providers.google:
-//			clientSecret = "IETmYn-5Uh4ZXgxA6rZ463R3";
-			clientSecret = "m-rkM7lmAV53HOPN0PMzozI0";
+			clientSecret = "IETmYn-5Uh4ZXgxA6rZ463R3";
 			break;
 		}
 		return clientSecret;

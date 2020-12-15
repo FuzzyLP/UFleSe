@@ -1362,6 +1362,7 @@ public class ProgramAnalysis {
 									&& similarity.getColumnValue2().equals(value2))
 									|| (similarity.getColumnValue2().equals(value1)
 											&& similarity.getColumnValue1().equals(value2)))) {
+						System.out.println("==$$=="+value1);
 						//DONT WRITE THIS SIMILARITY: similarity
 //						System.out.println(programPart);
 //						System.out.println(similarity);
@@ -1434,7 +1435,7 @@ public class ProgramAnalysis {
 						if(KConstants.Request.modeUpdateSimilarity.equals(mode) || KConstants.Request.modeUpdateExitingSimilarity.equals(mode)) {
 							/**toUpdate = true;*/
 							//When user try to create a new similarity that's already exist, from "Define new". or update a similarity from "Modify the existing criterion"
-							//Create the new 3 related line with updated value
+							//Create the new 4 related line with updated value
 							if(parsedSimilarity.getColumnValue1().equals(value1) && parsedSimilarity.getColumnValue2().equals(value2)) {
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value1, value2, similartyValue, predOwner), bw);
@@ -1442,6 +1443,8 @@ public class ProgramAnalysis {
 										value2, value1, similartyValue, predOwner), bw);
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value1, value1, "1", predOwner), bw);
+								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+										value2, value2, similartyValue, predOwner), bw);
 							} else if(parsedSimilarity.getColumnValue1().equals(value2) && parsedSimilarity.getColumnValue2().equals(value1)) {
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value2, value1, similartyValue, predOwner), bw);
@@ -1449,8 +1452,10 @@ public class ProgramAnalysis {
 										value1, value2, similartyValue, predOwner), bw);
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value2, value2, "1", predOwner), bw);
+								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+										value1, value1, similartyValue, predOwner), bw);
 							}
-							i += 2;
+							i += 3;
 							occurrence = true;
 						} else if (!KConstants.Request.modeUpdate.equals(mode) && !KConstants.Request.modeUpdateExitingSimilarity.equals(mode)) {
 							occurrence = true;
@@ -1494,6 +1499,11 @@ public class ProgramAnalysis {
 																		// with
 																		// value1
 																		// value1
+			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
+					value2, value2, similartyValue, predOwner), bw); // counterpart
+																		// with
+																		// value2
+																		// value2
 
 			result = 0;
 		}
