@@ -1444,7 +1444,7 @@ public class ProgramAnalysis {
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value1, value1, "1", predOwner), bw);
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
-										value2, value2, similartyValue, predOwner), bw);
+										value2, value2, "1", predOwner), bw);
 							} else if(parsedSimilarity.getColumnValue1().equals(value2) && parsedSimilarity.getColumnValue2().equals(value1)) {
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value2, value1, similartyValue, predOwner), bw);
@@ -1453,7 +1453,7 @@ public class ProgramAnalysis {
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
 										value2, value2, "1", predOwner), bw);
 								writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
-										value1, value1, similartyValue, predOwner), bw);
+										value1, value1, "1", predOwner), bw);
 							}
 							i += 3;
 							occurrence = true;
@@ -1500,7 +1500,7 @@ public class ProgramAnalysis {
 																		// value1
 																		// value1
 			writeProgramParts(updateAffectedProgramParts(new ArrayList<ProgramPartAnalysis>(), databaseName, columnName,
-					value2, value2, similartyValue, predOwner), bw); // counterpart
+					value2, value2, "1", predOwner), bw); // counterpart
 																		// with
 																		// value2
 																		// value2

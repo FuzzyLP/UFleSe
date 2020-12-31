@@ -10,33 +10,7 @@
     <property name="source" value="1.8"/>
     <path id="EAR Libraries.libraryclasspath"/>
     <path id="Plug-in Dependencies.libraryclasspath"/>
-    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/el-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ja.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-de.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/websocket-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ko.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jasper.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-util.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/ecj-4.4.2.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-tribes.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-fr.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-ru.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-es.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat7-websocket.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-i18n-zh-CN.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-ant.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-dbcp.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-coyote.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jsp-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/jasper-el.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/catalina-ha.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/annotations-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/servlet-api.jar"/>
-        <pathelement location="../../dev/apache-tomcat-7.0.106/lib/tomcat-jdbc.jar"/>
-    </path>
+    <path id="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
     <path id="Web App Libraries.libraryclasspath">
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
@@ -50,6 +24,7 @@
         <pathelement location="WebContent/WEB-INF/lib/commons-lang-2.6.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/guava-29.0-jre.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-javadoc.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-sources.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/jena-arq-2.11.2-SNAPSHOT-test-sources.jar"/>
@@ -111,6 +86,8 @@
         <pathelement location="WebContent/WEB-INF/lib/jena-text-1.0.2-SNAPSHOT.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/jettison-1.2.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/json-20090211.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-1.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-api-1.2-sources.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/openid4java-full-0.9.6.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31-sources.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/org.apache.oltu.oauth2.client-0.31.jar"/>
@@ -131,7 +108,7 @@
         <pathelement location="build/classes"/>
         <path refid="EAR Libraries.libraryclasspath"/>
         <path refid="Plug-in Dependencies.libraryclasspath"/>
-        <path refid="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"/>
+        <path refid="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
         <path refid="Web App Libraries.libraryclasspath"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
@@ -224,6 +201,7 @@
         <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-3.16.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/xmlbeans-2.5.0.jar"/>
+        <pathelement location="lib/jstl-api-1.2-sources.jar"/>
     </path>
     <target name="init">
         <mkdir dir="build/classes"/>

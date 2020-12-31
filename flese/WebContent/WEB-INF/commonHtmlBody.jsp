@@ -55,11 +55,11 @@
 			request.setAttribute("plFilesListSize",plFilesList.size());
 		%>
 		<div class="container-fluid bg-light rounded border" style="text-align: center;">
-			<div class="row bg-light align-items-center">
-				<div class="col-6 p-4 bodyHeadTitle">UFleSe : <span class="underline">U</span>sable 
+			<div class="row pb-2 pt-2 bg-light align-items-center">
+				<div class="col-3 pr-0 bodyHeadTitle">UFleSe : <span class="underline">U</span>sable 
 				<span class="underline">Fle</span>xible <span
 					class="underline">Se</span>arches in Databases</div>
-				<div class="col p-4 <c:if test="${ plFilesListSize ne 0 }"></c:if>"> <!-- border -->
+				<div class="col-6 p-0 <c:if test="${ plFilesListSize ne 0 }"></c:if>"> <!-- border -->
 					<% if (!"".equals(localUserInfoName)) {
 						%>
 						<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -105,7 +105,7 @@
 						}
 					%>
 				</div>
-				<div class="col p-4">
+				<div class="col-3 p-0">
 					<%
 						if (!"".equals(localUserInfoName)) {
 					%>

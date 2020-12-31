@@ -37,4 +37,9 @@ public class CiaoPrologQueryAnswer {
 	public String [] getCiaoPrologQueryAnswerVariablesNames() {
 		return varsAnswers.keySet().toArray(new String[varsAnswers.keySet().size()]);
 	}
+
+	public HashMap<String, CiaoPrologTermInJava> getVarsAnswers() {
+		return varsAnswers;
+	}
+	
 }

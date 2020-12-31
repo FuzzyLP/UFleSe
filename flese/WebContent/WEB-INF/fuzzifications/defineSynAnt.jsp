@@ -172,11 +172,11 @@
 								</div>
 							</div>
 						</div>
-						<div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
+						<!-- <div class='personalizationDivFuzzificationFunctionWithButtonTableCell'>
 							<div class='personalizationDivSaveButtonAndMsgTable'>
 								<INPUT id="closeDialog" type="button" value='Exit'>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

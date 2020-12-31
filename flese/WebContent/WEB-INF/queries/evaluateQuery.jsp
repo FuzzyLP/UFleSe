@@ -32,7 +32,11 @@
 			for (int i=0; i< answers.length; i++) {
 				out.print("[ " + (i + 1) + ", ");
 				for (int j=0; j<variablesNames.length; j++) {
-					out.print("'" + answers[i].getCiaoPrologQueryVariableAnswer(variablesNames[j]) + "'");
+					try {
+						out.print("'" + answers[i].getCiaoPrologQueryVariableAnswer(variablesNames[j]) + "'");
+					} catch(ClassCastException ex) {
+						out.print("'" + answers[i].getVarsAnswers().get(variablesNames[j]) + "'");
+					}
 					if (j+1 < variablesNames.length) {
 						out.print(", ");
 					}

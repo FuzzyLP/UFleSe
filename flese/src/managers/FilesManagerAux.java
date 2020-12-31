@@ -263,6 +263,7 @@ public class FilesManagerAux {
 				if (fileName == null) {
 					ret.add("The name of the program file to upload is null.");
 				} else {
+					ret.add("filename::"+fileName);
 					if ("".equals(fileName)) {
 						ret.add("The name of the program file to upload is an empty string.");
 					} else {

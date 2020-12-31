@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 
+import org.apache.commons.lang3.StringUtils;
+
 import auxiliar.LocalUserInfo;
 import auxiliar.NextStep;
 import constants.KConstants;
@@ -24,7 +26,7 @@ import programAnalysis.ProgramAnalysis;
 import storeHouse.CacheStoreHouseCleaner;
 
 public class FilesManager extends AbstractManager {
-
+	
 	public FilesManager() {
 	}
 
@@ -49,8 +51,13 @@ public class FilesManager extends AbstractManager {
 		ProgramFileInfo[] filesList = FilesManagerAux.listMyFiles(requestStoreHouse);
 		resultsStoreHouse.setFilesList(filesList);
 
+		String append = "";
+		if(StringUtils.isNotBlank(requestStoreHouse.getRequestParameter("uploadedFile"))) {
+			append = "?uploadedFile=" + requestStoreHouse.getRequestParameter("uploadedFile");
+		}
+
 		// Forward to the jsp page.
-		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.ListPage, ""));
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.ListPage, append));
 	}
 
 	public void uploadDiv() throws Exception {
@@ -60,10 +67,18 @@ public class FilesManager extends AbstractManager {
 	public void upload() throws Exception {
 
 		String[] msgs = FilesManagerAux.uploadFileAux(requestStoreHouse, this);
+		String append = "";
 		for (int i = 0; i < msgs.length; i++) {
-			resultsStoreHouse.addResultMessage(msgs[i]);
+			if(msgs.length == 1 && StringUtils.startsWith(msgs[i], "filename::")) {
+				append = "?uploadedFile=" + StringUtils.split(msgs[i], "::")[1];
+				//remove msgs[i]
+//				msgs = ArrayUtils.remove(msgs, i);
+			}
+			else if(!StringUtils.startsWith(msgs[i], "filename::")) {
+				resultsStoreHouse.addResultMessage(msgs[i]);
+			}
 		}
-		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.UploadPage, ""));
+		setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.UploadPage, append));
 	}
 
 	public void download() throws Exception {
@@ -120,7 +135,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 
@@ -134,7 +149,7 @@ public class FilesManager extends AbstractManager {
 					msg = "Program file " + programFileInfo.getFileName() + " owned by "
 							+ programFileInfo.getFileOwner() + " has been updated. ";
 					resultsStoreHouse.addResultMessage(msg);
-					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SavePage, "?createdPL="+temp[0].toLowerCase()+".pl"));
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SavePage, ""));
 				}
 				resultsStoreHouse.addResultMessage(msg);
 
@@ -172,7 +187,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -186,7 +201,7 @@ public class FilesManager extends AbstractManager {
 					msg = "Program file " + programFileInfo.getFileName() + " owned by "
 							+ programFileInfo.getFileOwner() + " has been updated. ";
 					resultsStoreHouse.addResultMessage(msg);
-					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveJsonPage, "?createdPL="+temp[0].toLowerCase()+".pl"));
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveJsonPage, ""));
 				}
 				resultsStoreHouse.addResultMessage(msg);
 
@@ -234,7 +249,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -248,7 +263,7 @@ public class FilesManager extends AbstractManager {
 					msg = "Program file " + programFileInfo.getFileName() + " owned by "
 							+ programFileInfo.getFileOwner() + " has been updated. ";
 					resultsStoreHouse.addResultMessage(msg);
-					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSXPage, "?createdPL="+temp[0].toLowerCase()+".pl"));
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSXPage, ""));
 				}
 				resultsStoreHouse.addResultMessage(msg);
 			} catch (InterruptedException e) {
@@ -281,7 +296,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -295,7 +310,7 @@ public class FilesManager extends AbstractManager {
 					msg = "Program file " + programFileInfo.getFileName() + " owned by "
 							+ programFileInfo.getFileOwner() + " has been updated. ";
 					resultsStoreHouse.addResultMessage(msg);
-					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSPage, "?createdPL="+temp[0].toLowerCase()+".pl"));
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveXLSPage, ""));
 				}
 				resultsStoreHouse.addResultMessage(msg);
 			} catch (InterruptedException e) {
@@ -328,7 +343,7 @@ public class FilesManager extends AbstractManager {
 				types += " " + requestStoreHouse.getRequestParameter("type[" + i + "]");
 				i++;
 			}
-			Process process = Runtime.getRuntime().exec("ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
+			Process process = Runtime.getRuntime().exec("sudo ruby " + KConstants.PathsMgmt.rbScriptPath + " " + types);
 			try {
 				process.waitFor();
 				File tempFile = new File(programFileInfo.getProgramFileFolderFullPath() + "/" + temp[0] + ".csv");
@@ -342,7 +357,7 @@ public class FilesManager extends AbstractManager {
 					msg = "Program file " + programFileInfo.getFileName() + " owned by "
 							+ programFileInfo.getFileOwner() + " has been updated. ";
 					resultsStoreHouse.addResultMessage(msg);
-					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveSQLPage, "?createdPL="+temp[0].toLowerCase()+".pl"));
+					setNextStep(new NextStep(KConstants.NextStep.forward_to, KUrls.Files.SaveSQLPage, ""));
 				}
 				resultsStoreHouse.addResultMessage(msg);
 

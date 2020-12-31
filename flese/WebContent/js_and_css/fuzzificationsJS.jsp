@@ -1075,6 +1075,7 @@ function saveModifier(fuzzificationSaveStatusDivId, saveUrl, modifier){
 	loadAjaxIn(fuzzificationSaveStatusDivId, saveUrl, function() {
 		/* $("#auxAndInvisibleSection").dialog("close"); */
 		$(".modal:visible").modal("hide");
+		location.reload();
 	});
 }
 

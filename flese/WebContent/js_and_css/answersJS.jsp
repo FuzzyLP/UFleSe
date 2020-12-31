@@ -21,6 +21,8 @@ Pablos Ceruelo */ /*
 
 // Sort the array of answers.
 function arraySortFunction(elt1, elt2) {
+	console.info(elt1);
+	console.info(elt2);
 	// Info:
     // return -1: Sort "a" to be a lower index than "b"
 	// return 0: "a" and "b" should be considered equal, and no sorting performed.
@@ -124,9 +126,7 @@ function insertInfoForQueryAnswers (tableName, queryAnswerIndex) {
 var queryAnswersOver70 = null;
 var queryAnswersOver50 = null;
 var queryAnswersOver0 = null;
-
 function showAnswers(runQueryDivId, answers) {
-
 	var runQueryDiv = getContainer(runQueryDivId);
 	if ((runQueryDiv == null) || (runQueryDiv == undefined)) {
 		debug.info("ERROR: runQueryDiv is null or undefined.");

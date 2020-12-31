@@ -3,8 +3,8 @@
 /* C S S   S T Y L E  */
 
 html, body, 
-html *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle *), 
-body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle *) {
+html *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle, .bodyHeadTitle *), 
+body *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.fa):not(.bodyHeadTitle, .bodyHeadTitle *) {
 	font-size: 12pt !important;
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji" !important;
 }
@@ -226,7 +226,7 @@ div {
 	text-align: left !important;
 }
 .bodyHeadTitle, .bodyHeadTitle span {
-	font-size: 30px !important;
+	font-size: 20px !important;
 }
 
 #bodyHeadLogged {
@@ -427,7 +427,8 @@ height: 20px;
 font-family: arial; }
 /******************/
 .fileViewTableCell {
-	display: table-cell;
+	/* display: table-cell; */
+	display: contents;
 	border: 0em solid grey;
 	text-align: left;
 	padding: 0.1em;
@@ -666,6 +667,7 @@ font-family: arial; }
 
 .personalizationDivFuzzificationFunctionValuesTableCell {
 	display: table-cell;
+	/* display: inline-grid; */
 	/* border: 0.05em solid #000000; */
 	text-align: center;
 	padding: 0.3em;
@@ -1088,7 +1090,10 @@ input:checked + .slider:before {
 	color: gray;
 }
 .footer{ 
-	padding: 0px 0px 0px 270px;
+	padding: 0px;
+}
+#images {
+	text-align: center;
 }
 #about{
 	margin: 0;
@@ -1287,7 +1292,11 @@ img.removeRow {
 }
 
 .modal-dialog:not(.autoWidth) {
-	max-width: 50% !important;
+	/* max-width: 50% !important; */
+	/* min-width: max-content !important; */
+	/* overflow-y: auto; */
+  	max-width: max-content !important;
+  	padding: 15px;
 }
 
 /* .example-open .modal-backdrop {background-color:red !important;} */

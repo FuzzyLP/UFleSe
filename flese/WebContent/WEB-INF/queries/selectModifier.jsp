@@ -9,7 +9,11 @@
 <%@page import="storeHouse.RequestStoreHouse"%>
 <%@page import="prologConnector.PredicateInfo"%>
 <%@page import="prologConnector.ProgramIntrospection"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 
+				
 <%
 	RequestStoreHouse requestStoreHouse = JspsUtils.getRequestStoreHouse(request);
 	ResultsStoreHouse resultsStoreHouse = JspsUtils.getResultsStoreHouse(requestStoreHouse);
@@ -43,7 +47,7 @@
 	<% } %>
 	<% } %>
 </select>
-<script type="text/javascript">
+	<script type="text/javascript">
 		document.getElementById('<%= lineId %>.quantifierDiv').style.display='inline';
 	</script>
 <% } else { %>

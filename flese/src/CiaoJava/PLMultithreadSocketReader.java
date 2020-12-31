@@ -135,7 +135,8 @@ class PLMultithreadSocketReader extends Thread {
 		rqsTable.put(jId,jId);
 		synchronized(rqsTable.get(jId)) {
 		    try {
-			rqsTable.get(jId).wait();
+		    	//rqsTable.get(jId).wait();
+		    	rqsTable.get(jId).wait(5000);
 		    } catch (InterruptedException e) {
 			throw new PLException("PLMultithreadSocketReader:"+ e);
 		    }

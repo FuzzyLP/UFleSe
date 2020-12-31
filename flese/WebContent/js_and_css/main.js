@@ -1,4 +1,4 @@
-var createdPLFileOpened = false;
+var uploadedFileOpened = false;
 
 function Toggle() {
 	var x = document

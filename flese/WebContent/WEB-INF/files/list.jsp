@@ -9,6 +9,8 @@
 <%@page import="auxiliar.LocalUserInfo"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.*"%>
+<%@page import="com.google.common.base.Splitter"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 
 <!DOCTYPE html>
 <html>
@@ -61,6 +63,15 @@
 	request.setAttribute("modeAdvanced",KConstants.Request.modeAdvanced);
 	request.setAttribute("urlFileView",urlFileView);
 	request.setAttribute("fileViewContentsDiv",KConstants.JspsDivsIds.fileViewContentsDiv);
+	
+	String uploadedFile = "";
+	if(StringUtils.contains(request.getQueryString(), "?")) {
+		String query = request.getQueryString().split("\\?")[1];
+	    final Map<String, String> map = Splitter.on('&').trimResults().withKeyValueSeparator('=').split(query);
+	    if(map.containsKey("uploadedFile")) {
+	    	uploadedFile = map.get("uploadedFile");
+	    }
+	}
 	
 %>	
 
@@ -118,11 +129,11 @@
 				</tbody>
 			</table>
 			<script type="text/javascript">
-				var createdPL = getParamFromGivenUrl(location.href, "createdPL");
-				if(!createdPLFileOpened && createdPL != "") {
-					var targetA = $(".filesListTableCell a:contains('"+createdPL+"')");
+				var uploadedFile = '<%=uploadedFile%>';
+				if(!uploadedFileOpened && uploadedFile != "") {
+					var targetA = $(".filesListTableCell a:contains('"+uploadedFile+"')");
 					if(targetA.length > 0) targetA.trigger("click");
-					createdPLFileOpened = true;
+					uploadedFileOpened = true;
 				}
 			</script>
     	</div>

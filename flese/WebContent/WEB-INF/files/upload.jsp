@@ -3,6 +3,9 @@
 <%@page import="auxiliar.JspsUtils"%>
 <%@page import="storeHouse.ResultsStoreHouse"%>
 <%@page import="storeHouse.RequestStoreHouse"%>
+<%@page import="com.google.common.base.Splitter"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="java.util.*"%>
 
 <script type="text/javascript" src="./js_and_css/jquery-1.11.0.js"></script>
 
@@ -12,6 +15,16 @@
 	
 	String urlList = KUrls.Files.ListMyFiles.getUrl(true);
 	String msgsArray = JspsUtils.getResultMessagesInJS(resultsStoreHouse);
+	
+	String uploadedFile = "";
+	if(StringUtils.contains(request.getQueryString(), "?")) {
+		String query = request.getQueryString().split("\\?")[1];
+	    final Map<String, String> map = Splitter.on('&').trimResults().withKeyValueSeparator('=').split(query);
+	    if(map.containsKey("uploadedFile")) {
+	    	urlList += "&uploadedFile=" + map.get("uploadedFile");
+	    }
+	}
+	
 %>
 
 <script type="text/javascript">
