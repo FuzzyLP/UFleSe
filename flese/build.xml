@@ -10,7 +10,29 @@
     <property name="source" value="1.8"/>
     <path id="EAR Libraries.libraryclasspath"/>
     <path id="Plug-in Dependencies.libraryclasspath"/>
-    <path id="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
+    <path id="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath">
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-i18n-fr.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/jsp-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/annotations-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/websocket-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-coyote.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-i18n-ja.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/jasper.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-dbcp.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/catalina-ant.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/catalina-ha.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-i18n-es.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-jdbc.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat-util.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/tomcat7-websocket.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/servlet-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/catalina-tribes.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/catalina.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/jasper-el.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/el-api.jar"/>
+        <pathelement location="../../apache-tomcat-7.0.52/lib/ecj-4.3.1.jar"/>
+    </path>
     <path id="Web App Libraries.libraryclasspath">
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
@@ -108,7 +130,7 @@
         <pathelement location="build/classes"/>
         <path refid="EAR Libraries.libraryclasspath"/>
         <path refid="Plug-in Dependencies.libraryclasspath"/>
-        <path refid="Server Library [Apache Tomcat v7.0] (unbound).libraryclasspath"/>
+        <path refid="Apache Tomcat v7.0 [Apache Tomcat v7.0].libraryclasspath"/>
         <path refid="Web App Libraries.libraryclasspath"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.0.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
@@ -190,18 +212,19 @@
         <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-sources.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT-tests.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/slf4j-api-1.7.7-SNAPSHOT.jar"/>
-        <pathelement location="lib/commons-io-2.5.jar"/>
-        <pathelement location="lib/commons-lang3-3.3.2.jar"/>
-        <pathelement location="lib/jruby-complete-9.1.15.0.jar"/>
-        <pathelement location="lib/json-simple-1.1.1.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/commons-collections4-4.1.jar"/>
-        <pathelement location="WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
-        <pathelement location="WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/poi-3.16.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-3.16.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.16.jar"/>
         <pathelement location="WebContent/WEB-INF/lib/xmlbeans-2.5.0.jar"/>
         <pathelement location="lib/jstl-api-1.2-sources.jar"/>
+        <pathelement location="lib/json-simple-1.1.1.jar"/>
+        <pathelement location="lib/jruby-complete-9.1.15.0.jar"/>
+        <pathelement location="lib/commons-lang3-3.3.2.jar"/>
+        <pathelement location="lib/commons-io-2.5.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/jstl-api-1.2-sources.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-lang3-3.3.2.jar"/>
+        <pathelement location="WebContent/WEB-INF/lib/commons-io-2.5.jar"/>
     </path>
     <target name="init">
         <mkdir dir="build/classes"/>
